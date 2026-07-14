@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>六何法(5W1H) 互動讀報測驗：高溫防護地圖</title>
+    <!-- Import Noto Sans TC Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #e0e7ff;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --error: #ef4444;
+            --error-light: #fee2e2;
+            --neutral-dark: #1f2937;
+            --neutral-light: #f3f4f6;
+            --text-main: #374151;
+            --text-muted: #6b7280;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            min-height: 700px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Left Side: Article Reading */
+        .article-pane {
+            background: #fafafc;
+            padding: 40px;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .article-header {
+            margin-bottom: 24px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: var(--primary-light);
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .article-title {
+            font-size: 2rem;
+            color: var(--neutral-dark);
+            line-height: 1.4;
+            font-weight: 700;
+        }
+
+        .article-content {
+            font-size: 1.3rem; /* Enlarged text */
+            line-height: 1.9;
+            color: #27272a;
+            overflow-y: auto;
+            max-height: 480px;
+            padding-right: 15px;
+        }
+
+        .article-content p {
+            margin-bottom: 24px;
+            text-indent: 2em;
+            text-align: justify;
+        }
+
+        .article-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .article-content::-webkit-scrollbar-thumb {
+            background-color: #d1d5db;
+            border-radius: 4px;
+        }
+
+        .article-footer {
+            margin-top: 24px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            border-top: 1px solid #f1f5f9;
+            padding-top: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Right Side: Interactive Quiz */
+        .quiz-pane {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: #ffffff;
+        }
+
+        .progress-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+
+        .progress-dot {
+            flex: 1;
+            height: 8px;
+            background-color: var(--neutral-light);
+            border-radius: 9999px;
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-dot.active {
+            background-color: var(--primary);
+        }
+
+        .progress-dot.correct {
+            background-color: var(--success);
+        }
+
+        .progress-dot.wrong {
+            background-color: var(--error);
+        }
+
+        .progress-label {
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .question-box {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-type {
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .question-text {
+            font-size: 1.6rem; /* Enlarge Question Text */
+            font-weight: 700;
+            color: var(--neutral-dark);
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            padding: 20px 24px; /* Larger Padding */
+            border: 2px solid #e5e7eb;
+            border-radius: 14px;
+            background: #ffffff;
+            cursor: pointer;
+            font-size: 1.25rem; /* Enlarge Options Text */
+            font-weight: 500;
+            color: var(--text-main);
+            text-align: left;
+            transition: var(--transition);
+            outline: none;
+            line-height: 1.4;
+            width: 100%;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .option-btn.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .option-btn.correct-choice {
+            border-color: var(--success);
+            background: var(--success-light);
+            color: #065f46;
+        }
+
+        .option-btn.wrong-choice {
+            border-color: var(--error);
+            background: var(--error-light);
+            color: #991b1b;
+            opacity: 0.7;
+        }
+
+        .option-btn:disabled:not(.correct-choice):not(.wrong-choice) {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .option-prefix {
+            font-weight: 700;
+            margin-right: 16px;
+            background: var(--neutral-light);
+            color: var(--text-muted);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .option-btn.selected .option-prefix {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .option-btn.correct-choice .option-prefix {
+            background: var(--success);
+            color: #ffffff;
+        }
+
+        .option-btn.wrong-choice .option-prefix {
+            background: var(--error);
+            color: #ffffff;
+        }
+
+        /* Feedback Box */
+        .feedback-box {
+            background-color: #f9fafb;
+            border-left: 5px solid var(--primary);
+            padding: 20px 24px;
+            border-radius: 0 14px 14px 0;
+            margin-bottom: 28px;
+            animation: slideIn 0.2s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: scaleY(0.8); opacity: 0; }
+            to { transform: scaleY(1); opacity: 1; }
+        }
+
+        .feedback-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .feedback-title.correct {
+            color: var(--success);
+        }
+
+        .feedback-title.wrong {
+            color: var(--error);
+        }
+
+        .feedback-desc {
+            font-size: 1.15rem; /* Enlarge Feedback Description */
+            line-height: 1.7;
+            color: #4b5563;
+        }
+
+        .action-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            background-color: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover:not(:disabled) {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .action-btn:disabled {
+            background-color: #d1d5db;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* Score screen */
+        .score-screen {
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+            padding: 20px 0;
+        }
+
+        .score-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 3.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 28px;
+            border: 4px solid #ffffff;
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.15);
+        }
+
+        .score-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--neutral-dark);
+            margin-bottom: 16px;
+        }
+
+        .score-message {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 36px;
+            font-size: 1.2rem;
+        }
+
+        .summary-list {
+            text-align: left;
+            background: #f9fafb;
+            padding: 24px;
+            border-radius: 14px;
+            margin-bottom: 36px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 1.2rem;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-w {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .summary-status.correct {
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .summary-status.wrong {
+            color: var(--error);
+            font-weight: bold;
+        }
+
+        .restart-btn {
+            background-color: var(--neutral-dark);
+            color: #ffffff;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .restart-btn:hover {
+            background-color: #111827;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Left Side: Verbatim Article Reading -->
+        <div class="article-pane">
+            <div class="article-header">
+                <span class="tag">國語日報 讀報學習單</span>
+                <h1 class="article-title">全國第一張高溫防護地圖　最快七月發布</h1>
+            </div>
+            
+            <div class="article-content">
+                <p>中央氣象署昨天針對六縣市發布高溫資訊，其中臺北市社子測站在昨天下午兩點出現攝氏三十八點二度高溫；氣象署指出，週二至週四受太平洋高壓增強影響，各地高溫炎熱，大臺北地區高溫可能超過三十七度。因應全球暖化的異常高溫，環境部預計最快七月發布全國第一張高溫防護地圖（Cool Map），讓民眾了解哪裡有避暑空間。</p>
+                <p>環境部氣候變遷署副署長徐旭誠說，環境部將在全國逐步建置高溫防護地圖，上週已與臺北市、新北市、臺中市、臺南市、高雄市等討論規畫Cool Map，預計由臺北市先提出示範地區，希望七月能公布第一張Cool Map，讓民眾就近找到室內外避暑點，包括公園、圖書館、便利商店等。</p>
+                <p>由於都市熱島效應影響跨縣市，環境部今年將與雙北合作，針對極端高溫事件進行模擬演練。新北市政府表示，高溫若達三十八度，將啟動防熱措施，除了執行道路灑水降溫，並進行戶外工作者勞動檢查，以及加強緊急醫療救護等措施。</p>
+                <p>新北市消防局提醒，高溫易引起中暑、熱衰竭等熱傷害，民眾可下載氣象署的樂活氣象App，裡面有熱指數及「熱傷害疾病」健康預警服務等功能。高溫來襲時，應儘量待在通風良好或有空調的室內，減少戶外活動及勞動，若出現熱傷害徵兆，務必進行急救五步驟：「蔭涼、脫衣、散熱、喝水、送醫」，或撥打一一九請求協助。</p>
+            </div>
+
+            <div class="article-footer">
+                <span>記者：陳芝瑄、楊惠芳／臺北報導</span>
+                <span>刊登日期：2025/6/30</span>
+            </div>
+        </div>
+
+        <!-- Right Side: Interactive Quiz -->
+        <div class="quiz-pane" id="quizPane">
+            <!-- Progress Bar -->
+            <div class="progress-container" id="progressContainer">
+                <!-- Dots will be dynamically generated -->
+            </div>
+
+            <!-- Quiz Content Container -->
+            <div id="quizContent">
+                <!-- Dynamic Content here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                type: "WHO (主角)",
+                question: "這篇新聞報導中，最主要介紹的「主角/對象 (Who)」是指什麼？",
+                options: [
+                    "臺北市社子測站",
+                    "樂活氣象App",
+                    "高溫防護地圖",
+                    "太平洋高壓"
+                ],
+                answer: 2,
+                feedback: "答對了！Who 代表這則報導的核心政策對象。雖然文中提到了社子測站（觀測到高溫的地點）、樂活氣象App（輔助工具）和太平洋高壓（氣象成因），但整篇報導的主角是政府規劃建置的「高溫防護地圖」。"
+            },
+            {
+                type: "WHEN (時間)",
+                question: "報導中提到，預計最快在「什麼時間 (When)」會發布第一張地圖？",
+                options: [
+                    "七月",
+                    "週二至週四",
+                    "昨天下午兩點",
+                    "上週"
+                ],
+                answer: 0,
+                feedback: "答對了！報導指出，環境部上週與各縣市開會討論，而預計最快發布全國第一張高溫防護地圖的時間（When）是「七月」。其他時間如昨天下午兩點是社子測站觀測到高溫的時間，週二至週四是高溫炎熱的預報時間。"
+            },
+            {
+                type: "WHERE (地點)",
+                question: "本計畫預計最先在哪一個「地點/縣市 (Where)」提出示範地區地圖？",
+                options: [
+                    "臺北市",
+                    "新北市",
+                    "臺中市",
+                    "高雄市"
+                ],
+                answer: 0,
+                feedback: "答對了！報導內提及上週已與台北、新北、台中、台南、高雄等市開會討論規劃，但明確指出預計由「臺北市」先提出示範地區。"
+            },
+            {
+                type: "WHAT (事件)",
+                question: "這篇報導所描述的「核心事件 (What)」是什麼？",
+                options: [
+                    "氣象署針對六縣市發布高溫資訊",
+                    "環境部規劃在全國逐步建置高溫防護地圖",
+                    "新北市政府啟動防熱與道路灑水降溫措施",
+                    "新北市消防局提醒民眾熱傷害急救五步驟"
+                ],
+                answer: 1,
+                feedback: "答對了！這篇新聞的頭條與核心事件（What）是環境部因應全球暖化高溫，規劃在全國建置「高溫防護地圖」。其他選項雖有出現在報導中，但都屬於附屬背景或地方政府的因應措施。"
+            },
+            {
+                type: "WHY (原因)",
+                question: "政府規劃建置這套地圖的「原因 (Why)」是什麼？",
+                options: [
+                    "因為大臺北地區的高溫可能超過三十七度",
+                    "因應全球暖化的異常高溫，讓民眾了解哪裡有避暑空間",
+                    "因為新北市高溫達三十八度，需執行道路灑水",
+                    "為了配合太平洋高壓增強對各地氣候產生的影響"
+                ],
+                answer: 1,
+                feedback: "答對了！Why 是指目的與動機。報導第一段說明了原因：「因應全球暖化的異常高溫，環境部預計最快七月發布全國第一張高溫防護地圖（Cool Map），讓民眾了解哪裡有避暑空間」，藉此來預防熱傷害。"
+            },
+            {
+                type: "HOW (經過/如何做)",
+                question: "這套高溫防護地圖主要是「如何落實運作 (How)」來幫助民眾避暑？",
+                options: [
+                    "讓民眾就近找到室內外避暑點，包括公園、圖書館、便利商店等",
+                    "提供熱指數及「熱傷害疾病」健康預警服務等功能",
+                    "執行道路灑水降溫，並進行戶外工作者勞動檢查",
+                    "遇到高溫來襲時撥打一一九請求協助"
+                ],
+                answer: 0,
+                feedback: "答對了！How 代表達成的具體機制。地圖的主要運作方式，就是讓民眾能夠就近查找室內外的避暑點（如公園、圖書館、便利商店等），從而達到防熱避暑的效果。"
+            }
+        ];
+
+        // Setup user state for each question
+        let userStates = quizData.map(() => ({
+            selectedOption: null,
+            isCorrect: null,
+            isSubmitted: false,
+            wrongSelections: [], // Stores wrong indices
+            attempts: 0
+        }));
+
+        let currentQuestion = 0;
+
+        const quizPane = document.getElementById('quizPane');
+        const progressContainer = document.getElementById('progressContainer');
+        const quizContent = document.getElementById('quizContent');
+
+        function initProgress() {
+            progressContainer.innerHTML = '';
+            quizData.forEach((q, index) => {
+                const dot = document.createElement('div');
+                dot.className = `progress-dot ${index === currentQuestion ? 'active' : ''}`;
+                dot.style.cursor = 'pointer';
+                dot.onclick = () => jumpToQuestion(index);
+                
+                const label = document.createElement('span');
+                label.className = 'progress-label';
+                label.innerText = q.type.split(' ')[0];
+                dot.appendChild(label);
+                
+                progressContainer.appendChild(dot);
+            });
+        }
+
+        function loadQuestion() {
+            const data = quizData[currentQuestion];
+            const state = userStates[currentQuestion];
+            
+            // Update dot classes
+            const dots = document.querySelectorAll('.progress-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active', 'correct', 'wrong');
+                if (index === currentQuestion) {
+                    dot.classList.add('active');
+                }
+                if (userStates[index].isCorrect === true) {
+                    dot.classList.add('correct');
+                } else if (userStates[index].isCorrect === false) {
+                    dot.classList.add('wrong');
+                }
+            });
+
+            // Build options buttons
+            let optionsHtml = data.options.map((option, idx) => {
+                let btnClass = "option-btn";
+                let isBtnDisabled = false;
+
+                if (state.isCorrect && idx === data.answer) {
+                    btnClass += " correct-choice";
+                    isBtnDisabled = true;
+                } else if (state.wrongSelections.includes(idx)) {
+                    btnClass += " wrong-choice";
+                    isBtnDisabled = true;
+                } else if (idx === state.selectedOption) {
+                    btnClass += " selected";
+                }
+
+                if (state.isCorrect) {
+                    isBtnDisabled = true; // Disable all choices if question is already answered correctly
+                }
+
+                return `
+                    <button class="${btnClass}" onclick="selectOption(${idx})" ${isBtnDisabled ? 'disabled' : ''} id="opt-${idx}">
+                        <span class="option-prefix">${String.fromCharCode(65 + idx)}</span>
+                        <span class="option-text">${escapeHtml(option)}</span>
+                    </button>
+                `;
+            }).join('');
+
+            // Render feedback box if submitted
+            let feedbackHtml = '';
+            if (state.isSubmitted) {
+                const titleClass = state.isCorrect ? 'correct' : 'wrong';
+                const titleText = state.isCorrect ? '🎉 答對了！' : '❌ 答錯囉！請再試一次！';
+                const descText = state.isCorrect ? data.feedback : '這個答案不對喔，再仔細讀一下左側報導中的文句。';
+                
+                feedbackHtml = `
+                    <div class="feedback-box" id="feedbackBox">
+                        <div class="feedback-title ${titleClass}" id="feedbackTitle">${titleText}</div>
+                        <div class="feedback-desc" id="feedbackDesc">${descText}</div>
+                    </div>
+                `;
+            }
+
+            // Determine button label and disable state
+            let actionBtnText = "確認送出";
+            let actionBtnDisabled = state.selectedOption === null;
+
+            if (state.isCorrect) {
+                if (currentQuestion < quizData.length - 1) {
+                    actionBtnText = "下一題";
+                } else {
+                    actionBtnText = "查看測驗結果";
+                }
+                actionBtnDisabled = false;
+            }
+
+            quizContent.innerHTML = `
+                <div class="question-box">
+                    <div class="question-type">${data.type}</div>
+                    <div class="question-text">${data.question}</div>
+                    <div class="options-list">
+                        ${optionsHtml}
+                    </div>
+                    
+                    ${feedbackHtml}
+
+                    <div class="action-container">
+                        <button class="action-btn" id="actionBtn" onclick="submitOrNext()" ${actionBtnDisabled ? 'disabled' : ''}>
+                            ${actionBtnText}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectOption(index) {
+            const state = userStates[currentQuestion];
+            if (state.isCorrect) return; // Cannot change if already correct
+
+            state.selectedOption = index;
+            
+            // Visual feedback on selection
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach((btn, idx) => {
+                if (state.wrongSelections.includes(idx)) {
+                    // keep wrong style
+                } else if (idx === index) {
+                    btn.classList.add('selected');
+                } else {
+                    btn.classList.remove('selected');
+                }
+            });
+
+            document.getElementById('actionBtn').disabled = false;
+        }
+
+        function submitOrNext() {
+            const data = quizData[currentQuestion];
+            const state = userStates[currentQuestion];
+
+            if (state.isCorrect) {
+                // If already correct, next button takes them forward
+                currentQuestion++;
+                if (currentQuestion < quizData.length) {
+                    loadQuestion();
+                } else {
+                    showScore();
+                }
+                return;
+            }
+
+            // Perform submission check
+            state.attempts++;
+            state.isSubmitted = true;
+            const isCorrect = state.selectedOption === data.answer;
+
+            if (isCorrect) {
+                state.isCorrect = true;
+            } else {
+                state.isCorrect = false;
+                state.wrongSelections.push(state.selectedOption);
+                state.selectedOption = null; // Clear choice for retry
+            }
+
+            loadQuestion();
+        }
+
+        function jumpToQuestion(index) {
+            if (index >= 0 && index < quizData.length) {
+                currentQuestion = index;
+                // If progress dots container was hidden due to score screen, bring it back
+                progressContainer.style.display = 'flex';
+                loadQuestion();
+            }
+        }
+
+        function showScore() {
+            progressContainer.style.display = 'none';
+
+            // Calculate first attempt correct answers
+            let firstAttemptScore = 0;
+            userStates.forEach(state => {
+                // if it is correct and they only took 1 attempt
+                if (state.isCorrect && state.attempts === 1) {
+                    firstAttemptScore++;
+                }
+            });
+
+            let msg = "";
+            if (firstAttemptScore === 6) msg = "太厲害了！你全部題目都一次答對，完全掌握了新聞中的 5W1H 要素！";
+            else if (firstAttemptScore >= 4) msg = "做得很棒！你能夠精準抓出大部分的關鍵資訊，閱讀理解力非常優秀！";
+            else msg = "別氣餒！多練習幾次，仔細觀察文章與選項細節，一定能提升你的讀報分析能力！";
+
+            quizContent.innerHTML = `
+                <div class="score-screen">
+                    <div class="score-circle">${firstAttemptScore * 10 || 0}</div>
+                    <div class="score-title">一次答對題數：${firstAttemptScore} / 6 題</div>
+                    <p class="score-message">${msg}</p>
+                    
+                    <div class="summary-list">
+                        ${quizData.map((data, idx) => {
+                            const state = userStates[idx];
+                            const statusText = (state.isCorrect && state.attempts === 1) ? '✓ 一次答對' : `✗ 答錯了 ${state.attempts - 1} 次`;
+                            const statusClass = (state.isCorrect && state.attempts === 1) ? 'correct' : 'wrong';
+                            return `
+                                <div class="summary-item" style="cursor:pointer;" onclick="jumpToQuestion(${idx})">
+                                    <span class="summary-w">${data.type} (點擊跳轉)</span>
+                                    <span class="summary-status ${statusClass}">${statusText}</span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+
+                    <button class="restart-btn" onclick="restartQuiz()">重新測驗</button>
+                </div>
+            `;
+        }
+
+        function restartQuiz() {
+            userStates = quizData.map(() => ({
+                selectedOption: null,
+                isCorrect: null,
+                isSubmitted: false,
+                wrongSelections: [],
+                attempts: 0
+            }));
+            currentQuestion = 0;
+            progressContainer.style.display = 'flex';
+            initProgress();
+            loadQuestion();
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Run
+        initProgress();
+        loadQuestion();
+    </script>
+</body>
+</html>
