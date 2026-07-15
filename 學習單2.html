@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修辭魔法屋：分身術（譬喻）與變身術（轉化）</title>
+    <style>
+        /* 載入 Google 思源黑體 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
+
+        :root {
+            --bg-paper: #fdfaf2;
+            --pencil-color: #4a3728;
+            --crayon-red: #ff6b6b;
+            --crayon-blue: #4dadf7;
+            --crayon-yellow: #ffd43b;
+            --crayon-green: #51cf66;
+            --crayon-purple: #b197fc;
+            --font-main: "Microsoft JhengHei", "Noto Sans TC", "Heiti TC", system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-paper);
+            /* 紙張質感背景效果 */
+            background-image: 
+                radial-gradient(var(--pencil-color) 0.5px, transparent 0.5px), 
+                radial-gradient(var(--pencil-color) 0.5px, #fdfaf2 0.5px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            color: var(--pencil-color);
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 讓紙張微粒感更淡更柔和 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(253, 250, 242, 0.93);
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            z-index: 1;
+        }
+
+        /* 標頭設計（手繪風格） */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--pencil-color);
+            display: inline-block;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 5%;
+            width: 90%;
+            height: 8px;
+            background-color: var(--crayon-yellow);
+            z-index: -1;
+            border-radius: 4px;
+            transform: rotate(-1deg);
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: #70533c;
+            font-weight: 900;
+            border: 4px solid var(--pencil-color);
+            padding: 10px 30px;
+            background: #fff;
+            display: inline-block;
+            /* 手繪風格不規則圓角 */
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+            box-shadow: 5px 5px 0px var(--pencil-color);
+        }
+
+        /* 手繪風卡片 */
+        .sketch-card {
+            background: #ffffff;
+            border: 4px solid var(--pencil-color);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 8px 8px 0px var(--pencil-color);
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        /* 概念區佈局 */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+        }
+
+        @media (max-width: 768px) {
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .concept-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: #fffdf9;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            align-self: flex-start;
+            border: 2px solid var(--pencil-color);
+            box-shadow: 2px 2px 0px var(--pencil-color);
+        }
+
+        .clone-card .badge {
+            background-color: #e8dbff;
+        }
+
+        .transform-card .badge {
+            background-color: #d0f4de;
+        }
+
+        .card-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .clone-card .card-title { color: #8247e5; }
+        .transform-card .card-title { color: #0ca678; }
+
+        .card-desc {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: #5c4839;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        /* 魔法公式說明 */
+        .formula-box {
+            background: #faf6ee;
+            border: 2px dashed var(--pencil-color);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 25px;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            font-weight: 700;
+        }
+        .formula-box strong {
+            color: #d9480f;
+            font-weight: 900;
+        }
+
+        /* 施法動態展示舞台 */
+        .stage-box {
+            background: #fdfcf7;
+            border: 3px solid var(--pencil-color);
+            border-radius: 15px/20px 15px 25px 15px;
+            height: 230px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: inset 2px 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* --- 分身術專用動畫元素 --- */
+        .actor-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: 95%;
+            height: 100%;
+            position: relative;
+        }
+
+        .actor-wrapper {
+            text-align: center;
+            z-index: 2;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .actor-wrapper.left-side {
+            transform: translateX(0);
+        }
+
+        .actor-avatar {
+            width: 80px;
+            height: 80px;
+            font-size: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px auto;
+            background: #fff;
+            border: 3px solid var(--pencil-color);
+            border-radius: 50%;
+            box-shadow: 3px 3px 0 var(--pencil-color);
+            transition: all 0.5s;
+        }
+
+        .actor-label {
+            font-size: 1.05rem;
+            font-weight: 900;
+            background: #fff;
+            padding: 4px 10px;
+            border: 2px solid var(--pencil-color);
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        /* 喻依（分身）初始隱藏 */
+        .actor-wrapper.right-side {
+            opacity: 0;
+            transform: scale(0.5) translateX(50px);
+            pointer-events: none;
+        }
+
+        /* 繪製的連線 */
+        .sketch-line-path {
+            position: absolute;
+            width: 0%;
+            height: 4px;
+            background: repeating-linear-gradient(90deg, var(--pencil-color), var(--pencil-color) 8px, transparent 8px, transparent 16px);
+            top: 40%;
+            left: 22%;
+            z-index: 1;
+            transition: width 0.8s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .magic-word-badge {
+            background: var(--crayon-yellow);
+            color: var(--pencil-color);
+            font-size: 1.1rem;
+            font-weight: 900;
+            padding: 4px 16px;
+            border: 2px solid var(--pencil-color);
+            border-radius: 10px;
+            position: absolute;
+            top: -18px;
+            transform: scale(0);
+            transition: transform 0.4s 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 2px 2px 0 var(--pencil-color);
+        }
+
+        /* --- 變身術專用動畫元素 --- */
+        .transform-stage-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            position: relative;
+        }
+
+        .sun-illustration {
+            font-size: 4.5rem;
+            position: relative;
+            transition: all 0.6s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 手繪手腳 */
+        .sun-limbs {
+            position: absolute;
+            width: 140px;
+            height: 110px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        /* 用線條畫出手臂和腳 */
+        .sun-limbs::before {
+            content: '💪       💪';
+            font-size: 1.8rem;
+            position: absolute;
+            top: 35px;
+            left: -15px;
+            width: 170px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sun-limbs::after {
+            content: '🏃';
+            font-size: 2.2rem;
+            position: absolute;
+            bottom: -35px;
+            left: 55px;
+        }
+
+        .singing-notes {
+            position: absolute;
+            font-size: 1.8rem;
+            color: var(--crayon-purple);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s;
+            pointer-events: none;
+        }
+
+        .note-1 { top: 15px; left: 5px; }
+        .note-2 { top: 10px; right: 5px; }
+
+        /* 施法公式即時解說框 */
+        .live-explanation {
+            background: #fffbeb;
+            border: 2px solid var(--pencil-color);
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 1.15rem;
+            margin-top: 15px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s;
+            font-weight: 900;
+            line-height: 1.5;
+        }
+
+        .live-explanation.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 施法按鈕 */
+        .magic-btn {
+            background-color: var(--crayon-purple);
+            border: 3px solid var(--pencil-color);
+            color: var(--pencil-color);
+            font-weight: 900;
+            font-size: 1.3rem;
+            padding: 14px 28px;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px var(--pencil-color);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto;
+        }
+
+        .magic-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--pencil-color);
+        }
+
+        .magic-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--pencil-color);
+        }
+
+        .transform-card .magic-btn {
+            background-color: var(--crayon-blue);
+        }
+
+        /* 遊戲挑戰區 */
+        .quiz-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 4px dashed var(--pencil-color);
+            padding-bottom: 15px;
+        }
+
+        .quiz-progress {
+            font-size: 1.35rem;
+            font-weight: 900;
+        }
+
+        .quiz-score {
+            font-size: 1.25rem;
+            font-weight: 900;
+            background: #d0f4de;
+            padding: 6px 20px;
+            border: 3px solid var(--pencil-color);
+            border-radius: 50px;
+            box-shadow: 3px 3px 0 var(--pencil-color);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 18px;
+            background: #fff;
+            border: 3px solid var(--pencil-color);
+            border-radius: 20px;
+            margin-bottom: 35px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background-color: var(--crayon-yellow);
+            transition: width 0.3s ease;
+        }
+
+        /* 題目展示區 */
+        .question-card {
+            background: #fff;
+            border: 4px solid var(--pencil-color);
+            border-radius: 24px;
+            padding: 45px 25px;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            box-shadow: 8px 8px 0px var(--pencil-color);
+        }
+
+        .question-title {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #8c7355;
+            margin-bottom: 20px;
+            letter-spacing: 1.5px;
+        }
+
+        .question-text {
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: var(--pencil-color);
+            line-height: 1.6;
+            transition: all 0.3s;
+        }
+
+        /* 選擇按鈕 */
+        .pot-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .pot-container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+
+        .pot-card {
+            background: #fff;
+            border: 3px solid var(--pencil-color);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 5px 5px 0px var(--pencil-color);
+        }
+
+        .pot-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0px var(--pencil-color);
+        }
+
+        .pot-card.clone-pot:hover {
+            background-color: #f3ebff;
+        }
+
+        .pot-card.transform-pot:hover {
+            background-color: #ebfaf1;
+        }
+
+        .pot-icon {
+            font-size: 4.5rem;
+            margin-bottom: 12px;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .pot-card:hover .pot-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .pot-name {
+            font-size: 1.7rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            color: var(--pencil-color);
+        }
+
+        .pot-desc {
+            font-size: 1.15rem;
+            color: #70533c;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        /* 反饋彈窗 (手繪告示牌樣式) */
+        .feedback-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+
+        .feedback-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .feedback-overlay.correct {
+            background: #e8f9f0;
+            border: 4px solid var(--crayon-green);
+        }
+
+        .feedback-overlay.incorrect {
+            background: #fff0f0;
+            border: 4px solid var(--crayon-red);
+        }
+
+        .feedback-icon {
+            font-size: 4.5rem;
+            margin-bottom: 15px;
+            animation: bounce 0.5s ease infinite alternate;
+        }
+
+        .feedback-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        .correct .feedback-title { color: #2b8a3e; }
+        .incorrect .feedback-title { color: #c92a2a; }
+
+        .feedback-msg {
+            font-size: 1.3rem;
+            max-width: 85%;
+            line-height: 1.7;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 900;
+        }
+
+        .feedback-btn {
+            background: #fff;
+            color: var(--pencil-color);
+            border: 3px solid var(--pencil-color);
+            font-weight: 900;
+            font-size: 1.3rem;
+            padding: 12px 30px;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 var(--pencil-color);
+            transition: all 0.2s;
+        }
+
+        .feedback-btn:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 5px 5px 0 var(--pencil-color);
+        }
+
+        /* 開始按鈕 */
+        .start-challenge-container {
+            text-align: center;
+            margin: 35px 0 10px 0;
+        }
+
+        .start-btn {
+            background: var(--crayon-yellow);
+            color: var(--pencil-color);
+            font-weight: 900;
+            font-size: 1.5rem;
+            padding: 18px 50px;
+            border-radius: 20px 10px 20px 10px/10px 20px 10px 20px;
+            border: 3px solid var(--pencil-color);
+            cursor: pointer;
+            box-shadow: 6px 6px 0px var(--pencil-color);
+            transition: all 0.3s;
+        }
+
+        .start-btn:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 9px 9px 0px var(--pencil-color);
+        }
+
+        .start-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 4px 4px 0px var(--pencil-color);
+        }
+
+        /* 證書卡片 */
+        .certificate-section {
+            display: none;
+            text-align: center;
+            background: #fffdf5;
+            border: 6px double var(--pencil-color);
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .cert-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #70533c;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+        }
+
+        .cert-name-line {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .cert-name-line span {
+            font-size: 2.2rem;
+            font-weight: 900;
+            border-bottom: 3px dashed var(--pencil-color);
+            padding: 0 15px;
+        }
+
+        .cert-content {
+            font-size: 1.35rem;
+            line-height: 1.8;
+            max-width: 650px;
+            margin: 0 auto 35px auto;
+            color: #5c4839;
+            font-weight: 700;
+        }
+
+        .cert-badge-img {
+            font-size: 6rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .cert-rank {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #1c7ed6;
+            margin-bottom: 35px;
+        }
+
+        /* 共用動畫 */
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        /* 慶祝彩色碎紙 */
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ffd700;
+            border-radius: 3px;
+            animation: fall 3s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(600px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 標頭 -->
+        <header>
+            <h1>修辭魔法屋</h1>
+            <div>
+                <div class="subtitle">📝 搞懂分身術（譬喻）與變身術（轉化） 🎨</div>
+            </div>
+        </header>
+
+        <!-- 魔法概念館 -->
+        <section class="sketch-card" id="intro-section">
+            <h2 style="font-size: 2rem; margin-bottom: 30px; text-align: center; text-decoration: underline; font-weight: 900;">🛡️ 兩種神奇魔法的差別 🛡️</h2>
+            
+            <div class="concept-grid">
+                <!-- 譬喻卡片 -->
+                <div class="sketch-card concept-card clone-card">
+                    <div>
+                        <span class="badge">🪄 魔法一</span>
+                        <h3 class="card-title">分身術（譬喻）</h3>
+                        <p class="card-desc">當我們覺得主角跟另一個東西很像時，<strong>找一個分身</strong>來作比較。畫面上一定會有兩個東西！</p>
+                        
+                        <div class="formula-box">
+                            📝 <strong>魔法公式：</strong><br>
+                            <strong>主角 A</strong> + <strong>分身咒語</strong>（像、好像、是） + <strong>分身 B</strong>
+                        </div>
+                    </div>
+
+                    <div>
+                        <!-- 動畫區 -->
+                        <div class="stage-box" id="clone-stage">
+                            <div class="actor-container">
+                                <!-- 主角 A -->
+                                <div class="actor-wrapper left-side" id="actor-left">
+                                    <div class="actor-avatar">👧</div>
+                                    <div class="actor-label">主角：妹妹的臉</div>
+                                </div>
+                                
+                                <!-- 連接虛線 -->
+                                <div class="sketch-line-path" id="magic-path">
+                                    <span class="magic-word-badge" id="magic-badge">好像</span>
+                                </div>
+
+                                <!-- 分身 B -->
+                                <div class="actor-wrapper right-side" id="actor-right">
+                                    <div class="actor-avatar">🍎</div>
+                                    <div class="actor-label">分身：紅蘋果</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="magic-btn" onclick="runCloneAnimation()">✨ 施展分身咒！</button>
+                        
+                        <!-- 公式解析 -->
+                        <div class="live-explanation" id="explanation-clone">
+                            🔍 兩個主角與分身都被畫出來了，中間用「好像」連在一起！
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 轉化卡片 -->
+                <div class="sketch-card concept-card transform-card">
+                    <div>
+                        <span class="badge">🌀 魔法二</span>
+                        <h3 class="card-title">變身術（轉化）</h3>
+                        <p class="card-desc"><strong>不需要找分身</strong>來做比較！而是直接讓主角變身，做他本來不會做的動作（如人唱歌、走路）。</p>
+                        
+                        <div class="formula-box">
+                            📝 <strong>魔法公式：</strong><br>
+                            <strong>主角 A</strong> + <strong>直接變身做人的動作</strong>（沒有「好像」）
+                        </div>
+                    </div>
+
+                    <div>
+                        <!-- 動畫區 -->
+                        <div class="stage-box" id="transform-stage">
+                            <div class="transform-stage-content">
+                                <div class="sun-illustration" id="sun-body">
+                                    ☀️
+                                    <!-- 隱藏手腳 -->
+                                    <div class="sun-limbs" id="sun-limbs"></div>
+                                    <!-- 音符 -->
+                                    <div class="singing-notes note-1" id="note1">🎵</div>
+                                    <div class="singing-notes note-2" id="note2">🎶</div>
+                                </div>
+                                <div class="actor-label" style="margin-top: 40px;" id="sun-label">主角：太陽</div>
+                            </div>
+                        </div>
+                        <button class="magic-btn" onclick="runTransformAnimation()">✨ 施展變身咒！</button>
+                        
+                        <!-- 公式解析 -->
+                        <div class="live-explanation" id="explanation-transform">
+                            🔍 太陽沒有找分身，而是直接變市長出手腳唱歌！
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 開始按鈕 -->
+            <div class="start-challenge-container">
+                <button class="start-btn" onclick="startQuiz()">挑戰魔法分類帽！🎯</button>
+            </div>
+        </section>
+
+        <!-- 魔法分類挑戰賽 -->
+        <section class="sketch-card quiz-section" id="quiz-section">
+            <div class="quiz-header">
+                <div class="quiz-progress" id="quiz-progress-text">挑戰進度：第 1 / 5 題</div>
+                <div class="quiz-score" id="quiz-score-text">得分：0</div>
+            </div>
+            
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress-bar-fill"></div>
+            </div>
+
+            <!-- 題目卡片 -->
+            <div class="question-card" id="question-card">
+                <div class="question-title">✏️ 請判斷這個句子使用了什麼魔法？ ✏️</div>
+                <div class="question-text" id="question-text">讀取中...</div>
+                
+                <!-- 答題反饋遮罩 -->
+                <div class="feedback-overlay" id="feedback-overlay">
+                    <div class="feedback-icon" id="feedback-icon">🎉</div>
+                    <div class="feedback-title" id="feedback-title">答對了！</div>
+                    <div class="feedback-msg" id="feedback-msg">說明文字</div>
+                    <button class="feedback-btn" onclick="nextQuestion()">繼續挑戰下一題 🔮</button>
+                </div>
+            </div>
+
+            <!-- 選擇寶箱 -->
+            <div class="pot-container">
+                <!-- 譬喻大釜 -->
+                <div class="pot-card clone-pot" onclick="checkAnswer('譬喻')">
+                    <span class="pot-icon">👥</span>
+                    <h3 class="pot-name">分身術 (譬喻)</h3>
+                    <p class="pot-desc">有兩個東西在比較，且有「好像」、「像」等字</p>
+                </div>
+                
+                <!-- 轉化大釜 -->
+                <div class="pot-card transform-pot" onclick="checkAnswer('轉化')">
+                    <span class="pot-icon">🌀</span>
+                    <h3 class="pot-name">變身術 (轉化)</h3>
+                    <p class="pot-desc">沒有另一個東西，主角直接做人的動作</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 結業證書 -->
+        <section class="sketch-card certificate-section" id="certificate-section">
+            <div class="cert-badge-img">🎨</div>
+            <h2 class="cert-title">修辭魔法學院·結業證書</h2>
+            <div class="cert-name-line">
+                恭喜小魔法師 <span id="cert-name">冒險者</span>
+            </div>
+            <p class="cert-content" id="cert-content">
+                你已經搞懂了「分身術」與「變身術」的祕密！
+            </p>
+            <div class="cert-rank" id="cert-rank">獲得稱號：修辭小達人 👑</div>
+            <button class="start-btn" onclick="restartAll()">重新挑戰 🔄</button>
+        </section>
+    </div>
+
+    <script>
+        // 音效系統 (Web Audio API)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playSound(type) {
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                if (type === 'success') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                    osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.5);
+                } else if (type === 'fail') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(90, audioCtx.currentTime + 0.3);
+                    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.4);
+                } else if (type === 'magic') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.5);
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.6);
+                }
+            } catch (e) {
+                console.log('Audio error:', e);
+            }
+        }
+
+        // --- 分身術動畫控制 ---
+        let cloneStep = 0;
+        function runCloneAnimation() {
+            playSound('magic');
+            const left = document.getElementById('actor-left');
+            const right = document.getElementById('actor-right');
+            const path = document.getElementById('magic-path');
+            const badge = document.getElementById('magic-badge');
+            const exp = document.getElementById('explanation-clone');
+
+            if (cloneStep === 0) {
+                // 第一步：拉開主角與出現分身
+                left.style.transform = 'translateX(-30px)';
+                right.style.opacity = '1';
+                right.style.transform = 'scale(1) translateX(30px)';
+                right.style.pointerEvents = 'auto';
+                
+                // 第二步：畫出虛線並顯示「好像」
+                setTimeout(() => {
+                    path.style.width = '40%';
+                    badge.style.transform = 'scale(1)';
+                    exp.classList.add('show');
+                }, 300);
+                
+                cloneStep = 1;
+            } else {
+                // 收回魔法
+                left.style.transform = 'translateX(0)';
+                right.style.opacity = '0';
+                right.style.transform = 'scale(0.5) translateX(50px)';
+                right.style.pointerEvents = 'none';
+                path.style.width = '0%';
+                badge.style.transform = 'scale(0)';
+                exp.classList.remove('show');
+                cloneStep = 0;
+            }
+        }
+
+        // --- 變身術動畫控制 ---
+        let transformActive = false;
+        function runTransformAnimation() {
+            playSound('magic');
+            const sun = document.getElementById('sun-body');
+            const limbs = document.getElementById('sun-limbs');
+            const note1 = document.getElementById('note1');
+            const note2 = document.getElementById('note2');
+            const label = document.getElementById('sun-label');
+            const exp = document.getElementById('explanation-transform');
+
+            if (!transformActive) {
+                // 變身：長出手腳與開始唱歌
+                sun.style.transform = 'translateY(-15px) scale(1.15)';
+                limbs.style.opacity = '1';
+                note1.style.opacity = '1';
+                note1.style.transform = 'translate(-20px, -20px) scale(1.2)';
+                note2.style.opacity = '1';
+                note2.style.transform = 'translate(20px, -30px) scale(1.2)';
+                
+                label.innerText = "變身：太陽在唱歌！";
+                label.style.borderColor = "var(--crayon-blue)";
+                exp.classList.add('show');
+                
+                transformActive = true;
+            } else {
+                // 收回魔法
+                sun.style.transform = 'none';
+                limbs.style.opacity = '0';
+                note1.style.opacity = '0';
+                note1.style.transform = 'none';
+                note2.style.opacity = '0';
+                note2.style.transform = 'none';
+                
+                label.innerText = "主角：太陽";
+                label.style.borderColor = "var(--pencil-color)";
+                exp.classList.remove('show');
+                
+                transformActive = false;
+            }
+        }
+
+        // --- 遊戲邏輯 ---
+        const questionBank = [
+            {
+                text: "妹妹的臉蛋紅通通的，好像紅蘋果。",
+                type: "譬喻",
+                reason: "這句話同時出現了主角「臉蛋」和分身「蘋果」，並且用「好像」把兩個連在一起，是標準的分身術！"
+            },
+            {
+                text: "夏天的太陽公公起得很早，笑咪咪地看著大家。",
+                type: "轉化",
+                reason: "這裡沒有拿別的東西來和太陽作比較。而是直接讓太陽變身，做出人類「起床」和「笑咪咪」的動作！"
+            },
+            {
+                text: "大雨下個不停，操場上的小草開心地跳起舞來。",
+                type: "轉化",
+                reason: "小草是植物，卻直接做出了人才能做的「跳舞」動作，這就是把小草擬人化的變身術。"
+            },
+            {
+                text: "天上的星星亮晶晶的，是一顆顆美麗的鑽石。",
+                type: "譬喻",
+                reason: "這句話把「星星」比作「鑽石」，雖然沒有「好像」，但用「是」把兩個東西連在一起，依然是分身術！"
+            },
+            {
+                text: "頑皮的風在大街上跑來跑去，吹落了樹葉。",
+                type: "轉化",
+                reason: "風沒有腳，卻直接在大街上「跑來跑去」，也沒有「好像」等字，是直接將風變身為頑皮的小孩。"
+            },
+            {
+                text: "妹妹傷心的眼淚像斷了線的珍珠，不停落下來。",
+                type: "譬喻",
+                reason: "這句話有主角「眼淚」和分身「珍珠」兩個東西，並且用了「像」連在一起，是分身術！"
+            },
+            {
+                text: "路旁的路燈在黑夜裡挺直了腰，守護著行人。",
+                type: "轉化",
+                reason: "路燈沒有「腰」也不會「守護人」，這是直接讓路燈變身成警衛，屬於轉化法。"
+            },
+            {
+                text: "椰子樹像一位位高大威風的衛兵，站在路旁。",
+                type: "譬喻",
+                reason: "主角是「椰子樹」，分身是「衛兵」，中間用了「像」，是分身術！"
+            }
+        ];
+
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let score = 0;
+
+        function startQuiz() {
+            let userName = prompt("請輸入小魔法師的名字：", "學習小勇士") || "學習小勇士";
+            document.getElementById('cert-name').innerText = userName;
+
+            // 隨機選 5 題
+            currentQuestions = [...questionBank].sort(() => 0.5 - Math.random()).slice(0, 5);
+            currentIndex = 0;
+            score = 0;
+
+            document.getElementById('intro-section').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'block';
+            document.getElementById('certificate-section').style.display = 'none';
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const currentQ = currentQuestions[currentIndex];
+            
+            document.getElementById('quiz-progress-text').innerText = `挑戰進度：第 ${currentIndex + 1} / 5 題`;
+            document.getElementById('quiz-score-text').innerText = `得分：${score * 20}`;
+            
+            const progressPct = (currentIndex / 5) * 100;
+            document.getElementById('progress-bar-fill').style.width = `${progressPct}%`;
+
+            document.getElementById('question-text').innerText = currentQ.text;
+            document.getElementById('feedback-overlay').classList.remove('show');
+        }
+
+        function checkAnswer(userChoice) {
+            const currentQ = currentQuestions[currentIndex];
+            const overlay = document.getElementById('feedback-overlay');
+            const icon = document.getElementById('feedback-icon');
+            const title = document.getElementById('feedback-title');
+            const msg = document.getElementById('feedback-msg');
+            const card = document.getElementById('question-card');
+
+            if (userChoice === currentQ.type) {
+                playSound('success');
+                score++;
+                overlay.className = "feedback-overlay show correct";
+                icon.innerText = "🎨✨";
+                title.innerText = "太棒了！答對了！";
+                msg.innerText = currentQ.reason;
+            } else {
+                playSound('fail');
+                card.classList.add('shake');
+                setTimeout(() => card.classList.remove('shake'), 500);
+
+                overlay.className = "feedback-overlay show incorrect";
+                icon.innerText = "✏️💭";
+                title.innerText = "差一點點！再想一下下：";
+                msg.innerText = currentQ.reason;
+            }
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < 5) {
+                loadQuestion();
+            } else {
+                showCertificate();
+            }
+        }
+
+        function showCertificate() {
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('progress-bar-fill').style.width = `100%`;
+            
+            const certSection = document.getElementById('certificate-section');
+            certSection.style.display = 'block';
+
+            const finalScore = score * 20;
+            let rank = "";
+            let certText = "";
+            let certBadge = "";
+
+            if (finalScore === 100) {
+                certBadge = "👑";
+                rank = "特級·修辭大魔導士";
+                certText = "太厲害了！你拿到了滿分 100 分！你已經完美掌握了分身術（譬喻）與變身術（轉化）的奧秘！";
+                launchConfetti();
+            } else if (finalScore >= 80) {
+                certBadge = "🏆";
+                rank = "高級·修辭魔導士";
+                certText = `恭喜你得到 ${finalScore} 分！你對這兩種修辭法已經非常熟悉，是個厲害的小小修辭家！`;
+                launchConfetti();
+            } else {
+                certBadge = "🌱";
+                rank = "修辭見習生";
+                certText = `挑戰完成！獲得了 ${finalScore} 分。魔法需要多加練習，歡迎重新回到魔法屋看一次動畫，再次挑戰喔！`;
+            }
+
+            document.getElementById('cert-rank').innerText = `獲得稱號：${rank}`;
+            document.getElementById('cert-content').innerText = certText;
+            document.querySelector('.cert-badge-img').innerText = certBadge;
+        }
+
+        function restartAll() {
+            document.getElementById('intro-section').style.display = 'block';
+            document.getElementById('certificate-section').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'none';
+        }
+
+        function launchConfetti() {
+            for (let i = 0; i < 40; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 1.5 + 's';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 90%, 65%)`;
+                confetti.style.width = Math.random() * 10 + 6 + 'px';
+                confetti.style.height = confetti.style.width;
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+    </script>
+</body>
+</html>
