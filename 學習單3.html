@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>時光歲月之卷：古代年齡代稱互動探索</title>
+    <style>
+        /* 載入古典與人文風 Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+TC:wght@400;700;900&display=swap');
+
+        :root {
+            --bg-scroll: #f4edd8; /* 古舊宣紙色 */
+            --ink-black: #2c221a; /* 濃墨色 */
+            --ink-gray: #7d6e61; /* 淡墨色 */
+            --accent-red: #a63a3a; /* 朱砂紅 */
+            --accent-gold: #cfa85c; /* 金泥色 */
+            --font-classic: "Noto Serif TC", "Songti TC", "Heiti TC", serif;
+            --font-brush: "Ma Shan Zheng", cursive, serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-classic);
+            background-color: #1e1915; /* 暗沉古檀木色底 */
+            background-image: radial-gradient(rgba(197, 160, 89, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: var(--ink-black);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* 繪卷主體 */
+        .scroll-container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--bg-scroll);
+            border-left: 25px solid #5a402d; /* 左捲軸木軸 */
+            border-right: 25px solid #5a402d; /* 右捲軸木軸 */
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+            border-radius: 4px;
+            padding: 40px 50px;
+            position: relative;
+        }
+
+        /* 古風框線裝飾 */
+        .scroll-border {
+            border: 2px solid var(--ink-black);
+            padding: 30px;
+            position: relative;
+            background-image: 
+                linear-gradient(var(--ink-black) 1px, transparent 1px),
+                linear-gradient(90deg, var(--ink-black) 1px, transparent 1px);
+            background-size: 100% 100%;
+            background-position: 0 0;
+        }
+
+        .scroll-border::before {
+            content: "";
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px dashed var(--accent-red);
+            pointer-events: none;
+        }
+
+        /* 標題設計 */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: var(--font-brush);
+            font-size: 4rem;
+            color: var(--accent-red);
+            margin-bottom: 10px;
+            letter-spacing: 5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            color: var(--ink-gray);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* 功能選單區 */
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .btn-magic {
+            font-family: var(--font-classic);
+            background: transparent;
+            border: 2px solid var(--ink-black);
+            color: var(--ink-black);
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            letter-spacing: 2px;
+        }
+
+        .btn-magic::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--accent-red);
+            top: 3px;
+            left: 3px;
+            transition: all 0.3s;
+        }
+
+        .btn-magic:hover {
+            background: var(--ink-black);
+            color: var(--bg-scroll);
+        }
+
+        .btn-magic:hover::after {
+            top: 0; left: 0;
+            border-color: var(--bg-scroll);
+        }
+
+        .btn-magic.active {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            color: #fff;
+        }
+
+        .btn-magic.active::after {
+            border-color: var(--ink-black);
+        }
+
+        /* 模組一：時光繪卷探索區 */
+        .explore-section {
+            display: block;
+        }
+
+        /* 輪播卡片展示區 */
+        .card-stage {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 40px;
+            background: rgba(255, 255, 255, 0.4);
+            border: 3px double var(--ink-black);
+            border-radius: 12px;
+            padding: 30px;
+            min-height: 450px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .card-stage {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 卡片左側：圖像展示 */
+        .image-box {
+            border: 4px solid var(--ink-black);
+            background: #fff;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .age-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 佔位手繪古典插圖樣式 */
+        .placeholder-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f7f3e8 0%, #e2dac3 100%);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .placeholder-image::before {
+            content: "";
+            position: absolute;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 1px solid rgba(44, 34, 26, 0.15);
+        }
+
+        .placeholder-icon {
+            font-size: 5rem;
+            margin-bottom: 15px;
+            filter: grayscale(0.2);
+        }
+
+        .placeholder-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--ink-gray);
+            font-style: italic;
+        }
+
+        /* 卡片右側：文字介紹與讀音 */
+        .info-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .info-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed var(--accent-red);
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .info-title {
+            font-family: var(--font-classic);
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--ink-black);
+            letter-spacing: 2px;
+        }
+
+        /* 注音標示區 */
+        .info-zhuyin {
+            background: #fff;
+            border: 1px solid var(--accent-red);
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 1.1rem;
+            color: var(--accent-red);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 2px 2px 0px rgba(166, 58, 58, 0.2);
+        }
+
+        .info-zhuyin:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0px rgba(166, 58, 58, 0.3);
+            background: #fffafa;
+        }
+
+        .info-zhuyin:active {
+            transform: translate(1px, 1px);
+            box-shadow: 0px 0px 0px;
+        }
+
+        .audio-icon {
+            font-size: 1rem;
+        }
+
+        .info-age-badge {
+            background: var(--accent-gold);
+            color: var(--ink-black);
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            border: 1px solid var(--ink-black);
+        }
+
+        .info-meaning-box {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: var(--ink-black);
+            margin-bottom: 25px;
+        }
+
+        .info-meaning-box strong {
+            color: var(--accent-red);
+            font-size: 1.35rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .info-detail-box {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--ink-gray);
+            background: rgba(255,255,255,0.6);
+            border-left: 4px solid var(--accent-gold);
+            padding: 12px 18px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* 底部時光長河導航列 */
+        .timeline-container {
+            margin-top: 40px;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--ink-black);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .timeline-nodes {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-node {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--bg-scroll);
+            border: 3px solid var(--ink-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .timeline-node:hover {
+            transform: scale(1.2);
+            background: var(--accent-gold);
+            border-color: var(--accent-red);
+        }
+
+        .timeline-node.active {
+            background: var(--accent-red);
+            border-color: var(--ink-black);
+            color: #fff;
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(166, 58, 58, 0.4);
+        }
+
+        .timeline-desc {
+            position: absolute;
+            top: 55px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            color: var(--ink-gray);
+            font-weight: 700;
+        }
+
+        /* 導覽按鈕 */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn-nav {
+            background: transparent;
+            border: 2px solid var(--ink-black);
+            padding: 8px 20px;
+            font-family: var(--font-classic);
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+
+        .btn-nav:hover:not(:disabled) {
+            background: var(--accent-gold);
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* 模組二：古代考功測驗區 */
+        .quiz-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .quiz-intro {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .quiz-intro p {
+            margin-bottom: 15px;
+        }
+
+        .quiz-play-box {
+            display: none;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--ink-black);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .quiz-progress {
+            font-size: 1.2rem;
+        }
+
+        .quiz-score {
+            font-size: 1.2rem;
+            background: var(--accent-gold);
+            padding: 5px 15px;
+            border: 1px solid var(--ink-black);
+            border-radius: 4px;
+        }
+
+        .question-card {
+            background: #fff;
+            border: 3px solid var(--ink-black);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 35px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            position: relative;
+        }
+
+        .question-hint {
+            font-size: 1rem;
+            color: var(--ink-gray);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .question-main {
+            font-size: 1.8rem;
+            font-weight: 900;
+            line-height: 1.6;
+            color: var(--ink-black);
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option-card {
+            background: #fff;
+            border: 2px solid var(--ink-black);
+            border-radius: 8px;
+            padding: 20px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            box-shadow: 3px 3px 0px var(--ink-black);
+        }
+
+        .option-card:hover {
+            background: #fdfbf7;
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px var(--ink-black);
+        }
+
+        .option-card:active {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px var(--ink-black);
+        }
+
+        /* 答題反饋遮罩 */
+        .feedback-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(244, 237, 216, 0.98);
+            border-radius: 9px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .feedback-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .feedback-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .feedback-overlay.correct .feedback-title {
+            color: #2b8a3e;
+        }
+
+        .feedback-overlay.incorrect .feedback-title {
+            color: var(--accent-red);
+        }
+
+        .feedback-msg {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            max-width: 80%;
+            text-align: center;
+        }
+
+        /* 結業報告 */
+        .result-stage {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            border: 4px double var(--ink-black);
+            background: #fffdf9;
+            border-radius: 12px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .result-seal {
+            font-family: var(--font-brush);
+            font-size: 5rem;
+            color: var(--accent-red);
+            margin-bottom: 15px;
+        }
+
+        .result-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .result-content {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+
+        .result-rank {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--accent-red);
+            background: rgba(166, 58, 58, 0.08);
+            display: inline-block;
+            padding: 10px 30px;
+            border: 2px dashed var(--accent-red);
+            margin-bottom: 30px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <div class="scroll-border">
+            <!-- 標頭 -->
+            <header>
+                <h1>時光歲月之卷</h1>
+                <div class="subtitle">📜 探索古代年齡代稱的國學智慧 📜</div>
+            </header>
+
+            <!-- 模式選擇 -->
+            <div class="mode-selector">
+                <button class="btn-magic active" id="btn-explore" onclick="switchMode('explore')">時光探索</button>
+                <button class="btn-magic" id="btn-quiz" onclick="switchMode('quiz')">古代考功</button>
+            </div>
+
+            <!-- 模組一：時光探索區 -->
+            <div class="explore-section" id="explore-section">
+                <div class="card-stage" id="card-stage">
+                    <!-- 左側：圖片顯示區 -->
+                    <div class="image-box" id="explore-image-box">
+                        <!-- 動態插入圖片或佔位插圖 -->
+                    </div>
+
+                    <!-- 右側：資訊說明區 -->
+                    <div class="info-box">
+                        <div class="info-header">
+                            <span class="info-title" id="explore-title">讀取中</span>
+                            <span class="info-zhuyin" id="explore-zhuyin" onclick="playCurrentAudio()">
+                                <span id="explore-zhuyin-text"></span>
+                                <span class="audio-icon">🔊</span>
+                            </span>
+                            <span class="info-age-badge" id="explore-age"></span>
+                        </div>
+                        <div class="info-meaning-box">
+                            <strong>【年齡意象】</strong>
+                            <span id="explore-meaning"></span>
+                        </div>
+                        <div class="info-detail-box" id="explore-detail"></div>
+                    </div>
+                </div>
+
+                <!-- 導覽控制按鈕 -->
+                <div class="nav-buttons">
+                    <button class="btn-nav" id="btn-prev" onclick="changeAgeNode(-1)">◀ 前一階段</button>
+                    <button class="btn-nav" id="btn-next" onclick="changeAgeNode(1)">下一階段 ▶</button>
+                </div>
+
+                <!-- 底部時光長河 Timeline -->
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-nodes" id="timeline-nodes">
+                        <!-- 節點由 JS 渲染 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模組二：測驗考功區 -->
+            <div class="quiz-section" id="quiz-section">
+                <!-- 準備開始畫面 -->
+                <div class="quiz-intro" id="quiz-intro">
+                    <p>歡迎來到「古代考功測驗」！我們準備了 8 道隨機修辭與代稱題目，來檢驗你的年齡代稱功力。</p>
+                    <p>在測驗中，你會需要根據<strong>情境故事描述</strong>或<strong>字面意思</strong>，找出對應的年齡代稱或年齡。</p>
+                    <button class="btn-magic" onclick="startQuiz()" style="margin-top: 15px;">開啟考功測驗 ⚔️</button>
+                </div>
+
+                <!-- 答題進行畫面 -->
+                <div class="quiz-play-box" id="quiz-play-box">
+                    <div class="quiz-header">
+                        <div class="quiz-progress" id="quiz-progress-text">進度：第 1 / 8 題</div>
+                        <div class="quiz-score" id="quiz-score-text">得分：0</div>
+                    </div>
+
+                    <!-- 題目卡 -->
+                    <div class="question-card" id="question-card">
+                        <div class="question-hint" id="question-hint">線索提示</div>
+                        <div class="question-main" id="question-text">讀取題目中...</div>
+
+                        <!-- 答題反饋 -->
+                        <div class="feedback-overlay" id="feedback-overlay">
+                            <div class="feedback-title" id="feedback-title">答對了！</div>
+                            <div class="feedback-msg" id="feedback-msg">詳細解析</div>
+                            <button class="btn-magic" onclick="nextQuestion()">繼續下一題 🔮</button>
+                        </div>
+                    </div>
+
+                    <!-- 選項按鈕區 -->
+                    <div class="options-container" id="options-container">
+                        <!-- 選項由 JS 產生 -->
+                    </div>
+                </div>
+
+                <!-- 結業證書報告 -->
+                <div class="result-stage" id="result-stage">
+                    <div class="result-seal">印</div>
+                    <h2 class="result-title">考功測驗·結業評語</h2>
+                    <p class="result-content" id="result-content">測試結果載入中...</p>
+                    <div class="result-rank" id="result-rank">獲得雅稱：載入中</div>
+                    <br>
+                    <button class="btn-magic" onclick="restartQuiz()">重新測驗 🔄</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- 1. 年齡代稱資料庫 (已經由教育部重編國語辭典核對) ---
+        const ageData = [
+            {
+                name: "周晬",
+                zhuyin: "ㄓㄡ ㄗㄨㄟˋ",
+                age: "1 歲",
+                meaning: "一個剛出生、皮膚粉嫩的初生赤子嬰兒。",
+                detail: "度晬，嬰兒滿一歲的稱呼。古人在這天會舉行「抓周」（試周）儀式，將各種器物放在嬰兒面前任其抓取，以預測其未來的志趣與前途。",
+                image: "Gemini_Generated_Image_ijk9xnijk9xnijk9.png", // 第一張已生成圖
+                icon: "👶"
+            },
+            {
+                name: "襁褓",
+                zhuyin: "ㄑㄧㄤˇ ㄅㄠˇ",
+                age: "幼兒",
+                meaning: "嬰兒被精緻的古典刺繡小被子（襁褓）溫暖地包裹著。",
+                detail: "「襁」指背負嬰兒的寬帶子；「褓」指包裹嬰兒的被子。後借指幼兒或極年幼的時期。",
+                image: "",
+                icon: "🍼"
+            },
+            {
+                name: "黃口",
+                zhuyin: "ㄏㄨㄤˊ ㄎㄡˇ",
+                age: "2 - 10 歲",
+                meaning: "剛學會走路的幼童，手裡拿著小撥浪鼓和風車，正在蹣跚玩耍。",
+                detail: "本指雛鳥的黃色嘴巴。後引申借指年幼的孩童，常用於形容幼弱需要照顧的孩子。",
+                image: "",
+                icon: "🧸"
+            },
+            {
+                name: "垂髫",
+                zhuyin: "ㄔㄨㄟˊ ㄊㄧㄠˊ",
+                age: "3 - 8 歲",
+                meaning: "童年期，小女孩頭髮沒有扎起，自然下垂，正在花叢中摘花。",
+                detail: "古時幼童頭髮不束成髻，自然下垂，故稱「垂髫」。陶淵明《桃花源記》中「黃髮垂髫，並怡然自樂」即指老人與小孩。",
+                image: "",
+                icon: "👧"
+            },
+            {
+                name: "總角",
+                zhuyin: "ㄗㄨㄥˇ ㄐㄧㄠˇ",
+                age: "8 - 14 歲",
+                meaning: "小男孩頭上綁著兩側對稱的「羊角髻」（總角），手裡拿著毛筆在練習寫字。",
+                detail: "古時未成年男女把頭髮扎成形如兩隻羊角的小髻，稱為「總角」。後借指童年，如「總角之交」指童年結交的好友。",
+                image: "",
+                icon: "👦"
+            },
+            {
+                name: "豆蔻",
+                zhuyin: "ㄉㄡˋ ㄎㄡˋ",
+                age: "女 13 歲",
+                meaning: "含苞待放的少女，身邊擺放著初夏的豆蔻花，正在細心地做針線活。",
+                detail: "源自唐代杜牧《贈別》詩：「娉娉裊裊十三餘，豆蔻梢頭二月初。」用初夏時含苞待放的豆蔻花，比喻十三、四歲的青春少女。",
+                image: "",
+                icon: "🌸"
+            },
+            {
+                name: "及笄",
+                zhuyin: "ㄐㄧˊ ㄐㄧ",
+                age: "女 15 歲",
+                meaning: "少女對鏡梳妝，雙手將頭髮盤起，頭上插著一根精緻的玉髮簪（笄）。",
+                detail: "「笄」指髮簪。古代女子年滿十五歲行笄禮，將頭髮盤起並插上簪子，表示已成年，可以許配他人。",
+                image: "",
+                icon: "簪"
+            },
+            {
+                name: "弱冠",
+                zhuyin: "ㄖㄨㄛˋ ㄍㄨㄢˋ",
+                age: "男 20 歲",
+                meaning: "青年男子舉止莊重，頭上端正地戴著一頂正式的儒冠（帽子），腰懸玉佩。",
+                detail: "古代男子年滿二十歲行冠禮（戴上成年人的帽子），表示成年。此時體格尚未完全壯實，故稱「弱」，是為弱冠。",
+                image: "",
+                icon: "👑"
+            },
+            {
+                name: "花信",
+                zhuyin: "ㄏㄨㄚ ㄒㄧㄣˋ",
+                age: "女 24 歲",
+                meaning: "風韻最盛的妙齡女子，身穿精緻的齊胸襦裙，在盛開的花樹旁採集花朵。",
+                detail: "「花信風」指春末報花開消息的風。古人以花信形容女子二十四歲，代表其容貌與丰采正如鮮花般盛放。",
+                image: "",
+                icon: "🌺"
+            },
+            {
+                name: "而立",
+                zhuyin: "ㄦˊ ㄌㄧˋ",
+                age: "30 歲",
+                meaning: "幹練的青年儒生，神情專注地在書案前研讀卷軸，展現事業有成的自立氣質。",
+                detail: "語出《論語·為政》：「三十而立。」指人到了三十歲，人格、學識與事業應當有所成就，能自立於社會。",
+                image: "Gemini_Generated_Image_ungexjungexjunge.png", // 第二張已生成圖
+                icon: "📚"
+            },
+            {
+                name: "不惑",
+                zhuyin: "ㄅㄨˊ ㄏㄨㄛˋ",
+                age: "40 歲",
+                meaning: "神情睿智、沉穩的中年男子，靜坐於案前，單手端著茶杯品茗，眼神清澈堅定。",
+                detail: "語出《論語·為政》：「四十而不惑。」指人到了四十歲，經歷豐富，遇事能明辨是非而不致迷惑。",
+                image: "Gemini_Generated_Image_k5v79kk5v79kk5v7.png", // 第三張已生成圖
+                icon: "🍵"
+            },
+            {
+                name: "知命",
+                zhuyin: "ㄓ ㄇㄧㄥˋ",
+                age: "50 歲",
+                meaning: "氣度通達的中年長者，頭髮尚未變白，坐在松樹下的石桌旁，專注地與自己博弈（下圍棋），順應天命。",
+                detail: "語出《論語·為政》：「五十而知天命。」意指到了五十歲，體認了生命的極限與客觀規律，能順應天命，通達處世。",
+                image: "Gemini_Generated_Image_xjmst9xjmst9xjms.png", // 第四張已生成圖
+                icon: "☯️"
+            },
+            {
+                name: "耳順",
+                zhuyin: "ㄦˇ ㄕㄨㄣˋ",
+                age: "60 歲",
+                meaning: "和藹可親的花甲老者，面帶祥和的微笑，靜坐聆聽，氣定神閒地喝茶。",
+                detail: "語出《論語·為政》：「六十而耳順。」意指聽別人的話能體諒其心意，遇事能泰然處之，不氣餒也不動怒。又稱「花甲之年」。",
+                image: "",
+                icon: "🌾"
+            },
+            {
+                name: "古稀",
+                zhuyin: "ㄍㄨˇ ㄒㄧ",
+                age: "70 歲",
+                meaning: "慈祥的老爺爺手拄著龍頭拐杖，在庭院中含笑散步。",
+                detail: "語出杜甫《曲江》詩：「酒債尋常行處有，人生七十古來稀。」形容自古以來能活到七十歲的人非常稀少。",
+                image: "",
+                icon: "👨‍🦳"
+            },
+            {
+                name: "耄耋",
+                zhuyin: "ㄇㄠˋ ㄉㄧㄝˊ",
+                age: "80 - 90 歲",
+                meaning: "白髮蒼蒼、戴著老花眼鏡的老奶奶，坐在竹椅上悠閒地搖著蒲扇，一旁擺著精緻的刺繡架。",
+                detail: "「耄」指八、九十歲，「耋」指七、八十歲。耄耋合稱，泛指八十、九十歲的高齡，常用於祝賀長壽之辭。",
+                image: "",
+                icon: "👵"
+            },
+            {
+                name: "期頤",
+                zhuyin: "ㄑㄧˊ ㄧˊ",
+                age: "100 歲",
+                meaning: "鶴髮童顏、面色紅潤的百歲老壽星，仙風道骨，手捧著象徵長壽的巨大蟠桃。",
+                detail: "語出《禮記·曲禮上》：「百年曰期，頤。」意思是百歲老人生活起居皆需他人撫養與奉養，是長壽的最高境界。",
+                image: "",
+                icon: "🍑"
+            }
+        ];
+
+        // --- 2. 時光探索邏輯 ---
+        let currentNodeIndex = 0;
+
+        function initExploreMode() {
+            // 渲染底部時光節點
+            const nodesContainer = document.getElementById('timeline-nodes');
+            nodesContainer.innerHTML = '';
+            
+            ageData.forEach((data, index) => {
+                const node = document.createElement('div');
+                node.className = `timeline-node ${index === 0 ? 'active' : ''}`;
+                node.id = `node-${index}`;
+                node.innerText = data.icon;
+                node.onclick = () => selectAgeNode(index);
+
+                // 只在部分重要節點顯示標籤，避免重疊
+                if (index === 0 || index === 5 || index === 7 || index === 9 || index === 12 || index === 15) {
+                    const desc = document.createElement('span');
+                    desc.className = 'timeline-desc';
+                    desc.innerText = `${data.name}(${data.age})`;
+                    node.appendChild(desc);
+                }
+
+                nodesContainer.appendChild(node);
+            });
+
+            updateStage();
+        }
+
+        function selectAgeNode(index) {
+            document.getElementById(`node-${currentNodeIndex}`).classList.remove('active');
+            currentNodeIndex = index;
+            document.getElementById(`node-${currentNodeIndex}`).classList.add('active');
+            updateStage();
+            
+            // 當學生點選時，自動播一次音
+            playCurrentAudio();
+        }
+
+        function changeAgeNode(direction) {
+            const nextIndex = currentNodeIndex + direction;
+            if (nextIndex >= 0 && nextIndex < ageData.length) {
+                selectAgeNode(nextIndex);
+            }
+        }
+
+        function updateStage() {
+            const data = ageData[currentNodeIndex];
+            
+            // 更新右側文字
+            document.getElementById('explore-title').innerText = data.name;
+            document.getElementById('explore-zhuyin-text').innerText = data.zhuyin;
+            document.getElementById('explore-age').innerText = data.age;
+            document.getElementById('explore-meaning').innerText = data.meaning;
+            document.getElementById('explore-detail').innerText = data.detail;
+
+            // 更新左側圖片
+            const imageBox = document.getElementById('explore-image-box');
+            imageBox.innerHTML = '';
+            if (data.image) {
+                const img = document.createElement('img');
+                img.className = 'age-image';
+                img.src = `../素材資料/${data.image}`;
+                img.alt = data.name;
+                imageBox.appendChild(img);
+            } else {
+                // 手繪古典佔位圖設計
+                const holder = document.createElement('div');
+                holder.className = 'placeholder-image';
+                holder.innerHTML = `
+                    <div class="placeholder-icon">${data.icon}</div>
+                    <div style="font-size: 1.4rem; font-weight:900; margin-bottom:10px;">${data.name} 畫像</div>
+                    <div class="placeholder-desc">「${data.meaning}」</div>
+                `;
+                imageBox.appendChild(holder);
+            }
+
+            // 更新導航按鈕狀態
+            document.getElementById('btn-prev').disabled = (currentNodeIndex === 0);
+            document.getElementById('btn-next').disabled = (currentNodeIndex === ageData.length - 1);
+        }
+
+        // --- 3. 語音朗讀功能 ---
+        function playCurrentAudio() {
+            const data = ageData[currentNodeIndex];
+            const cleanName = data.name; 
+            
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(`${cleanName}，年齡代表：${data.age}`);
+                utterance.lang = 'zh-TW'; 
+                utterance.rate = 0.85; 
+                utterance.pitch = 1.0; 
+                window.speechSynthesis.speak(utterance);
+            } else {
+                console.log("語音合成 API 不支援此瀏覽器");
+            }
+        }
+
+        // --- 4. 切換模式 (探索/測驗) ---
+        function switchMode(mode) {
+            document.getElementById('btn-explore').classList.remove('active');
+            document.getElementById('btn-quiz').classList.remove('active');
+            document.getElementById('explore-section').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'none';
+
+            if (mode === 'explore') {
+                document.getElementById('btn-explore').classList.add('active');
+                document.getElementById('explore-section').style.display = 'block';
+            } else {
+                document.getElementById('btn-quiz').classList.add('active');
+                document.getElementById('quiz-section').style.display = 'block';
+            }
+        }
+
+        // --- 5. 測驗考功邏輯 ---
+        let quizQuestions = [];
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+
+        function generateQuizBank() {
+            const bank = [];
+            
+            ageData.forEach(data => {
+                const distractors = ageData
+                    .filter(d => d.name !== data.name)
+                    .map(d => d.name)
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 3);
+                
+                const options = [data.name, ...distractors].sort(() => 0.5 - Math.random());
+
+                bank.push({
+                    hint: "【意象線索題】請根據人物特徵選出正確的古代年齡代稱",
+                    text: `故事描述：「${data.meaning}」請問這是在指人生的哪一個階段？`,
+                    options: options,
+                    answer: data.name,
+                    reason: `答對了！「${data.name}」指的就是「${data.age}」，特徵是「${data.meaning}」。`
+                });
+            });
+
+            ageData.forEach(data => {
+                const ageDistractors = ageData
+                    .filter(d => d.age !== data.age)
+                    .map(d => d.age);
+                
+                const uniqueDistractors = [...new Set(ageDistractors)]
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 3);
+                
+                const options = [data.age, ...uniqueDistractors].sort(() => 0.5 - Math.random());
+
+                bank.push({
+                    hint: "【年齡換算題】請選出該代稱對應的確切歲數",
+                    text: `請問古代年齡代稱中的「${data.name}（${data.zhuyin}）」是指幾歲？`,
+                    options: options,
+                    answer: data.age,
+                    reason: `答對了！「${data.name}」指的是「${data.age}」。${data.detail}`
+                });
+            });
+
+            return bank;
+        }
+
+        function startQuiz() {
+            const allQuestions = generateQuizBank();
+            quizQuestions = allQuestions.sort(() => 0.5 - Math.random()).slice(0, 8);
+            currentQuizIndex = 0;
+            quizScore = 0;
+
+            document.getElementById('quiz-intro').style.display = 'none';
+            document.getElementById('quiz-play-box').style.display = 'block';
+            document.getElementById('result-stage').style.display = 'none';
+
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            
+            document.getElementById('quiz-progress-text').innerText = `進度：第 ${currentQuizIndex + 1} / 8 題`;
+            document.getElementById('quiz-score-text').innerText = `得分：${quizScore * 12.5}`;
+
+            document.getElementById('question-hint').innerText = q.hint;
+            document.getElementById('question-text').innerText = q.text;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach(opt => {
+                const btn = document.createElement('div');
+                btn.className = 'option-card';
+                btn.innerText = opt;
+                btn.onclick = () => checkQuizAnswer(opt);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('feedback-overlay').classList.remove('show');
+        }
+
+        function checkQuizAnswer(selected) {
+            const q = quizQuestions[currentQuizIndex];
+            const overlay = document.getElementById('feedback-overlay');
+            const title = document.getElementById('feedback-title');
+            const msg = document.getElementById('feedback-msg');
+
+            const isCorrect = selected === q.answer;
+            if (isCorrect) {
+                quizScore++;
+                overlay.className = "feedback-overlay show correct";
+                title.innerText = "🌸 答對了！";
+                msg.innerText = q.reason;
+            } else {
+                overlay.className = "feedback-overlay show incorrect";
+                title.innerText = "⚡ 答錯了！";
+                msg.innerText = `可惜答錯囉！正確答案是「${q.answer}」。\n${q.reason}`;
+            }
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < 8) {
+                loadQuizQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-play-box').style.display = 'none';
+            const resultStage = document.getElementById('result-stage');
+            resultStage.style.display = 'block';
+
+            const finalScore = quizScore * 12.5;
+            let rank = "";
+            let text = "";
+
+            if (finalScore === 100) {
+                rank = "經史子集·時光主宰";
+                text = "太不可思議了！你對古代十六個年齡代稱的字音、歲數與意象完全瞭然於胸，實乃博古通今之雋才！";
+            } else if (finalScore >= 75) {
+                rank = "飽學之士·歲月行者";
+                text = `表現優秀！獲得了 ${finalScore} 分。你對大部分的古代年齡代稱都有極佳的認識，足以在書院中與人縱論古今！`;
+            } else if (finalScore >= 50) {
+                rank = "粗通文墨·年輪學徒";
+                text = `及格通過！獲得了 ${finalScore} 分。部分生僻的稱呼（如及笄、耄耋）仍需花費心思記憶，再接再厲！`;
+            } else {
+                rank = "初學乍練·蒙童儒子";
+                text = `獲得了 ${finalScore} 分。年齡代稱是閱讀文言文的重要線索，建議回到時光探索區，跟著語音朗讀再溫習一遍喔！`;
+            }
+
+            document.getElementById('result-rank').innerText = `獲得魔法雅稱：${rank}`;
+            document.getElementById('result-content').innerText = text;
+        }
+
+        function restartQuiz() {
+            document.getElementById('quiz-intro').style.display = 'block';
+            document.getElementById('result-stage').style.display = 'none';
+            document.getElementById('quiz-play-box').style.display = 'none';
+        }
+
+        // 初始化
+        window.onload = function() {
+            initExploreMode();
+        };
+    </script>
+</body>
+</html>
