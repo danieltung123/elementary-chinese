@@ -9,13 +9,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
 
         :root {
-            --bg-paper: #fdfaf2;
-            --pencil-color: #4a3728;
+            --bg-paper: #f7f3e8; /* 稍微帶點古舊魔法書頁的暖色調 */
+            --pencil-color: #3b2e24; /* 深咖啡色墨水線條 */
             --crayon-red: #ff6b6b;
             --crayon-blue: #4dadf7;
             --crayon-yellow: #ffd43b;
             --crayon-green: #51cf66;
             --crayon-purple: #b197fc;
+            --magic-glow: rgba(177, 151, 252, 0.3); /* 魔法光暈紫 */
             --font-main: "Microsoft JhengHei", "Noto Sans TC", "Heiti TC", system-ui, sans-serif;
         }
 
@@ -28,12 +29,13 @@
         body {
             font-family: var(--font-main);
             background-color: var(--bg-paper);
-            /* 紙張質感背景效果 */
+            /* 紙張質感 + 魔法星空微光效果 */
             background-image: 
+                radial-gradient(rgba(130, 71, 229, 0.08) 1.5px, transparent 1.5px),
                 radial-gradient(var(--pencil-color) 0.5px, transparent 0.5px), 
-                radial-gradient(var(--pencil-color) 0.5px, #fdfaf2 0.5px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
+                radial-gradient(var(--pencil-color) 0.5px, #f7f3e8 0.5px);
+            background-size: 60px 60px, 40px 40px, 40px 40px;
+            background-position: 0 0, 0 0, 20px 20px;
             color: var(--pencil-color);
             min-height: 100vh;
             padding: 30px 20px;
@@ -42,12 +44,12 @@
             align-items: center;
         }
 
-        /* 讓紙張微粒感更淡更柔和 */
+        /* 讓紙張微粒感更淡更柔和，加上魔法神祕氛圍 */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(253, 250, 242, 0.93);
+            background: linear-gradient(135deg, rgba(247, 243, 232, 0.96) 60%, rgba(232, 219, 255, 0.5) 100%);
             z-index: -1;
         }
 
@@ -57,10 +59,11 @@
             z-index: 1;
         }
 
-        /* 標頭設計（手繪風格） */
+        /* 標頭設計（手繪風格 + 魔法帽子點綴） */
         header {
             text-align: center;
             margin-bottom: 40px;
+            position: relative;
         }
 
         h1 {
@@ -70,19 +73,16 @@
             display: inline-block;
             position: relative;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 0px rgba(177, 151, 252, 0.3);
         }
 
         h1::after {
-            content: '';
+            content: '🧙‍♂️';
             position: absolute;
-            bottom: -5px;
-            left: 5%;
-            width: 90%;
-            height: 8px;
-            background-color: var(--crayon-yellow);
-            z-index: -1;
-            border-radius: 4px;
-            transform: rotate(-1deg);
+            top: -25px;
+            right: -45px;
+            font-size: 2.2rem;
+            transform: rotate(15deg);
         }
 
         .subtitle {
@@ -95,16 +95,16 @@
             display: inline-block;
             /* 手繪風格不規則圓角 */
             border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-            box-shadow: 5px 5px 0px var(--pencil-color);
+            box-shadow: 5px 5px 0px var(--pencil-color), 0 0 15px var(--magic-glow);
         }
 
-        /* 手繪風卡片 */
+        /* 手繪風卡片 + 魔法邊框效果 */
         .sketch-card {
             background: #ffffff;
             border: 4px solid var(--pencil-color);
             border-radius: 20px;
             padding: 35px;
-            box-shadow: 8px 8px 0px var(--pencil-color);
+            box-shadow: 8px 8px 0px var(--pencil-color), 0 10px 25px rgba(130, 71, 229, 0.05);
             margin-bottom: 40px;
             position: relative;
         }
@@ -836,9 +836,13 @@
                 </div>
             </div>
 
-            <!-- 開始按鈕 -->
+            // 開始按鈕
             <div class="start-challenge-container">
-                <button class="start-btn" onclick="startQuiz()">挑戰魔法分類帽！🎯</button>
+                <p style="font-size: 1.3rem; font-weight: 900; margin-bottom: 15px;">🌟 請選擇魔法挑戰的難度：</p>
+                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                    <button class="start-btn" onclick="startQuiz('easy')" style="background-color: var(--crayon-green);">初級魔法師（簡易）🌱</button>
+                    <button class="start-btn" onclick="startQuiz('hard')" style="background-color: var(--crayon-red);">特級魔法師（挑戰）🔥</button>
+                </div>
             </div>
         </section>
 
@@ -855,7 +859,7 @@
 
             <!-- 題目卡片 -->
             <div class="question-card" id="question-card">
-                <div class="question-title">✏️ 請判斷這個句子使用了什麼魔法？ ✏️</div>
+                <div class="question-title" id="quiz-difficulty-title">✏️ 請判斷這個句子使用了什麼魔法？ ✏️</div>
                 <div class="question-text" id="question-text">讀取中...</div>
                 
                 <!-- 答題反饋遮罩 -->
@@ -1026,59 +1030,158 @@
         }
 
         // --- 遊戲邏輯 ---
-        const questionBank = [
+        // 簡易題庫 (共13題)：標準明喻、隱喻、簡單擬人轉化
+        const easyQuestions = [
             {
                 text: "妹妹的臉蛋紅通通的，好像紅蘋果。",
                 type: "譬喻",
-                reason: "這句話同時出現了主角「臉蛋」和分身「蘋果」，並且用「好像」把兩個連在一起，是標準的分身術！"
-            },
-            {
-                text: "夏天的太陽公公起得很早，笑咪咪地看著大家。",
-                type: "轉化",
-                reason: "這裡沒有拿別的東西來和太陽作比較。而是直接讓太陽變身，做出人類「起床」和「笑咪咪」的動作！"
-            },
-            {
-                text: "大雨下個不停，操場上的小草開心地跳起舞來。",
-                type: "轉化",
-                reason: "小草是植物，卻直接做出了人才能做的「跳舞」動作，這就是把小草擬人化的變身術。"
+                reason: "這句話同時出現了主角「臉蛋」和分身「蘋果」，並且用「好像」把兩個連在一起，是標準的分身術（明喻）！"
             },
             {
                 text: "天上的星星亮晶晶的，是一顆顆美麗的鑽石。",
                 type: "譬喻",
-                reason: "這句話把「星星」比作「鑽石」，雖然沒有「好像」，但用「是」把兩個東西連在一起，依然是分身術！"
-            },
-            {
-                text: "頑皮的風在大街上跑來跑去，吹落了樹葉。",
-                type: "轉化",
-                reason: "風沒有腳，卻直接在大街上「跑來跑去」，也沒有「好像」等字，是直接將風變身為頑皮的小孩。"
+                reason: "這句話把「星星」比作「鑽石」，雖然沒有「好像」，但用「是」把兩個東西連在一起，依然是分身術（隱喻）！"
             },
             {
                 text: "妹妹傷心的眼淚像斷了線的珍珠，不停落下來。",
                 type: "譬喻",
-                reason: "這句話有主角「眼淚」和分身「珍珠」兩個東西，並且用了「像」連在一起，是分身術！"
-            },
-            {
-                text: "路旁的路燈在黑夜裡挺直了腰，守護著行人。",
-                type: "轉化",
-                reason: "路燈沒有「腰」也不會「守護人」，這是直接讓路燈變身成警衛，屬於轉化法。"
+                reason: "這句話有主角「眼淚」和分身「珍珠」兩個東西，並且用了「像」連在一起，是分身術（明喻）！"
             },
             {
                 text: "椰子樹像一位位高大威風的衛兵，站在路旁。",
                 type: "譬喻",
-                reason: "主角是「椰子樹」，分身是「衛兵」，中間用了「像」，是分身術！"
+                reason: "主角是「椰子樹」，分身是「衛兵」，中間用了「像」，是分身術（明喻）！"
+            },
+            {
+                text: "彎彎的月亮像一隻小小的香蕉，掛在夜空中。",
+                type: "譬喻",
+                reason: "主角是「月亮」，分身是「香蕉」，中間用了「像」，是標準的譬喻法！"
+            },
+            {
+                text: "爸爸生氣的時候，是一隻可怕的大老虎。",
+                type: "譬喻",
+                reason: "主角是「爸爸」，分身是「大老虎」，用「是」把兩者連結起來，是譬喻法（隱喻）！"
+            },
+            {
+                text: "夏天的太陽公公起得很早，笑咪咪地看著大家。",
+                type: "轉化",
+                reason: "這裡沒有拿別的東西來和太陽作比較。而是直接讓太陽變身，做出人類「起床」和「笑咪咪」的動作（擬人）！"
+            },
+            {
+                text: "大雨下個不停，操場上的小草開心地跳起舞來。",
+                type: "轉化",
+                reason: "小草是植物，卻直接做出了人才能做的「跳舞」動作，這就是把小草擬人化的變身術（擬人）。"
+            },
+            {
+                text: "頑皮的風在大街上跑來跑去，吹落了樹葉。",
+                type: "轉化",
+                reason: "風沒有腳，卻直接在大街上「跑來跑去」，也沒有「好像」等字，是直接將風變身為頑皮的小孩（擬人）。"
+            },
+            {
+                text: "路旁的路燈在黑夜裡挺直了腰，守護著行人。",
+                type: "轉化",
+                reason: "路燈沒有「腰」也不會「守護人」，這是直接讓路燈變身成警衛，屬於轉化法（擬人）。"
+            },
+            {
+                text: "夜深了，美麗的櫻花姑娘們都悄悄地睡著了。",
+                type: "轉化",
+                reason: "讓「櫻花姑娘」做出人類「睡覺」的動作，沒有拿其他物品作對比，是轉化法（擬人）！"
+            },
+            {
+                text: "清晨的露珠在葉子上翻跟斗，玩得不亦樂乎。",
+                type: "轉化",
+                reason: "露珠是不會動的液體，卻讓它像人類小孩一樣「翻跟斗」、「玩耍」，是標準的轉化法（擬人）！"
+            },
+            {
+                text: "春風輕輕吹過，桃花露出了甜甜的笑容。",
+                type: "轉化",
+                reason: "桃花是植物，直接做出人才能做出的「微笑」動作，沒有拿分身作比較，是轉化法（擬人）！"
+            }
+        ];
+
+        // 困難題庫 (共12題)：略喻、借喻、「好像」表猜測、擬物轉化
+        const hardQuestions = [
+            {
+                text: "我，迷途的羔羊，在昏黃的燈光下徬徨無措。",
+                type: "譬喻",
+                reason: "這句話把「我」比作「迷途的羔羊」，雖然省略了「好像/像」等咒語，但主角和分身同時出現，屬於分身術（略喻）！"
+            },
+            {
+                text: "書本，開啟智慧大門的鑰匙，帶領我們探索世界。",
+                type: "譬喻",
+                reason: "這句話把「書本」直接等同於「鑰匙」，雖然沒有「像」或「是」等連接字，但主角與分身都在，依然是分身術（略喻）！"
+            },
+            {
+                text: "歲月無情，我們都該好好孝順家中的「老松樹」。",
+                type: "譬喻",
+                reason: "這裡的「老松樹」指的是「年老的父母」。雖然主角（父母）和咒語都沒出現，但其實是借用老松樹來比喻父母，屬於分身術（借喻）！"
+            },
+            {
+                text: "別再當「縮頭烏龜」了，勇敢站出來面對問題吧！",
+                type: "譬喻",
+                reason: "這裡是用「縮頭烏龜」來比喻「膽小退縮的人」。雖然沒有寫出「膽小的人好像烏龜」，但依然是隱藏主角的分身術（借喻）！"
+            },
+            {
+                text: "撒下一網「金線」，陽光溫慢地照亮了整片森林。",
+                type: "譬喻",
+                reason: "這裡的「金線」指的是「陽光」。句子中省略了主角（陽光）與咒語，直接用分身（金線）來代表，是高難度的分身術（借喻）！"
+            },
+            {
+                text: "看他那垂頭喪氣的模樣，好像被雷劈到一樣沮喪。",
+                type: "譬喻",
+                reason: "這句話將沮喪的「模樣」比作「被雷劈到一樣」，有主角和分身，是用「好像」相連的譬喻句（明喻）。"
+            },
+            {
+                text: "天色突然暗了下來，烏雲好像快要下雨了。",
+                type: "轉化",
+                reason: "注意！這句話的「好像」只是在表達「猜測、不確定」的口吻，並沒有把烏雲比作其他事物；而烏雲「快要下雨」也是自然現象，既非譬喻也非轉化。但在本測驗二選一架構中，它不屬於譬喻喔！"
+            },
+            {
+                text: "小狗好像聽得懂主人的話，開心地搖著尾巴直點頭。",
+                type: "轉化",
+                reason: "這句的「好像」是「猜測口吻」（猜測小狗聽得懂），並非譬喻；但小狗做出人才能做到的「點頭」動作，屬於變身術（轉化）！"
+            },
+            {
+                text: "路旁的小草垂著頭，好像在為昨晚逝去的毛毛蟲哀悼。",
+                type: "轉化",
+                reason: "這裡的「好像」是「猜測口吻」（猜測它在哀悼），沒有拿小草去跟其他東西作比較；而小草「哀悼」是直接變身做人的動作，因此是變身術（轉化）！"
+            },
+            {
+                text: "他那顆愛護動物的心，融化了大家冰冷淡漠的態度。",
+                type: "轉化",
+                reason: "「心」和「態度」是抽象的，卻用物理上液體「融化」來形容，屬於將抽象事物化為具體的轉化法（形象化/擬物）！"
+            },
+            {
+                text: "看到討厭的人走過來，他的熱情頓時結了一層冰。",
+                type: "轉化",
+                reason: "「熱情」是無形的感覺，卻讓它像水一樣「結冰」，屬於將抽象心態化為具體物質的轉化法（形象化/擬物）！"
+            },
+            {
+                text: "這則感人的新聞，把大家都帶進了淚水的海洋。",
+                type: "轉化",
+                reason: "「淚水」被轉化成了「海洋」的特徵，或者將大家的心情融入淚水中，直接做具體物象的變動，屬於轉化法（形象化）！"
             }
         ];
 
         let currentQuestions = [];
         let currentIndex = 0;
         let score = 0;
+        let currentDifficulty = 'easy';
 
-        function startQuiz() {
+        function startQuiz(difficulty) {
             let userName = prompt("請輸入小魔法師的名字：", "學習小勇士") || "學習小勇士";
             document.getElementById('cert-name').innerText = userName;
+            currentDifficulty = difficulty;
 
-            // 隨機選 5 題
-            currentQuestions = [...questionBank].sort(() => 0.5 - Math.random()).slice(0, 5);
+            const difficultyTitle = document.getElementById('quiz-difficulty-title');
+            if (difficulty === 'easy') {
+                difficultyTitle.innerText = "🌱 初級魔法挑戰：請判斷這個句子的修辭";
+                currentQuestions = [...easyQuestions].sort(() => 0.5 - Math.random()).slice(0, 5);
+            } else {
+                difficultyTitle.innerText = "🔥 特級魔法挑戰：小心陷阱題喔！";
+                currentQuestions = [...hardQuestions].sort(() => 0.5 - Math.random()).slice(0, 5);
+            }
+            
             currentIndex = 0;
             score = 0;
 
@@ -1150,23 +1253,27 @@
             let certText = "";
             let certBadge = "";
 
+            const isHard = currentDifficulty === 'hard';
+
             if (finalScore === 100) {
                 certBadge = "👑";
-                rank = "特級·修辭大魔導士";
-                certText = "太厲害了！你拿到了滿分 100 分！你已經完美掌握了分身術（譬喻）與變身術（轉化）的奧秘！";
+                rank = isHard ? "文心雕龍·首席奧術大師" : "筆墨生花·見習魔法學士";
+                certText = isHard 
+                    ? "驚才絕豔！你突破了所有重重迷障與陷阱，獲得滿分一百分，堪稱魔法學院的修辭大賢者！" 
+                    : "資質非凡！你獲得了滿分一百分，已然解開譬喻與轉化魔法的基礎奧秘！";
                 launchConfetti();
             } else if (finalScore >= 80) {
                 certBadge = "🏆";
-                rank = "高級·修辭魔導士";
-                certText = `恭喜你得到 ${finalScore} 分！你對這兩種修辭法已經非常熟悉，是個厲害的小小修辭家！`;
+                rank = isHard ? "妙筆探驪·高階奧術使" : "字字珠璣·修辭術士";
+                certText = `表現不俗！你在本次${isHard ? '高難度' : '一般'}修辭測驗中獲得 ${finalScore} 分，施展修辭魔法的技巧已屬上乘！`;
                 launchConfetti();
             } else {
                 certBadge = "🌱";
-                rank = "修辭見習生";
-                certText = `挑戰完成！獲得了 ${finalScore} 分。魔法需要多加練習，歡迎重新回到魔法屋看一次動畫，再次挑戰喔！`;
+                rank = "初窺堂奧·魔法學徒";
+                certText = `已跨出魔法修煉的第一步！本次獲得 ${finalScore} 分。魔法需琢磨反覆，不妨重新閱覽說明、再次挑戰！`;
             }
 
-            document.getElementById('cert-rank').innerText = `獲得稱號：${rank}`;
+            document.getElementById('cert-rank').innerText = `獲得魔法雅稱：${rank}`;
             document.getElementById('cert-content').innerText = certText;
             document.querySelector('.cert-badge-img').innerText = certBadge;
         }
