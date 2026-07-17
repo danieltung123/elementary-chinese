@@ -43,12 +43,84 @@
             width: 100%;
             max-width: 1100px;
             background: var(--bg-scroll);
-            border-left: 25px solid #5a402d; /* 左捲軸木軸 */
-            border-right: 25px solid #5a402d; /* 右捲軸木軸 */
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
             border-radius: 4px;
-            padding: 40px 50px;
+            padding: 40px 60px;
             position: relative;
+            animation: unroll-clip 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            overflow: visible;
+        }
+
+        @keyframes unroll-clip {
+            0% {
+                clip-path: inset(0 50% 0 50%);
+            }
+            100% {
+                clip-path: inset(0 0% 0 0%);
+            }
+        }
+
+        .scroll-rod-left, .scroll-rod-right {
+            position: absolute;
+            top: -15px;
+            bottom: -15px;
+            width: 22px;
+            background: linear-gradient(to right, #2c1a10, #5a402d 40%, #8b6b55 60%, #5a402d 80%, #2c1a10);
+            border-radius: 11px;
+            box-shadow: 3px 5px 15px rgba(0,0,0,0.4);
+            z-index: 10;
+        }
+
+        .scroll-rod-left {
+            left: 12px;
+            animation: rod-left-unroll 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .scroll-rod-right {
+            right: 12px;
+            animation: rod-right-unroll 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes rod-left-unroll {
+            0% { left: 50%; transform: translateX(-50%); }
+            100% { left: 12px; transform: translateX(0); }
+        }
+
+        @keyframes rod-right-unroll {
+            0% { right: 50%; transform: translateX(50%); }
+            100% { right: 12px; transform: translateX(0); }
+        }
+
+        .scroll-rod-left::before, .scroll-rod-left::after,
+        .scroll-rod-right::before, .scroll-rod-right::after {
+            content: "";
+            position: absolute;
+            width: 28px;
+            height: 15px;
+            left: -3px;
+            background: radial-gradient(circle, #ffe699, #cfa85c 60%, #8a6421);
+            border: 1px solid #8a6421;
+            border-radius: 3px;
+        }
+
+        .scroll-rod-left::before, .scroll-rod-right::before { top: -10px; }
+        .scroll-rod-left::after, .scroll-rod-right::after { bottom: -10px; }
+
+        .fade-in-ink {
+            animation: ink-reveal 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes ink-reveal {
+            0% {
+                opacity: 0;
+                transform: translateY(8px);
+                filter: blur(2px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
         }
 
         /* 古風框線裝飾 */
