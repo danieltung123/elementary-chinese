@@ -590,6 +590,8 @@
 </head>
 <body>
     <div class="scroll-container">
+        <div class="scroll-rod-left"></div>
+        <div class="scroll-rod-right"></div>
         <div class="scroll-border">
             <!-- 標頭 -->
             <header>
@@ -1080,6 +1082,11 @@ function startQuiz() {
 
         function loadQuizQuestion() {
             const q = quizQuestions[currentQuizIndex];
+            
+            const qBox = document.getElementById('quiz-play-box');
+            qBox.classList.remove('fade-in-ink');
+            void qBox.offsetWidth;
+            qBox.classList.add('fade-in-ink');
             
             document.getElementById('quiz-progress-text').innerText = `進度：第 ${currentQuizIndex + 1} / 30 題`;
             document.getElementById('quiz-score-text').innerText = `得分：${Math.round((quizScore / 30) * 100)}`;
