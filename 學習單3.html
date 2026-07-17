@@ -622,7 +622,7 @@
                             <span class="info-age-badge" id="explore-age"></span>
                         </div>
                         <div class="info-meaning-box">
-                            <strong>【年齡意象】</strong>
+                            
                             <span id="explore-meaning"></span>
                         </div>
                         <div class="info-detail-box" id="explore-detail"></div>
@@ -858,13 +858,10 @@
                 node.innerText = data.icon;
                 node.onclick = () => selectAgeNode(index);
 
-                // 只在部分重要節點顯示標籤，避免重疊
-                if (index === 0 || index === 5 || index === 7 || index === 9 || index === 12 || index === 15) {
-                    const desc = document.createElement('span');
-                    desc.className = 'timeline-desc';
-                    desc.innerText = `${data.name}(${data.age})`;
-                    node.appendChild(desc);
-                }
+                const desc = document.createElement('span');
+                desc.className = 'timeline-desc';
+                desc.innerText = data.name;
+                node.appendChild(desc);
 
                 nodesContainer.appendChild(node);
             });
