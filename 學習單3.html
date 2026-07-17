@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
@@ -185,7 +185,7 @@
             overflow: hidden;
         }
 
-        .age-image {
+        .age-image, .age-image-sprite {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -687,32 +687,7 @@
                         <div class="feedback-overlay" id="feedback-overlay">
                             <div class="feedback-title" id="feedback-title">答對了！</div>
                             <div class="feedback-msg" id="feedback-msg">詳細解析</div>
-                            <button class="btn-magic" onclick="nextQuestion()">繼續下一題 🔮</button>
-                        </div>
-                    </div>
-
-                    <!-- 選項按鈕區 -->
-                    <div class="options-container" id="options-container">
-                        <!-- 選項由 JS 產生 -->
-                    </div>
-                </div>
-
-                <!-- 結業證書報告 -->
-                <div class="result-stage" id="result-stage">
-                    <div class="result-seal">印</div>
-                    <h2 class="result-title">考功測驗·結業評語</h2>
-                    <p class="result-content" id="result-content">測試結果載入中...</p>
-                    <div class="result-rank" id="result-rank">獲得雅稱：載入中</div>
-                    <br>
-                    <button class="btn-magic" onclick="restartQuiz()">重新測驗 🔄</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <script>
-        // --- 1. 年齡代稱資料庫 (已經由教育部重編國語辭典核對) ---
+                            <button class="btn-magic" onclick="nextQuestion()">繼續下�        // --- 1. 年齡代稱資料庫 (已經由教育部重編國語辭典核對) ---
         const ageData = [
             {
                 name: "周晬",
@@ -720,7 +695,9 @@
                 age: "1 歲",
                 meaning: "一個剛出生、皮膚粉嫩的初生赤子嬰兒。",
                 detail: "度晬，嬰兒滿一歲的稱呼。古人在這天會舉行「抓周」（試周）儀式，將各種器物放在嬰兒面前任其抓取，以預測其未來的志趣與前途。",
-                image: "Gemini_Generated_Image_ijk9xnijk9xnijk9.png", // 第一張已生成圖
+                image: "1.png",
+                cols: 5,
+                colIndex: 0,
                 icon: "👶"
             },
             {
@@ -729,16 +706,20 @@
                 age: "幼兒",
                 meaning: "嬰兒被精緻的古典刺繡小被子（襁褓）溫暖地包裹著。",
                 detail: "「襁」指背負嬰兒的寬帶子；「褓」指包裹嬰兒的被子。後借指幼兒或極年幼的時期。",
-                image: "",
+                image: "1.png",
+                cols: 5,
+                colIndex: 1,
                 icon: "🍼"
             },
             {
                 name: "黃口",
                 zhuyin: "ㄏㄨㄤˊ ㄎㄡˇ",
                 age: "2 - 10 歲",
-                meaning: "剛學會走路的幼童，手裡拿著小撥浪鼓和風車，正在蹣跚玩耍。",
+                meaning: "剛學會走路的幼童，手裡拿著小撥浪鼓 and 風車，正在蹣跚玩耍。",
                 detail: "本指雛鳥的黃色嘴巴。後引申借指年幼的孩童，常用於形容幼弱需要照顧的孩子。",
-                image: "",
+                image: "1.png",
+                cols: 5,
+                colIndex: 2,
                 icon: "🧸"
             },
             {
@@ -747,7 +728,9 @@
                 age: "3 - 8 歲",
                 meaning: "童年期，小女孩頭髮沒有扎起，自然下垂，正在花叢中摘花。",
                 detail: "古時幼童頭髮不束成髻，自然下垂，故稱「垂髫」。陶淵明《桃花源記》中「黃髮垂髫，並怡然自樂」即指老人與小孩。",
-                image: "",
+                image: "1.png",
+                cols: 5,
+                colIndex: 3,
                 icon: "👧"
             },
             {
@@ -756,7 +739,9 @@
                 age: "8 - 14 歲",
                 meaning: "小男孩頭上綁著兩側對稱的「羊角髻」（總角），手裡拿著毛筆在練習寫字。",
                 detail: "古時未成年男女把頭髮扎成形如兩隻羊角的小髻，稱為「總角」。後借指童年，如「總角之交」指童年結交的好友。",
-                image: "",
+                image: "1.png",
+                cols: 5,
+                colIndex: 4,
                 icon: "👦"
             },
             {
@@ -765,7 +750,9 @@
                 age: "女 13 歲",
                 meaning: "含苞待放的少女，身邊擺放著初夏的豆蔻花，正在細心地做針線活。",
                 detail: "源自唐代杜牧《贈別》詩：「娉娉裊裊十三餘，豆蔻梢頭二月初。」用初夏時含苞待放的豆蔻花，比喻十三、四歲的青春少女。",
-                image: "",
+                image: "2.png",
+                cols: 4,
+                colIndex: 0,
                 icon: "🌸"
             },
             {
@@ -774,7 +761,9 @@
                 age: "女 15 歲",
                 meaning: "少女對鏡梳妝，雙手將頭髮盤起，頭上插著一根精緻的玉髮簪（笄）。",
                 detail: "「笄」指髮簪。古代女子年滿十五歲行笄禮，將頭髮盤起並插上簪子，表示已成年，可以許配他人。",
-                image: "",
+                image: "2.png",
+                cols: 4,
+                colIndex: 1,
                 icon: "簪"
             },
             {
@@ -783,7 +772,9 @@
                 age: "男 20 歲",
                 meaning: "青年男子舉止莊重，頭上端正地戴著一頂正式的儒冠（帽子），腰懸玉佩。",
                 detail: "古代男子年滿二十歲行冠禮（戴上成年人的帽子），表示成年。此時體格尚未完全壯實，故稱「弱」，是為弱冠。",
-                image: "",
+                image: "2.png",
+                cols: 4,
+                colIndex: 2,
                 icon: "👑"
             },
             {
@@ -792,7 +783,9 @@
                 age: "女 24 歲",
                 meaning: "風韻最盛的妙齡女子，身穿精緻的齊胸襦裙，在盛開的花樹旁採集花朵。",
                 detail: "「花信風」指春末報花開消息的風。古人以花信形容女子二十四歲，代表其容貌與丰采正如鮮花般盛放。",
-                image: "",
+                image: "2.png",
+                cols: 4,
+                colIndex: 3,
                 icon: "🌺"
             },
             {
@@ -801,7 +794,9 @@
                 age: "30 歲",
                 meaning: "幹練的青年儒生，神情專注地在書案前研讀卷軸，展現事業有成的自立氣質。",
                 detail: "語出《論語·為政》：「三十而立。」指人到了三十歲，人格、學識與事業應當有所成就，能自立於社會。",
-                image: "Gemini_Generated_Image_ungexjungexjunge.png", // 第二張已生成圖
+                image: "3.png",
+                cols: 4,
+                colIndex: 0,
                 icon: "📚"
             },
             {
@@ -810,7 +805,9 @@
                 age: "40 歲",
                 meaning: "神情睿智、沉穩的中年男子，靜坐於案前，單手端著茶杯品茗，眼神清澈堅定。",
                 detail: "語出《論語·為政》：「四十而不惑。」指人到了四十歲，經歷豐富，遇事能明辨是非而不致迷惑。",
-                image: "Gemini_Generated_Image_k5v79kk5v79kk5v7.png", // 第三張已生成圖
+                image: "3.png",
+                cols: 4,
+                colIndex: 1,
                 icon: "🍵"
             },
             {
@@ -819,7 +816,9 @@
                 age: "50 歲",
                 meaning: "氣度通達的中年長者，頭髮尚未變白，坐在松樹下的石桌旁，專注地與自己博弈（下圍棋），順應天命。",
                 detail: "語出《論語·為政》：「五十而知天命。」意指到了五十歲，體認了生命的極限與客觀規律，能順應天命，通達處世。",
-                image: "Gemini_Generated_Image_xjmst9xjmst9xjms.png", // 第四張已生成圖
+                image: "3.png",
+                cols: 4,
+                colIndex: 2,
                 icon: "☯️"
             },
             {
@@ -828,7 +827,9 @@
                 age: "60 歲",
                 meaning: "和藹可親的花甲老者，面帶祥和的微笑，靜坐聆聽，氣定神閒地喝茶。",
                 detail: "語出《論語·為政》：「六十而耳順。」意指聽別人的話能體諒其心意，遇事能泰然處之，不氣餒也不動怒。又稱「花甲之年」。",
-                image: "",
+                image: "3.png",
+                cols: 4,
+                colIndex: 3,
                 icon: "🌾"
             },
             {
@@ -837,7 +838,9 @@
                 age: "70 歲",
                 meaning: "慈祥的老爺爺手拄著龍頭拐杖，在庭院中含笑散步。",
                 detail: "語出杜甫《曲江》詩：「酒債尋常行處有，人生七十古來稀。」形容自古以來能活到七十歲的人非常稀少。",
-                image: "",
+                image: "4.png",
+                cols: 3,
+                colIndex: 0,
                 icon: "👨‍🦳"
             },
             {
@@ -846,7 +849,9 @@
                 age: "80 - 90 歲",
                 meaning: "白髮蒼蒼、戴著老花眼鏡的老奶奶，坐在竹椅上悠閒地搖著蒲扇，一旁擺著精緻的刺繡架。",
                 detail: "「耄」指八、九十歲，「耋」指七、八十歲。耄耋合稱，泛指八十、九十歲的高齡，常用於祝賀長壽之辭。",
-                image: "",
+                image: "4.png",
+                cols: 3,
+                colIndex: 1,
                 icon: "👵"
             },
             {
@@ -855,10 +860,13 @@
                 age: "100 歲",
                 meaning: "鶴髮童顏、面色紅潤的百歲老壽星，仙風道骨，手捧著象徵長壽的巨大蟠桃。",
                 detail: "語出《禮記·曲禮上》：「百年曰期，頤。」意思是百歲老人生活起居皆需他人撫養與奉養，是長壽的最高境界。",
-                image: "",
+                image: "4.png",
+                cols: 3,
+                colIndex: 2,
                 icon: "🍑"
             }
         ];
+
 
         // --- 2. 時光探索邏輯 ---
         let currentNodeIndex = 0;
@@ -919,13 +927,21 @@
             // 更新左側圖片
             const imageBox = document.getElementById('explore-image-box');
             imageBox.innerHTML = '';
-            if (data.image) {
-                const img = document.createElement('img');
-                img.className = 'age-image';
-                img.src = `../素材資料/${data.image}`;
-                img.alt = data.name;
-                imageBox.appendChild(img);
+                        if (data.image) {
+                const imgDiv = document.createElement('div');
+                imgDiv.className = 'age-image-sprite';
+                imgDiv.style.width = '100%';
+                imgDiv.style.height = '100%';
+                imgDiv.style.backgroundImage = `url('素材資料/${data.image}')`;
+                const cols = data.cols || 1;
+                const colIndex = data.colIndex || 0;
+                imgDiv.style.backgroundSize = `${cols * 100}% 100%`;
+                const posX = cols > 1 ? (colIndex / (cols - 1)) * 100 : 0;
+                imgDiv.style.backgroundPosition = `${posX}% 0%`;
+                imgDiv.style.backgroundRepeat = 'no-repeat';
+                imageBox.appendChild(imgDiv);
             } else {
+
                 // 手繪古典佔位圖設計
                 const holder = document.createElement('div');
                 holder.className = 'placeholder-image';

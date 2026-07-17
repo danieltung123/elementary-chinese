@@ -479,7 +479,7 @@
         /* 選擇按鈕 */
         .pot-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 35px;
             margin-bottom: 20px;
         }
@@ -513,6 +513,10 @@
 
         .pot-card.transform-pot:hover {
             background-color: #ebfaf1;
+        }
+
+        .pot-card.none-pot:hover {
+            background-color: #fff9eb;
         }
 
         .pot-icon {
@@ -886,6 +890,13 @@
                     <h3 class="pot-name">變身術 (轉化)</h3>
                     <p class="pot-desc">沒有另一個東西，主角直接做人的動作</p>
                 </div>
+
+                <!-- 沒有魔法大釜 -->
+                <div class="pot-card none-pot" onclick="checkAnswer('沒有魔法')">
+                    <span class="pot-icon">🍃</span>
+                    <h3 class="pot-name">普通狀態 (沒有魔法)</h3>
+                    <p class="pot-desc">只是表示猜測、不確定語氣，或沒有使用任何修辭</p>
+                </div>
             </div>
         </section>
 
@@ -1133,8 +1144,18 @@
             },
             {
                 text: "天色突然暗了下來，烏雲好像快要下雨了。",
-                type: "轉化",
-                reason: "注意！這句話的「好像」只是在表達「猜測、不確定」的口吻，並沒有把烏雲比作其他事物；而烏雲「快要下雨」也是自然現象，既非譬喻也非轉化。但在本測驗二選一架構中，它不屬於譬喻喔！"
+                type: "沒有魔法",
+                reason: "注意！這句話中的「好像」僅表示「猜測、不確定」的語氣，沒有拿它物來相比（非譬喻）；而「快要下雨」也是自然現象，並非人擬人（非轉化），所以屬於「沒有魔法」的普通句子！"
+            },
+            {
+                text: "他神色慌張，彷彿後面有什麼東西在追趕他似的。",
+                type: "沒有魔法",
+                reason: "這句話中的「彷彿」只是表示「猜測、不確定」的語意，並沒有把主角比作其他事物，也沒有賦予人或物的特徵，屬於「沒有魔法」的普通句！"
+            },
+            {
+                text: "天空陰沉沉的，彷彿隨時都會下大雨。",
+                type: "沒有魔法",
+                reason: "這句中的「彷彿」用來表達對天氣的「猜測口吻」，既沒有譬喻法中的主角與分身對比，也沒有擬人或擬物的轉化動作，因此屬於「沒有魔法」！"
             },
             {
                 text: "小狗好像聽得懂主人的話，開心地搖著尾巴直點頭。",
