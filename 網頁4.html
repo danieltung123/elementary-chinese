@@ -673,6 +673,12 @@
                 </div>
             </div>
 
+            <!-- 名字輸入欄位 -->
+            <div style="margin-bottom: 25px;">
+                <label for="player-name" style="display: block; font-weight: 700; margin-bottom: 8px; color: #ffd2df; font-size: 1.05rem;">✏️ 請輸入你的名字（將登入榮譽榜）：</label>
+                <input type="text" id="player-name" placeholder="請輸入名字..." maxlength="10" style="background: rgba(255, 255, 255, 0.08); border: 2px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 12px; padding: 10px 15px; font-size: 1.1rem; width: 80%; max-width: 280px; text-align: center; outline: none; transition: all 0.2s;" onfocus="this.style.borderColor='#6c5ce7'; this.style.boxShadow='0 0 10px rgba(108, 92, 231, 0.5)'" onblur="this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.boxShadow='none'">
+            </div>
+
             <!-- 模式選擇 -->
             <div class="mode-selection">
                 <div id="mode-time-attack" class="mode-card selected" onclick="selectMode('time-attack')">
@@ -817,6 +823,8 @@
         let gameActive = false;
         let isPaused = false;
         let pauseStartTime = 0;
+        let currentPlayerName = '';
+        let currentRunId = null;
         let currentQuestion = null;
         let previousQuestion = null;
         
@@ -899,6 +907,15 @@
 
         // 開始遊戲
         function startGame() {
+            const nameInput = document.getElementById('player-name');
+            const playerName = nameInput.value.trim();
+            if (!playerName) {
+                alert('請先輸入你的名字再開始挑戰喔！');
+                nameInput.focus();
+                return;
+            }
+            currentPlayerName = playerName;
+
             initAudio();
             // 重設變數
             score = 0;
@@ -1180,25 +1197,27 @@
         function saveScore(newScore) {
             let highScores = JSON.parse(localStorage.getItem('pronoun_highscores_' + currentMode)) || [];
             
-            // 加入當前記錄
+            currentRunId = Date.now() + Math.random();
             const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const currentRun = { score: newScore, time: timestamp, isCurrent: true };
+            const currentRun = { id: currentRunId, name: currentPlayerName, score: newScore, time: timestamp };
             
             highScores.push(currentRun);
             
             // 排序
             highScores.sort((a, b) => b.score - a.score);
             
-            // 限制前五名
-            const topFive = highScores.slice(0, 5);
-            
-            // 寫回 localStorage (不包含 current 標記，或只留前十名)
-            localStorage.setItem('pronoun_highscores_' + currentMode, JSON.stringify(highScores.map(s => {
-                delete s.isCurrent;
-                return s;
-            }).slice(0, 10)));
+            // 寫回 localStorage (保留前30名，讓學生可以挑戰)
+            localStorage.setItem('pronoun_highscores_' + currentMode, JSON.stringify(highScores.slice(0, 30)));
 
-            // 顯示排行榜
+            renderScoreboard();
+        }
+
+        // 渲染排行榜
+        function renderScoreboard() {
+            let highScores = JSON.parse(localStorage.getItem('pronoun_highscores_' + currentMode)) || [];
+            
+            // 限制顯示前五名
+            const topFive = highScores.slice(0, 5);
             const listEl = document.getElementById('score-list');
             listEl.innerHTML = '';
 
@@ -1206,27 +1225,52 @@
             topFive.forEach((run, idx) => {
                 const li = document.createElement('li');
                 li.className = 'score-row';
-                if (run.score === newScore && !shownCurrent) {
+                if (run.id === currentRunId) {
                     li.className += ' current-run';
                     shownCurrent = true;
                 }
                 li.innerHTML = `
-                    <span>第 ${idx + 1} 名 - ${run.time}</span>
-                    <span>${run.score} 分</span>
+                    <span>第 ${idx + 1} 名 - ${run.name || '無名英雄'} (${run.time})</span>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span>${run.score} 分</span>
+                        <button onclick="deleteScore('${run.id}')" style="background: none; border: none; color: #ff7675; cursor: pointer; font-size: 1.1rem; padding: 2px;" title="刪除此紀錄">🗑️</button>
+                    </div>
                 `;
                 listEl.appendChild(li);
             });
 
-            // 如果當前分數沒進前五，在最底下加一條顯示當前成績
-            if (!shownCurrent && newScore > 0) {
-                const li = document.createElement('li');
-                li.className = 'score-row current-run';
-                li.style.borderTop = '1px dashed rgba(255,255,255,0.2)';
-                li.innerHTML = `
-                    <span>本次成績 - ${timestamp}</span>
-                    <span>${newScore} 分</span>
-                `;
-                listEl.appendChild(li);
+            // 如果當前分數沒進前五，且當前正在顯示結算，在最底下加一條顯示當前成績
+            if (!shownCurrent && gameActive === false && currentRunId) {
+                const currentRecord = highScores.find(r => r.id === currentRunId);
+                if (currentRecord) {
+                    const li = document.createElement('li');
+                    li.className = 'score-row current-run';
+                    li.style.borderTop = '1px dashed rgba(255,255,255,0.2)';
+                    li.innerHTML = `
+                        <span>本次成績 - ${currentRecord.name || '無名英雄'} (${currentRecord.time})</span>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span>${currentRecord.score} 分</span>
+                            <button onclick="deleteScore('${currentRecord.id}')" style="background: none; border: none; color: #ff7675; cursor: pointer; font-size: 1.1rem; padding: 2px;" title="刪除此紀錄">🗑️</button>
+                        </div>
+                    `;
+                    listEl.appendChild(li);
+                }
+            }
+        }
+
+        // 刪除特定成績紀錄
+        function deleteScore(runId) {
+            if (confirm('確定要刪除這筆紀錄嗎？')) {
+                let highScores = JSON.parse(localStorage.getItem('pronoun_highscores_' + currentMode)) || [];
+                // 轉為字串/數字比對
+                highScores = highScores.filter(s => String(s.id) !== String(runId));
+                localStorage.setItem('pronoun_highscores_' + currentMode, JSON.stringify(highScores));
+                
+                // 如果刪除的是當前的，就重設當前ID
+                if (String(currentRunId) === String(runId)) {
+                    currentRunId = null;
+                }
+                renderScoreboard();
             }
         }
 
