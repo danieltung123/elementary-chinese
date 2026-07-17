@@ -687,7 +687,32 @@
                         <div class="feedback-overlay" id="feedback-overlay">
                             <div class="feedback-title" id="feedback-title">答對了！</div>
                             <div class="feedback-msg" id="feedback-msg">詳細解析</div>
-                            <button class="btn-magic" onclick="nextQuestion()">繼續下�        // --- 1. 年齡代稱資料庫 (已經由教育部重編國語辭典核對) ---
+                            <button class="btn-magic" onclick="nextQuestion()">繼續下一題 🔮</button>
+                        </div>
+                    </div>
+
+                    <!-- 選項按鈕區 -->
+                    <div class="options-container" id="options-container">
+                        <!-- 選項由 JS 產生 -->
+                    </div>
+                </div>
+
+                <!-- 結業證書報告 -->
+                <div class="result-stage" id="result-stage">
+                    <div class="result-seal">印</div>
+                    <h2 class="result-title">考功測驗·結業評語</h2>
+                    <p class="result-content" id="result-content">測試結果載入中...</p>
+                    <div class="result-rank" id="result-rank">獲得雅稱：載入中</div>
+                    <br>
+                    <button class="btn-magic" onclick="restartQuiz()">重新測驗 🔄</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- 1. 年齡代稱資料庫 (已經由教育部重編國語辭典核對) ---
         const ageData = [
             {
                 name: "周晬",
@@ -820,7 +845,7 @@
                 zhuyin: "ㄇㄠˋ ㄉㄧㄝˊ",
                 age: "80 - 90 歲",
                 meaning: "白髮蒼蒼、戴著老花眼鏡的老奶奶，坐在竹椅上悠閒地搖著蒲扇，一旁擺著精緻的刺繡架。",
-                detail: "「耄」指八、九十歲，「耋」指七、八十歲。耄耋合稱，泛指八十、九十歲的高齡，常用於祝賀長壽之辭。",
+                detail: "「耄」指八、九十歲，「耋」指七、八十歲. 耄耋合稱，泛指八十、九十歲的高齡，常用於祝賀長壽之辭。",
                 image: "耄耋.png",
                 icon: "👵"
             },
@@ -895,15 +920,13 @@
             // 更新左側圖片
             const imageBox = document.getElementById('explore-image-box');
             imageBox.innerHTML = '';
-                                    if (data.image) {
+            if (data.image) {
                 const img = document.createElement('img');
                 img.className = 'age-image';
                 img.src = `素材資料/${data.image}`;
                 img.alt = data.name;
                 imageBox.appendChild(img);
             } else {
-
-
                 // 手繪古典佔位圖設計
                 const holder = document.createElement('div');
                 holder.className = 'placeholder-image';
