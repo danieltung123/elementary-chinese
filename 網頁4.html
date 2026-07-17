@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古文人稱代名詞反應力挑戰網頁</title>
+    <!-- 引入 Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Noto+Sans+TC:wght@400;700;900&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --accent-1: #ff7675; /* 第一人稱顏色 (紅橘) */
+            --accent-2: #0984e3; /* 第二人稱顏色 (藍) */
+            --accent-3: #20bf6b; /* 第三人稱顏色 (綠) */
+            --bg-dark: #0f0c1b;
+            --bg-card: rgba(255, 255, 255, 0.08);
+            --text-light: #ffffff;
+            --text-muted: #b2bec3;
+            --neon-shadow-1: 0 0 15px rgba(255, 118, 117, 0.6);
+            --neon-shadow-2: 0 0 15px rgba(9, 132, 227, 0.6);
+            --neon-shadow-3: 0 0 15px rgba(32, 191, 107, 0.6);
+            --transition-speed: 0.2s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', 'Outfit', sans-serif;
+            background: radial-gradient(circle at center, #1e152a 0%, #090514 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 背景流星/光斑效果 */
+        .ambient-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(108, 92, 231, 0.15) 0%, rgba(0,0,0,0) 70%);
+            top: 10%;
+            left: 10%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .ambient-glow-2 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 118, 117, 0.08) 0%, rgba(0,0,0,0) 70%);
+            bottom: 10%;
+            right: 10%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            background: rgba(20, 15, 38, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            z-index: 10;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* 頂部裝飾條 */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+        }
+
+        /* 標題與說明 */
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 30%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* 面板切換 */
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==================== 1. 首頁/準備畫面 ==================== */
+        .intro-desc {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #d1ccc0;
+        }
+
+        /* 對照表卡片 */
+        .cheat-sheet {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+        }
+
+        .cheat-sheet-title {
+            font-weight: 700;
+            color: #ffd2df;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.05rem;
+        }
+
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .cheat-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 12px 10px;
+            border-top: 3px solid;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cheat-item.first { border-top-color: var(--accent-1); }
+        .cheat-item.second { border-top-color: var(--accent-2); }
+        .cheat-item.third { border-top-color: var(--accent-3); }
+
+        .cheat-label {
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .cheat-item.first .cheat-label { color: var(--accent-1); }
+        .cheat-item.second .cheat-label { color: var(--accent-2); }
+        .cheat-item.third .cheat-label { color: var(--accent-3); }
+
+        .cheat-words {
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-align: center;
+            word-break: break-all;
+        }
+
+        .cheat-modern {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* 模式選擇與按鈕 */
+        .mode-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .mode-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mode-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .mode-card.selected {
+            background: rgba(108, 92, 231, 0.15);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .mode-icon {
+            font-size: 1.8rem;
+        }
+
+        .mode-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .mode-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, var(--primary) 0%, #8271f2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn-start:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.6);
+        }
+
+        /* ==================== 2. 遊戲進行中畫面 ==================== */
+        .hud-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .hud-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .score-value {
+            color: #ffd32a;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+        }
+
+        .timer-value {
+            color: #ff5e57;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+        }
+
+        /* 倒數計時條 */
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff5e57, #ffdd59, #2ecc71);
+            background-size: 200% auto;
+            border-radius: 50px;
+            transition: width 0.1s linear;
+        }
+
+        /* 題目卡片 */
+        .question-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+            position: relative;
+            transition: transform 0.1s;
+        }
+
+        .word-display {
+            font-size: 6rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.2);
+            animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: #ffffff;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* 連擊 (Combo) 顯示 */
+        .combo-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff9f43, #ff5252);
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 900;
+            box-shadow: 0 4px 10px rgba(255, 159, 67, 0.4);
+            display: none;
+            animation: bounce 0.4s ease infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-4px); }
+        }
+
+        /* 回饋效果類別 */
+        .correct-flash {
+            animation: flashGreen 0.3s ease-out;
+        }
+        .wrong-flash {
+            animation: flashRed 0.3s ease-out;
+        }
+
+        @keyframes flashGreen {
+            0% { border-color: rgba(46, 204, 113, 0.2); box-shadow: 0 0 30px rgba(46, 204, 113, 0.4); }
+            100% { border-color: rgba(255, 255, 255, 0.08); }
+        }
+        @keyframes flashRed {
+            0% { border-color: rgba(231, 76, 60, 0.2); box-shadow: 0 0 30px rgba(231, 76, 60, 0.4); transform: translateX(-8px); }
+            20% { transform: translateX(8px); }
+            40% { transform: translateX(-6px); }
+            60% { transform: translateX(6px); }
+            80% { transform: translateX(-3px); }
+            100% { border-color: rgba(255, 255, 255, 0.08); transform: translateX(0); }
+        }
+
+        /* 答題按鈕區 */
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn-option {
+            border: 2px solid;
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+            padding: 20px 10px;
+            font-size: 1.15rem;
+            font-weight: 900;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-option:active {
+            transform: scale(0.95);
+        }
+
+        .btn-option.opt-first {
+            border-color: rgba(255, 118, 117, 0.4);
+        }
+        .btn-option.opt-first:hover {
+            background: rgba(255, 118, 117, 0.15);
+            border-color: var(--accent-1);
+            box-shadow: var(--neon-shadow-1);
+        }
+
+        .btn-option.opt-second {
+            border-color: rgba(9, 132, 227, 0.4);
+        }
+        .btn-option.opt-second:hover {
+            background: rgba(9, 132, 227, 0.15);
+            border-color: var(--accent-2);
+            box-shadow: var(--neon-shadow-2);
+        }
+
+        .btn-option.opt-third {
+            border-color: rgba(32, 191, 107, 0.4);
+        }
+        .btn-option.opt-third:hover {
+            background: rgba(32, 191, 107, 0.15);
+            border-color: var(--accent-3);
+            box-shadow: var(--neon-shadow-3);
+        }
+
+        .opt-shortcut {
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 鍵盤操作提示 */
+        .keyboard-tip {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        /* ==================== 3. 結算畫面 ==================== */
+        .results-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .result-title {
+            font-size: 1.8rem;
+            color: #ffd32a;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .badge-display {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            display: inline-block;
+            animation: trophyPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes trophyPop {
+            0% { transform: scale(0); rotate: -45deg; }
+            70% { transform: scale(1.2); rotate: 10deg; }
+            100% { transform: scale(1); rotate: 0; }
+        }
+
+        .badge-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .stat-val {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: var(--primary-light);
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 4px;
+        }
+
+        .stat-lbl {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* 排行榜 */
+        .scoreboard {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .scoreboard-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffd2df;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 6px;
+        }
+
+        .score-list {
+            list-style: none;
+        }
+
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .score-row:nth-child(even) {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .score-row.current-run {
+            background: rgba(108, 92, 231, 0.2);
+            font-weight: bold;
+            color: #ffd32a;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* 響應式優化 */
+        @media (max-width: 480px) {
+            h1 { font-size: 1.8rem; }
+            .word-display { font-size: 4.5rem; }
+            .options-container { gap: 8px; }
+            .btn-option { padding: 15px 5px; font-size: 1rem; }
+            .cheat-words { font-size: 1.05rem; }
+            .btn-group { flex-direction: column; gap: 10px; }
+        }
+
+        /* 暫停遮罩 */
+        .pause-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 12, 27, 0.96);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            border-radius: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+        .pause-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .btn-control {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-control:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+    <div class="ambient-glow-2"></div>
+
+    <div class="container">
+        <!-- 標頭（網頁名稱） -->
+        <header>
+            <h1>古文人稱極速挑戰網頁</h1>
+            <div class="subtitle">反應力與速度對決！</div>
+        </header>
+
+        <!-- ==================== 1. 首頁/準備畫面 ==================== -->
+        <div id="screen-intro" class="screen active">
+            <p class="intro-desc">
+                看到畫面中央出現的古文人稱代名詞，以最快速度辨識是第幾人稱！<br>
+                你可以點擊按鈕，或使用鍵盤快速鍵 <strong>【1】 【2】 【3】</strong> 進行作答。
+            </p>
+
+            <!-- 複習對照表卡片 -->
+            <div class="cheat-sheet">
+                <div class="cheat-sheet-title">
+                    <span>💡</span> 戰前大複習（熟記代名詞能獲得更高分喔！）
+                </div>
+                <div class="cheat-grid">
+                    <div class="cheat-item first">
+                        <div class="cheat-label">第一人稱</div>
+                        <div class="cheat-words">我、吾<br>予、余</div>
+                        <div class="cheat-modern">我 / 我們</div>
+                    </div>
+                    <div class="cheat-item second">
+                        <div class="cheat-label">第二人稱</div>
+                        <div class="cheat-words">女、汝、爾<br>若、子、乃、而</div>
+                        <div class="cheat-modern">你 / 你們</div>
+                    </div>
+                    <div class="cheat-item third">
+                        <div class="cheat-label">第三人稱</div>
+                        <div class="cheat-words">彼、之、其</div>
+                        <div class="cheat-modern">他 / 他們</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模式選擇 -->
+            <div class="mode-selection">
+                <div id="mode-time-attack" class="mode-card selected" onclick="selectMode('time-attack')">
+                    <div class="mode-icon">⏳</div>
+                    <div class="mode-title">限時挑戰賽</div>
+                    <div class="mode-desc">45秒極限衝分，答對加1.5秒</div>
+                </div>
+                <div id="mode-survival" class="mode-card" onclick="selectMode('survival')">
+                    <div class="mode-icon">🔥</div>
+                    <div class="mode-title">極速生存戰</div>
+                    <div class="mode-desc">時間條會越縮越快，答錯出局</div>
+                </div>
+            </div>
+
+            <button class="btn-start" onclick="startGame()">開始挑戰</button>
+        </div>
+
+        <!-- ==================== 2. 遊戲進行中畫面 ==================== -->
+        <div id="screen-game" class="screen" style="position: relative;">
+            <!-- 暫停遮罩 -->
+            <div id="pause-overlay" class="pause-overlay">
+                <div style="font-size: 2.2rem; font-weight: 900; color: #ffd32a; margin-bottom: 20px;">遊戲暫停中</div>
+                <button class="btn-start" onclick="togglePause()">▶ 繼續遊戲</button>
+            </div>
+
+            <div class="hud-bar">
+                <div class="hud-item">
+                    <span>得分:</span>
+                    <span id="game-score" class="score-value">0</span>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button id="btn-pause" class="btn-control" onclick="togglePause()">⏸ 暫停</button>
+                    <button class="btn-control" onclick="exitGame()">🏠 回首頁</button>
+                </div>
+                <div class="hud-item">
+                    <span id="timer-icon">⏳</span>
+                    <span id="game-timer" class="timer-value">45.0s</span>
+                </div>
+            </div>
+
+            <!-- 倒數計時條 -->
+            <div class="progress-container">
+                <div id="game-progress" class="progress-bar"></div>
+            </div>
+
+            <!-- 題目卡片 -->
+            <div id="q-card" class="question-card">
+                <div id="combo-display" class="combo-badge">0 Combo!</div>
+                <div id="word-display" class="word-display">吾</div>
+            </div>
+
+            <!-- 答題按鈕 -->
+            <div class="options-container">
+                <button class="btn-option opt-first" onclick="submitAnswer(1)">
+                    <span>第一人稱</span>
+                    <span style="font-size: 1.6rem; color: #ffd32a;">我</span>
+                    <span class="opt-shortcut">按鍵 1</span>
+                </button>
+                <button class="btn-option opt-second" onclick="submitAnswer(2)">
+                    <span>第二人稱</span>
+                    <span style="font-size: 1.6rem; color: #ffd32a;">你 / 你們</span>
+                    <span class="opt-shortcut">按鍵 2</span>
+                </button>
+                <button class="btn-option opt-third" onclick="submitAnswer(3)">
+                    <span>第三人稱</span>
+                    <span style="font-size: 1.6rem; color: #ffd32a;">他 / 他們</span>
+                    <span class="opt-shortcut">按鍵 3</span>
+                </button>
+            </div>
+
+            <div class="keyboard-tip">提示：使用鍵盤數字鍵 1、2、3 可以直接作答喔！</div>
+        </div>
+
+        <!-- ==================== 3. 結算畫面 ==================== -->
+        <div id="screen-over" class="screen">
+            <div class="results-card">
+                <div class="result-title">挑戰結束！</div>
+                
+                <div id="result-badge" class="badge-display">⚡</div>
+                <div id="result-badge-name" class="badge-name">古文千里馬</div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div id="result-score" class="stat-val">0</div>
+                        <div class="stat-lbl">最終得分</div>
+                    </div>
+                    <div class="stat-card">
+                        <div id="result-combo" class="stat-val">0</div>
+                        <div class="stat-lbl">最高連續答對</div>
+                    </div>
+                    <div class="stat-card">
+                        <div id="result-accuracy" class="stat-val">0%</div>
+                        <div class="stat-lbl">答對率</div>
+                    </div>
+                    <div class="stat-card">
+                        <div id="result-reaction" class="stat-val">0.00s</div>
+                        <div class="stat-lbl">平均反應時間</div>
+                    </div>
+                </div>
+
+                <!-- 排行榜 -->
+                <div class="scoreboard">
+                    <div class="scoreboard-title">🏆 班級榮譽榜 (前五名)</div>
+                    <ul id="score-list" class="score-list">
+                        <!-- 動態插入 -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn-start" onclick="startGame()">再戰一次</button>
+                <button class="btn-secondary" onclick="showScreen('screen-intro')">回首頁</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 遊戲邏輯與音效 -->
+    <script>
+        // 詞庫定義
+        const PRONOUNS = {
+            1: ['我', '吾', '予', '余'],
+            2: ['女', '汝', '爾', '若', '子', '乃', '而'],
+            3: ['彼', '之', '其']
+        };
+
+        // 扁平化詞庫，方便隨機抽題
+        let questionPool = [];
+        for (let type in PRONOUNS) {
+            PRONOUNS[type].forEach(word => {
+                questionPool.push({ word: word, type: parseInt(type) });
+            });
+        }
+
+        // 遊戲狀態變數
+        let currentMode = 'time-attack'; // time-attack 或 survival
+        let score = 0;
+        let combo = 0;
+        let maxCombo = 0;
+        let timeLeft = 0;
+        let totalTimeAllowed = 45; // 基礎秒數
+        let timerInterval = null;
+        let gameActive = false;
+        let isPaused = false;
+        let pauseStartTime = 0;
+        let currentQuestion = null;
+        let previousQuestion = null;
+        
+        // 統計用變數
+        let startTime = 0;
+        let totalQuestions = 0;
+        let correctQuestions = 0;
+        let reactionTimes = [];
+        let questionStartTime = 0;
+
+        // 網頁音效生成器 (Web Audio API)
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioCtx();
+            }
+        }
+
+        // 播放合成音效
+        function playSound(type) {
+            initAudio();
+            if (!audioCtx) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'correct') {
+                // 正確音效：一個快速上揚的雙音符
+                const baseFreq = 523.25; // C5
+                const factor = 1 + (Math.min(combo, 15) * 0.05); // 連擊越高音越高！
+                osc.frequency.setValueAtTime(baseFreq * factor, now);
+                osc.frequency.exponentialRampToValueAtTime(659.25 * factor, now + 0.1); // E5
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } else if (type === 'wrong') {
+                // 錯誤音效：低沉的下降音
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now); // A3
+                osc.frequency.linearRampToValueAtTime(110, now + 0.25);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'gameover') {
+                // 遊戲結束音效
+                osc.frequency.setValueAtTime(392, now); // G4
+                osc.frequency.setValueAtTime(349.23, now + 0.15); // F4
+                osc.frequency.setValueAtTime(261.63, now + 0.3); // C4
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.6);
+                osc.start(now);
+                osc.stop(now + 0.6);
+            }
+        }
+
+        // 畫面切換
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(scr => scr.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // 選擇遊戲模式
+        function selectMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-card').forEach(card => card.classList.remove('selected'));
+            if (mode === 'time-attack') {
+                document.getElementById('mode-time-attack').classList.add('selected');
+            } else {
+                document.getElementById('mode-survival').classList.add('selected');
+            }
+        }
+
+        // 開始遊戲
+        function startGame() {
+            initAudio();
+            // 重設變數
+            score = 0;
+            combo = 0;
+            maxCombo = 0;
+            totalQuestions = 0;
+            correctQuestions = 0;
+            reactionTimes = [];
+            isPaused = false;
+            
+            document.getElementById('game-score').textContent = '0';
+            document.getElementById('combo-display').style.display = 'none';
+
+            if (currentMode === 'time-attack') {
+                timeLeft = 45;
+                totalTimeAllowed = 45;
+                document.getElementById('timer-icon').textContent = '⏳';
+                document.getElementById('game-timer').textContent = timeLeft.toFixed(1) + 's';
+            } else {
+                // 生存模式：時間條是一條能量，滿值為 100，會不斷扣減
+                timeLeft = 100;
+                totalTimeAllowed = 100;
+                document.getElementById('timer-icon').textContent = '🔥';
+                document.getElementById('game-timer').textContent = '生命值';
+            }
+
+            document.getElementById('pause-overlay').classList.remove('active');
+            document.getElementById('btn-pause').textContent = '⏸ 暫停';
+            document.getElementById('btn-pause').style.background = 'rgba(255,255,255,0.08)';
+
+            updateProgressBar();
+            showScreen('screen-game');
+            
+            gameActive = true;
+            nextQuestion();
+
+            // 啟動計時器
+            if (timerInterval) clearInterval(timerInterval);
+            
+            let lastTick = performance.now();
+            timerInterval = setInterval(() => {
+                if (!gameActive) return;
+                if (isPaused) {
+                    lastTick = performance.now();
+                    return;
+                }
+                
+                const now = performance.now();
+                const delta = (now - lastTick) / 1000;
+                lastTick = now;
+
+                if (currentMode === 'time-attack') {
+                    timeLeft -= delta;
+                    if (timeLeft <= 0) {
+                        timeLeft = 0;
+                        endGame();
+                    }
+                    document.getElementById('game-timer').textContent = timeLeft.toFixed(1) + 's';
+                } else {
+                    // 生存模式：扣減速度隨分數增加而變快
+                    const decayRate = 8 + (score * 0.4); // 每秒扣除量
+                    timeLeft -= decayRate * delta;
+                    if (timeLeft <= 0) {
+                        timeLeft = 0;
+                        endGame();
+                    }
+                    document.getElementById('game-timer').textContent = Math.max(0, Math.round(timeLeft)) + '%';
+                }
+                updateProgressBar();
+            }, 50);
+        }
+
+        // 更新進度條
+        function updateProgressBar() {
+            const bar = document.getElementById('game-progress');
+            const percent = Math.min(100, Math.max(0, (timeLeft / totalTimeAllowed) * 100));
+            bar.style.width = percent + '%';
+            
+            // 根據賸餘時間調整進度條顏色
+            if (percent > 50) {
+                bar.style.background = 'linear-gradient(90deg, #2ecc71, #2ecc71)';
+            } else if (percent > 20) {
+                bar.style.background = 'linear-gradient(90deg, #f1c40f, #f1c40f)';
+            } else {
+                bar.style.background = 'linear-gradient(90deg, #e74c3c, #e74c3c)';
+            }
+        }
+
+        // 下一題
+        function nextQuestion() {
+            // 隨機抽題，且不連續重複上一題
+            let availableQuestions = questionPool.filter(q => !previousQuestion || q.word !== previousQuestion.word);
+            currentQuestion = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
+            previousQuestion = currentQuestion;
+
+            const wordDisplay = document.getElementById('word-display');
+            wordDisplay.textContent = currentQuestion.word;
+            
+            // 重新觸發入場動畫
+            wordDisplay.style.animation = 'none';
+            wordDisplay.offsetHeight; // 強制重繪
+            wordDisplay.style.animation = null;
+
+            questionStartTime = performance.now();
+        }
+
+        // 提交答案
+        function submitAnswer(chosenType) {
+            if (!gameActive || isPaused) return;
+
+            const correct = (chosenType === currentQuestion.type);
+            const qCard = document.getElementById('q-card');
+            
+            // 計算反應時間
+            const reactionTime = (performance.now() - questionStartTime) / 1000;
+            reactionTimes.push(reactionTime);
+            totalQuestions++;
+
+            // 清除之前的效果類別
+            qCard.classList.remove('correct-flash', 'wrong-flash');
+            qCard.offsetHeight; // 強制重繪
+
+            if (correct) {
+                correctQuestions++;
+                combo++;
+                if (combo > maxCombo) maxCombo = combo;
+
+                // 播放音效與效果
+                playSound('correct');
+                qCard.classList.add('correct-flash');
+
+                // 加分邏輯：連續答對分數加成
+                const comboBonus = Math.floor(combo / 5) * 5;
+                const pointsEarned = 10 + comboBonus;
+                score += pointsEarned;
+                document.getElementById('game-score').textContent = score;
+
+                // 處理時間/生命值回饋
+                if (currentMode === 'time-attack') {
+                    // 限時挑戰模式：答對加秒
+                    const timeBonus = Math.max(0.5, 1.5 - (score * 0.005)); // 隨高分微調減弱加秒
+                    timeLeft = Math.min(totalTimeAllowed, timeLeft + timeBonus);
+                } else {
+                    // 生存模式：答對補血
+                    const healAmount = Math.max(10, 25 - (score * 0.1)); // 分數越高補得越少
+                    timeLeft = Math.min(totalTimeAllowed, timeLeft + healAmount);
+                }
+
+                // 更新 Combo 顯示
+                const comboBadge = document.getElementById('combo-display');
+                if (combo >= 3) {
+                    comboBadge.textContent = `${combo} 連擊!`;
+                    comboBadge.style.display = 'block';
+                } else {
+                    comboBadge.style.display = 'none';
+                }
+            } else {
+                // 答錯
+                combo = 0;
+                document.getElementById('combo-display').style.display = 'none';
+
+                playSound('wrong');
+                qCard.classList.add('wrong-flash');
+
+                // 處罰邏輯
+                if (currentMode === 'time-attack') {
+                    timeLeft = Math.max(0, timeLeft - 3); // 扣 3 秒
+                } else {
+                    timeLeft = Math.max(0, timeLeft - 20); // 扣大量生命值
+                }
+            }
+
+            updateProgressBar();
+            
+            // 如果時間沒歸零，快速進入下一題
+            if (timeLeft > 0) {
+                nextQuestion();
+            }
+        }
+
+        // 暫停與繼續邏輯
+        function togglePause() {
+            if (!gameActive) return;
+            isPaused = !isPaused;
+            
+            const overlay = document.getElementById('pause-overlay');
+            const pauseBtn = document.getElementById('btn-pause');
+            
+            if (isPaused) {
+                pauseStartTime = performance.now();
+                overlay.classList.add('active');
+                pauseBtn.textContent = '▶ 繼續';
+                pauseBtn.style.background = 'rgba(255, 118, 117, 0.2)';
+            } else {
+                const pauseDuration = performance.now() - pauseStartTime;
+                questionStartTime += pauseDuration;
+                overlay.classList.remove('active');
+                pauseBtn.textContent = '⏸ 暫停';
+                pauseBtn.style.background = 'rgba(255,255,255,0.08)';
+            }
+        }
+
+        // 回首頁邏輯
+        function exitGame() {
+            if (!gameActive) return;
+            // 先暫停以防止確認框彈出時時間繼續扣除
+            const wasAlreadyPaused = isPaused;
+            if (!wasAlreadyPaused) {
+                togglePause();
+            }
+            
+            if (confirm('確定要結束遊戲並回到首頁嗎？目前的得分將不會記錄喔！')) {
+                gameActive = false;
+                isPaused = false;
+                if (timerInterval) clearInterval(timerInterval);
+                document.getElementById('pause-overlay').classList.remove('active');
+                showScreen('screen-intro');
+            } else {
+                // 如果取消，且原本是非暫停狀態，就恢復遊戲
+                if (!wasAlreadyPaused) {
+                    togglePause();
+                }
+            }
+        }
+
+        // 結束遊戲
+        function endGame() {
+            gameActive = false;
+            if (timerInterval) clearInterval(timerInterval);
+            
+            playSound('gameover');
+
+            // 計算平均反應時間
+            let avgReaction = 0;
+            if (reactionTimes.length > 0) {
+                const sum = reactionTimes.reduce((a, b) => a + b, 0);
+                avgReaction = sum / reactionTimes.length;
+            }
+
+            // 計算正確率
+            let accuracy = 0;
+            if (totalQuestions > 0) {
+                accuracy = Math.round((correctQuestions / totalQuestions) * 100);
+            }
+
+            // 顯示結果數據
+            document.getElementById('result-score').textContent = score;
+            document.getElementById('result-combo').textContent = maxCombo;
+            document.getElementById('result-accuracy').textContent = accuracy + '%';
+            document.getElementById('result-reaction').textContent = avgReaction.toFixed(2) + '秒';
+
+            // 判斷稱號
+            let badge = '🐢';
+            let badgeName = '古文慢活家';
+            
+            if (score >= 200 && avgReaction < 0.8 && accuracy >= 90) {
+                badge = '⚡';
+                badgeName = '極速古文光速挑戰家';
+            } else if (score >= 120 && avgReaction < 1.2 && accuracy >= 80) {
+                badge = '🐎';
+                badgeName = '古文千里馬';
+            } else if (score >= 60) {
+                badge = '🚶';
+                badgeName = '古文小跑步';
+            } else {
+                badge = '🐢';
+                badgeName = '古文漫步者';
+            }
+
+            document.getElementById('result-badge').textContent = badge;
+            document.getElementById('result-badge-name').textContent = badgeName;
+
+            // 儲存分數並更新排行榜
+            saveScore(score);
+            showScreen('screen-over');
+        }
+
+        // 儲存與顯示排行榜
+        function saveScore(newScore) {
+            let highScores = JSON.parse(localStorage.getItem('pronoun_highscores_' + currentMode)) || [];
+            
+            // 加入當前記錄
+            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const currentRun = { score: newScore, time: timestamp, isCurrent: true };
+            
+            highScores.push(currentRun);
+            
+            // 排序
+            highScores.sort((a, b) => b.score - a.score);
+            
+            // 限制前五名
+            const topFive = highScores.slice(0, 5);
+            
+            // 寫回 localStorage (不包含 current 標記，或只留前十名)
+            localStorage.setItem('pronoun_highscores_' + currentMode, JSON.stringify(highScores.map(s => {
+                delete s.isCurrent;
+                return s;
+            }).slice(0, 10)));
+
+            // 顯示排行榜
+            const listEl = document.getElementById('score-list');
+            listEl.innerHTML = '';
+
+            let shownCurrent = false;
+            topFive.forEach((run, idx) => {
+                const li = document.createElement('li');
+                li.className = 'score-row';
+                if (run.score === newScore && !shownCurrent) {
+                    li.className += ' current-run';
+                    shownCurrent = true;
+                }
+                li.innerHTML = `
+                    <span>第 ${idx + 1} 名 - ${run.time}</span>
+                    <span>${run.score} 分</span>
+                `;
+                listEl.appendChild(li);
+            });
+
+            // 如果當前分數沒進前五，在最底下加一條顯示當前成績
+            if (!shownCurrent && newScore > 0) {
+                const li = document.createElement('li');
+                li.className = 'score-row current-run';
+                li.style.borderTop = '1px dashed rgba(255,255,255,0.2)';
+                li.innerHTML = `
+                    <span>本次成績 - ${timestamp}</span>
+                    <span>${newScore} 分</span>
+                `;
+                listEl.appendChild(li);
+            }
+        }
+
+        // 監聽鍵盤事件
+        window.addEventListener('keydown', (e) => {
+            if (!gameActive || isPaused) return;
+            if (e.key === '1') {
+                submitAnswer(1);
+            } else if (e.key === '2') {
+                submitAnswer(2);
+            } else if (e.key === '3') {
+                submitAnswer(3);
+            }
+        });
+    </script>
+</body>
+</html>
