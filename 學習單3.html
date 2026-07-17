@@ -47,15 +47,24 @@
             border-radius: 4px;
             padding: 40px 60px;
             position: relative;
-            animation: unroll-clip 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: unroll-clip 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
             overflow: visible;
         }
 
         @keyframes unroll-clip {
             0% {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.95);
+                clip-path: inset(0 50% 0 50%);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
                 clip-path: inset(0 50% 0 50%);
             }
             100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
                 clip-path: inset(0 0% 0 0%);
             }
         }
@@ -73,22 +82,48 @@
 
         .scroll-rod-left {
             left: 12px;
-            animation: rod-left-unroll 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: rod-left-unroll 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
         .scroll-rod-right {
             right: 12px;
-            animation: rod-right-unroll 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: rod-right-unroll 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
         @keyframes rod-left-unroll {
-            0% { left: 50%; transform: translateX(-50%); }
-            100% { left: 12px; transform: translateX(0); }
+            0% {
+                opacity: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            30% {
+                opacity: 1;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            100% {
+                opacity: 1;
+                left: 12px;
+                transform: translateX(0);
+            }
         }
 
         @keyframes rod-right-unroll {
-            0% { right: 50%; transform: translateX(50%); }
-            100% { right: 12px; transform: translateX(0); }
+            0% {
+                opacity: 0;
+                right: 50%;
+                transform: translateX(50%);
+            }
+            30% {
+                opacity: 1;
+                right: 50%;
+                transform: translateX(50%);
+            }
+            100% {
+                opacity: 1;
+                right: 12px;
+                transform: translateX(0);
+            }
         }
 
         .scroll-rod-left::before, .scroll-rod-left::after,
