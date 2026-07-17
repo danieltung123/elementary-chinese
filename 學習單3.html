@@ -185,11 +185,12 @@
         }
 
         h1 {
-            font-family: var(--font-brush);
-            font-size: 4rem;
+            font-family: "標楷體", "DFKai-SB", "Kaiti TC", "BiauKai", var(--font-classic);
+            font-weight: bold;
+            font-size: 3.8rem;
             color: var(--accent-red);
             margin-bottom: 10px;
-            letter-spacing: 5px;
+            letter-spacing: 8px;
         }
 
         .subtitle {
@@ -1008,7 +1009,7 @@
             if (data.image) {
                 const img = document.createElement('img');
                 img.className = 'age-image';
-                img.src = `素材資料/${data.image}?v=style-unified-v5`;
+                img.src = `素材資料/${data.image}?v=style-unified-v6`;
                 img.alt = data.name;
                 imageBox.appendChild(img);
             } else {
