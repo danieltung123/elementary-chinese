@@ -263,24 +263,6 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 2px 2px 0px rgba(166, 58, 58, 0.2);
-        }
-
-        .info-zhuyin:hover {
-            transform: translate(-1px, -1px);
-            box-shadow: 3px 3px 0px rgba(166, 58, 58, 0.3);
-            background: #fffafa;
-        }
-
-        .info-zhuyin:active {
-            transform: translate(1px, 1px);
-            box-shadow: 0px 0px 0px;
-        }
-
-        .audio-icon {
-            font-size: 1rem;
         }
 
         .info-age-badge {
@@ -633,9 +615,9 @@
                     <div class="info-box">
                         <div class="info-header">
                             <span class="info-title" id="explore-title">讀取中</span>
-                            <span class="info-zhuyin" id="explore-zhuyin" onclick="playCurrentAudio()">
+                            <span class="info-zhuyin" id="explore-zhuyin">
                                 <span id="explore-zhuyin-text"></span>
-                                <span class="audio-icon">🔊</span>
+                                
                             </span>
                             <span class="info-age-badge" id="explore-age"></span>
                         </div>
@@ -896,8 +878,8 @@
             document.getElementById(`node-${currentNodeIndex}`).classList.add('active');
             updateStage();
             
-            // 當學生點選時，自動播一次音
-            playCurrentAudio();
+
+
         }
 
         function changeAgeNode(direction) {
@@ -941,23 +923,6 @@
             // 更新導航按鈕狀態
             document.getElementById('btn-prev').disabled = (currentNodeIndex === 0);
             document.getElementById('btn-next').disabled = (currentNodeIndex === ageData.length - 1);
-        }
-
-        // --- 3. 語音朗讀功能 ---
-        function playCurrentAudio() {
-            const data = ageData[currentNodeIndex];
-            const cleanName = data.name; 
-            
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(`${cleanName}，年齡代表：${data.age}`);
-                utterance.lang = 'zh-TW'; 
-                utterance.rate = 0.85; 
-                utterance.pitch = 1.0; 
-                window.speechSynthesis.speak(utterance);
-            } else {
-                console.log("語音合成 API 不支援此瀏覽器");
-            }
         }
 
         // --- 4. 切換模式 (探索/測驗) ---
