@@ -681,7 +681,7 @@
                     <div class="result-seal">印</div>
                     <h2 class="result-title">考功測驗·結業評語</h2>
                     <p class="result-content" id="result-content">測試結果載入中...</p>
-                    <div class="result-rank" id="result-rank">獲得雅稱：載入中</div>
+                    
                     <br>
                     <button class="btn-magic" onclick="restartQuiz()">重新測驗 🔄</button>
                 </div>
@@ -927,7 +927,7 @@
         function generateQuizBank() {
             const bank = [];
             
-            // 類型一：給代稱選歲數 (給名稱選年齡數字)
+            // 1. 給代稱選歲數 (16題)
             ageData.forEach(data => {
                 const ageDistractors = ageData
                     .filter(d => d.age !== data.age)
@@ -948,7 +948,7 @@
                 });
             });
 
-            // 類型二：給歲數選代稱 (給年齡數字選名稱)
+            // 2. 給歲數選代稱 (16題)
             ageData.forEach(data => {
                 const nameDistractors = ageData
                     .filter(d => d.name !== data.name)
@@ -967,11 +967,107 @@
                 });
             });
 
+            // 3. 情境年齡大小比較題 (20題)
+            const ageValues = {
+                "周晬": 1, "襁褓": 1, "黃口": 6, "垂髫": 5, "總角": 11,
+                "豆蔻": 13, "及笄": 15, "弱冠": 20, "花信": 24, "而立": 30,
+                "不惑": 40, "知命": 50, "耳順": 60, "古稀": 70, "耄耋": 85,
+                "期頤": 100
+            };
+            const namesList = ["大民", "小草", "阿華", "小明", "志強", "雅婷", "美玲", "冠宇", "建國", "淑芬"];
+            
+            for (let i = 0; i < 20; i++) {
+                const shuffledStages = Object.keys(ageValues).sort(() => 0.5 - Math.random());
+                const stage1 = shuffledStages[0];
+                const stage2 = shuffledStages[1];
+                const stage3 = shuffledStages[2];
+                
+                const v1 = ageValues[stage1];
+                const v2 = ageValues[stage2];
+                const v3 = ageValues[stage3];
+                
+                const shuffledNames = [...namesList].sort(() => 0.5 - Math.random());
+                const name1 = shuffledNames[0];
+                const name2 = shuffledNames[1];
+                const name3 = shuffledNames[2];
+                
+                const isMax = Math.random() > 0.5;
+                let answerName = "";
+                let conditionStr = "";
+                
+                if (isMax) {
+                    conditionStr = "誰的年齡最大？";
+                    const maxVal = Math.max(v1, v2, v3);
+                    if (v1 === maxVal) answerName = name1;
+                    else if (v2 === maxVal) answerName = name2;
+                    else answerName = name3;
+                } else {
+                    conditionStr = "誰的年齡最小？";
+                    const minVal = Math.min(v1, v2, v3);
+                    if (v1 === minVal) answerName = name1;
+                    else if (v2 === minVal) answerName = name2;
+                    else answerName = name3;
+                }
+                
+                const questionText = `情境描述：「${stage1}」的${name1}、「${stage2}」的${name2}，與「${stage3}」的${name3}聚在一起。請問他們之中，${conditionStr}`;
+                const options = [name1, name2, name3].sort(() => 0.5 - Math.random());
+                const reasonText = `答對了！${name1}是${stage1}（約 ${v1} 歲），${name2}是${stage2}（約 ${v2} 歲），${name3}是${stage3}（約 ${v3} 歲）。`;
+                
+                bank.push({
+                    hint: "【情境年齡比較題】請根據代稱推算人物歲數並進行比較",
+                    text: questionText,
+                    options: options,
+                    answer: answerName,
+                    reason: reasonText
+                });
+            }
+
+            // 4. 簡單數學運算題 (20題)
+            for (let i = 0; i < 20; i++) {
+                const shuffledStages = Object.keys(ageValues).sort(() => 0.5 - Math.random());
+                const stage1 = shuffledStages[0];
+                const stage2 = shuffledStages[1];
+                
+                const v1 = ageValues[stage1];
+                const v2 = ageValues[stage2];
+                
+                const isAdd = Math.random() > 0.5;
+                let ansValue = 0;
+                let questionText = "";
+                
+                if (isAdd) {
+                    ansValue = v1 + v2;
+                    questionText = `數學挑戰：若小明今年正好是「${stage1}」之年，小華是「${stage2}」之年，請問兩人的歲數相加是多少歲？`;
+                } else {
+                    ansValue = Math.abs(v1 - v2);
+                    questionText = `數學挑戰：若老王今年正好是「${stage1}」之年，小李是「${stage2}」之年，請問兩人的年齡相差多少歲？`;
+                }
+                
+                const distractors = [];
+                while (distractors.length < 3) {
+                    const offset = Math.floor(Math.random() * 15) - 7;
+                    const val = ansValue + offset;
+                    if (val > 0 && val !== ansValue && !distractors.includes(val)) {
+                        distractors.push(val);
+                    }
+                }
+                
+                const options = [ansValue.toString() + " 歲", ...distractors.map(d => d.toString() + " 歲")].sort(() => 0.5 - Math.random());
+                
+                bank.push({
+                    hint: "【年齡數學計算題】請推算年齡代稱對應的數字並進行加減計算",
+                    text: questionText,
+                    options: options,
+                    answer: ansValue.toString() + " 歲",
+                    reason: `答對了！「${stage1}」是約 ${v1} 歲，「${stage2}」是約 ${v2} 歲。${isAdd ? (v1 + ' + ' + v2 + ' = ' + ansValue) : (Math.max(v1, v2) + ' - ' + Math.min(v1, v2) + ' = ' + ansValue)}。`
+                });
+            }
+
             return bank;
         }
 function startQuiz() {
             const allQuestions = generateQuizBank();
-            quizQuestions = allQuestions.sort(() => 0.5 - Math.random()).slice(0, 8);
+            quizQuestions = allQuestions.sort(() => 0.5 - Math.random()).slice(0, 30);
             currentQuizIndex = 0;
             quizScore = 0;
 
@@ -985,8 +1081,8 @@ function startQuiz() {
         function loadQuizQuestion() {
             const q = quizQuestions[currentQuizIndex];
             
-            document.getElementById('quiz-progress-text').innerText = `進度：第 ${currentQuizIndex + 1} / 8 題`;
-            document.getElementById('quiz-score-text').innerText = `得分：${quizScore * 12.5}`;
+            document.getElementById('quiz-progress-text').innerText = `進度：第 ${currentQuizIndex + 1} / 30 題`;
+            document.getElementById('quiz-score-text').innerText = `得分：${Math.round((quizScore / 30) * 100)}`;
 
             document.getElementById('question-hint').innerText = q.hint;
             document.getElementById('question-text').innerText = q.text;
@@ -1038,25 +1134,19 @@ function startQuiz() {
             const resultStage = document.getElementById('result-stage');
             resultStage.style.display = 'block';
 
-            const finalScore = quizScore * 12.5;
-            let rank = "";
+            const finalScore = Math.round((quizScore / 30) * 100);
             let text = "";
 
             if (finalScore === 100) {
-                rank = "經史子集·時光主宰";
-                text = "太不可思議了！你對古代十六個年齡代稱的字音、歲數與意象完全瞭然於胸，實乃博古通今之雋才！";
+                text = "太不可思議了！你對古代十六個年齡代稱的字音與歲數完全瞭然於胸，實乃博古通今之雋才！";
             } else if (finalScore >= 75) {
-                rank = "飽學之士·歲月行者";
-                text = `表現優秀！獲得了 ${finalScore} 分。你對大部分的古代年齡代稱都有極佳的認識，足以在書院中與人縱論古今！`;
+                text = `表現優秀！獲得了 ${finalScore} 分。你對大部分的古代年齡代稱都有極佳的認識，已能自如地閱讀文言文中的年齡線索！`;
             } else if (finalScore >= 50) {
-                rank = "粗通文墨·年輪學徒";
-                text = `及格通過！獲得了 ${finalScore} 分。部分生僻的稱呼（如及笄、耄耋）仍需花費心思記憶，再接再厲！`;
+                text = `及格通過！獲得了 ${finalScore} 分。部分較生僻的稱呼仍需花費心思記憶，繼續努力！`;
             } else {
-                rank = "初學乍練·蒙童儒子";
-                text = `獲得了 ${finalScore} 分。年齡代稱是閱讀文言文的重要線索，建議回到時光探索區，跟著語音朗讀再溫習一遍喔！`;
+                text = `獲得了 ${finalScore} 分。年齡代稱是閱讀文言文的重要線索，建議回到時光探索區再溫習一遍喔！`;
             }
 
-            document.getElementById('result-rank').innerText = `獲得魔法雅稱：${rank}`;
             document.getElementById('result-content').innerText = text;
         }
 
