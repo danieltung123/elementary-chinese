@@ -621,10 +621,7 @@
                             </span>
                             <span class="info-age-badge" id="explore-age"></span>
                         </div>
-                        <div class="info-meaning-box">
-                            
-                            <span id="explore-meaning"></span>
-                        </div>
+                        
                         <div class="info-detail-box" id="explore-detail"></div>
                     </div>
                 </div>
@@ -893,7 +890,7 @@
             document.getElementById('explore-title').innerText = data.name;
             document.getElementById('explore-zhuyin-text').innerText = data.zhuyin;
             document.getElementById('explore-age').innerText = data.age;
-            document.getElementById('explore-meaning').innerText = data.meaning;
+            
             document.getElementById('explore-detail').innerText = data.detail;
 
             // 更新左側圖片
@@ -946,23 +943,7 @@
         function generateQuizBank() {
             const bank = [];
             
-            ageData.forEach(data => {
-                const distractors = ageData
-                    .filter(d => d.name !== data.name)
-                    .map(d => d.name)
-                    .sort(() => 0.5 - Math.random())
-                    .slice(0, 3);
-                
-                const options = [data.name, ...distractors].sort(() => 0.5 - Math.random());
 
-                bank.push({
-                    hint: "【意象線索題】請根據人物特徵選出正確的古代年齡代稱",
-                    text: `故事描述：「${data.meaning}」請問這是在指人生的哪一個階段？`,
-                    options: options,
-                    answer: data.name,
-                    reason: `答對了！「${data.name}」指的就是「${data.age}」，特徵是「${data.meaning}」。`
-                });
-            });
 
             ageData.forEach(data => {
                 const ageDistractors = ageData
