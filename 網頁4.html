@@ -39,10 +39,12 @@
             color: var(--text-light);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow-x: hidden;
             position: relative;
+            padding: 40px 0;
         }
 
         /* 背景流星/光斑效果 */
@@ -69,13 +71,13 @@
 
         .container {
             width: 90%;
-            max-width: 650px;
+            max-width: 780px; /* 放大寬度，更為大氣舒適 */
             background: rgba(20, 15, 38, 0.7);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
-            padding: 30px;
+            padding: 35px; /* 加大內部間距 */
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.05);
             z-index: 10;
             position: relative;
