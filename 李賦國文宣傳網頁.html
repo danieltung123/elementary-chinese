@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李賦國文 | 專業升學、寫作與思維培訓</title>
+    <meta name="description" content="清華大學中文系博士候選人李賦老師親授，提供專業國小作文與閱讀、國中高中升學國文、學測寫作、小論文及學習歷程檔案撰寫教學，以邏輯思維重塑造國文學習。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #0f172a; /* 深藍/深板岩灰 */
+            --primary-light: #1e293b;
+            --accent: #d97706; /* 質感金/琥珀色 */
+            --accent-hover: #b45309;
+            --text-main: #334155;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(226, 232, 240, 0.8);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-light);
+        }
+
+        body {
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 導覽列 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            box-shadow: var(--shadow-md);
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px;
+            transition: var(--transition);
+        }
+
+        header.scrolled .nav-container {
+            padding: 12px 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-dark);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .btn-cta {
+            background-color: var(--primary);
+            color: var(--bg-white);
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            border: 1.5px solid var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-cta:hover {
+            background-color: transparent;
+            color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* Hero 主視覺區 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 24px 80px 24px;
+            background: radial-gradient(circle at 80% 20%, rgba(217, 119, 6, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 10% 80%, rgba(15, 23, 42, 0.03) 0%, transparent 50%);
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .badge {
+            align-self: flex-start;
+            background-color: rgba(217, 119, 6, 0.1);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 5vw, 3.75rem);
+            line-height: 1.2;
+            color: var(--text-dark);
+            font-weight: 900;
+        }
+
+        .hero-content h1 span {
+            color: var(--accent);
+            background: linear-gradient(135deg, var(--accent) 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--bg-white);
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary);
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: var(--bg-white);
+            transform: translateY(-2px);
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .avatar-card {
+            background: var(--bg-white);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 380px;
+            position: relative;
+            z-index: 2;
+            transition: var(--transition);
+        }
+
+        .avatar-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .avatar-img-container {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .avatar-svg-placeholder {
+            width: 75%;
+            height: 75%;
+            color: var(--primary);
+            opacity: 0.85;
+        }
+
+        .avatar-info {
+            text-align: center;
+        }
+
+        .avatar-info h3 {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .avatar-info p {
+            font-size: 0.95rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .avatar-tags {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background-color: var(--bg-light);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .hero-bg-shapes {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+        }
+
+        .shape-1 {
+            background: rgba(217, 119, 6, 0.12);
+            width: 300px;
+            height: 300px;
+            right: 10%;
+            top: 10%;
+        }
+
+        .shape-2 {
+            background: rgba(15, 23, 42, 0.08);
+            width: 400px;
+            height: 400px;
+            left: 5%;
+            bottom: 5%;
+        }
+
+        /* 共用區塊樣式 */
+        section {
+            padding: 100px 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px auto;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            color: var(--text-dark);
+            font-weight: 800;
+            margin-bottom: 16px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        /* 經歷與學歷區塊 */
+        .credentials {
+            background-color: var(--bg-white);
+        }
+
+        .creds-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .creds-column h3 {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+        }
+
+        .creds-column h3 i {
+            color: var(--accent);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+            border-left: 2px solid var(--glass-border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--bg-white);
+            border: 3px solid var(--accent);
+            transition: var(--transition);
+        }
+
+        .timeline-item:hover::before {
+            background-color: var(--accent);
+            transform: scale(1.2);
+        }
+
+        .timeline-time {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .timeline-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .timeline-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            background-color: rgba(15, 23, 42, 0.05);
+            color: var(--primary-light);
+            border-radius: 4px;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* 教學專長區塊 */
+        .specialties {
+            background-color: var(--bg-light);
+        }
+
+        .grid-specialties {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .spec-card {
+            background-color: var(--bg-white);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 32px;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .spec-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .spec-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .spec-card:hover::before {
+            opacity: 1;
+        }
+
+        .spec-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background-color: rgba(15, 23, 42, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .spec-card:hover .spec-icon {
+            background-color: var(--primary);
+            color: var(--bg-white);
+        }
+
+        .spec-card h3 {
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .spec-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .spec-list {
+            list-style: none;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .spec-list li {
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-main);
+        }
+
+        .spec-list li i {
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+
+        /* 諮詢表單區塊 */
+        .contact {
+            background-color: var(--bg-white);
+            position: relative;
+        }
+
+        .contact-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 50px;
+            background-color: var(--bg-light);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .contact-info {
+            background-color: var(--primary);
+            color: var(--bg-white);
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background-color: rgba(217, 119, 6, 0.08);
+            border-radius: 50%;
+            top: -50px;
+            right: -50px;
+        }
+
+        .contact-info-top h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .contact-info-top p {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        .contact-details {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin: 40px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-details li {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .contact-details i {
+            font-size: 1.25rem;
+            color: var(--accent);
+            margin-top: 4px;
+        }
+
+        .contact-details span {
+            font-size: 0.95rem;
+        }
+
+        .contact-details strong {
+            display: block;
+            color: var(--bg-white);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-white);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-icon:hover {
+            background-color: var(--accent);
+            color: var(--bg-white);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .contact-form-wrapper {
+            padding: 48px;
+            background-color: var(--bg-white);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1.5px solid #cbd5e1;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3.5px rgba(217, 119, 6, 0.15);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background-color: var(--accent);
+            color: var(--bg-white);
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(217, 119, 6, 0.3);
+        }
+
+        /* 成功彈出視窗 */
+        .toast {
+            position: fixed;
+            bottom: -100px;
+            right: 24px;
+            background-color: #10b981;
+            color: white;
+            padding: 16px 28px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1100;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 600;
+        }
+
+        .toast.show {
+            bottom: 24px;
+        }
+
+        .toast i {
+            font-size: 1.25rem;
+        }
+
+        /* 頁尾 */
+        footer {
+            background-color: var(--primary);
+            color: #94a3b8;
+            padding: 60px 24px 30px 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--bg-white);
+            text-decoration: none;
+        }
+
+        .footer-logo span {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--bg-white);
+        }
+
+        .copyright {
+            max-width: 1200px;
+            margin: 30px auto 0 auto;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* 響應式佈局 (Mobile Responsive) */
+        @media (max-width: 968px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                text-align: center;
+            }
+
+            .badge {
+                align-self: center;
+            }
+
+            .hero-content p {
+                margin: 0 auto;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+
+            .creds-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                padding: 40px;
+            }
+
+            .contact-form-wrapper {
+                padding: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-white);
+                border-bottom: 1px solid var(--glass-border);
+                flex-direction: column;
+                padding: 24px;
+                gap: 20px;
+                box-shadow: var(--shadow-lg);
+                opacity: 0;
+                pointer-events: none;
+                transform: translateY(-10px);
+                transition: var(--transition);
+            }
+
+            .nav-links.active {
+                opacity: 1;
+                pointer-events: all;
+                transform: translateY(0);
+            }
+
+            .nav-links .btn-cta {
+                width: 100%;
+                text-align: center;
+            }
+
+            section {
+                padding: 70px 24px;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+            }
+
+            .copyright {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 導覽列 -->
+    <header id="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-graduation-cap"></i> 李賦<span>國文</span>
+            </a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#" class="active">首頁</a></li>
+                <li><a href="#credentials">學經歷</a></li>
+                <li><a href="#specialties">課程專長</a></li>
+                <li><a href="#contact">聯絡資訊</a></li>
+            </ul>
+            <div class="menu-toggle" id="menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero 主視覺區 -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="badge">清大中文博士候選人親授</div>
+                <h1>用<span>邏輯思維</span><br>重塑國文學習</h1>
+                <p>打破死記硬背的傳統模式。李賦國文結合深刻的學術素養與十五年以上教學現場經驗，引導學生建立系統化閱讀、批判性寫作與邏輯思維，輕鬆應對大考與素養考題。</p>
+                <div class="hero-actions">
+                    <a href="#specialties" class="btn-primary">探索課程專長</a>
+                    <a href="#contact" class="btn-secondary">聯絡我們</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="avatar-card">
+                    <div class="avatar-img-container">
+                        <!-- 老師照片 -->
+                        <img src="個人照.jpg" alt="李賦 老師" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="avatar-info">
+                        <h3>李賦 老師</h3>
+                        <p>清華大學中文所博士候選人</p>
+                        <div class="avatar-tags">
+                            <span class="tag">逾15年教學經驗</span>
+                            <span class="tag">大考國文專家</span>
+                            <span class="tag">寫作邏輯引導者</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-bg-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 學經歷區塊 -->
+    <section class="credentials" id="credentials">
+        <div class="section-header">
+            <h2>教師學經歷</h2>
+            <p>融合嚴謹的學術訓練與豐富的現場授課經驗，給孩子最扎實的國文底子</p>
+        </div>
+        <div class="creds-container">
+            <div class="creds-column">
+                <h3><i class="fa-solid fa-graduation-cap"></i> 學術背景</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">博士候選人</div>
+                        <div class="timeline-title">國立清華大學 中國文學系</div>
+                        <div class="timeline-desc">深化古典文學與現代文學理論，具備大學層級教學研究實力。</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">碩士</div>
+                        <div class="timeline-title">國立清華大學 中國文學系</div>
+                        <div class="timeline-desc">厚植學術根基，奠定深厚閱讀視野與研究思維。</div>
+                    </div>
+                </div>
+            </div>
+            <div class="creds-column">
+                <h3><i class="fa-solid fa-briefcase"></i> 教學經歷</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">現任</div>
+                        <div class="timeline-title">國立清華大學「大學中文」授課教師</div>
+                        <div class="timeline-desc">指導大學生精進寫作、論述表達與邏輯批判思維。</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">現任</div>
+                        <div class="timeline-title">高中國文家教、國中家教</div>
+                        <div class="timeline-desc">客製化升學輔導，教學經驗超過十五年，成功輔導多位學生考取指標學校。<span class="timeline-badge">累積逾15年</span></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">現任</div>
+                        <div class="timeline-title">竹北馬莎美語補習班 國小授課老師</div>
+                        <div class="timeline-desc">小團班互動式教學，啟發孩子對閱讀的興趣與基礎寫作力。</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">曾任</div>
+                        <div class="timeline-title">知名連鎖與專業補習班授課老師</div>
+                        <div class="timeline-desc">
+                            新竹聯合補習班 國中授課老師 (大團班)<br>
+                            竹北麥田升學文理補習班 國高中授課老師 (小團班)<br>
+                            臺師補習班 國中授課老師 (大團班)<br>
+                            竹北霍德華知文理補習班 國中授課老師 (小團班)<br>
+                            光與言教學團隊 國中授課老師 (小團班)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 課程專長區塊 -->
+    <section class="specialties" id="specialties">
+        <div class="section-header">
+            <h2>課程專長與範疇</h2>
+            <p>提供自國小至高中升學各階段的國文專業課程，讓學子全方位提升語文核心素養</p>
+        </div>
+        <div class="grid-specialties">
+            <!-- 國小 -->
+            <div class="spec-card">
+                <div class="spec-icon">
+                    <i class="fa-solid fa-child"></i>
+                </div>
+                <h3>國小作文與閱讀</h3>
+                <p>啟發學童對文字的感受力，透過生活故事引導，建立扎實的段落結構與語句描寫，告別寫作無話可說的窘境。</p>
+                <ul class="spec-list">
+                    <li><i class="fa-solid fa-check"></i> 基礎寫作啟蒙與段落組織</li>
+                    <li><i class="fa-solid fa-check"></i> 詞彙積累與修辭手法引導</li>
+                    <li><i class="fa-solid fa-check"></i> 閱讀理解與大意摘要練習</li>
+                </ul>
+            </div>
+            <!-- 國中 -->
+            <div class="spec-card">
+                <div class="spec-icon">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <h3>國中升學國文與寫作</h3>
+                <p>針對會考題型進行系統化解析，著重文言文閱讀、國學常識理解與多元取材寫作，協助學生在關鍵會考中奪取高分。</p>
+                <ul class="spec-list">
+                    <li><i class="fa-solid fa-check"></i> 會考作文滿高分策略</li>
+                    <li><i class="fa-solid fa-check"></i> 文言文邏輯拆解與字義歸納</li>
+                    <li><i class="fa-solid fa-check"></i> 白話文長文閱讀理解</li>
+                </ul>
+            </div>
+            <!-- 高中 -->
+            <div class="spec-card">
+                <div class="spec-icon">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <h3>高中升學國文與國寫</h3>
+                <p>全力聚焦學測國綜與國寫兩大戰場。系統引導知性題的邏輯分析與論述、感性題的細膩情意，培養大考搶分關鍵實力。</p>
+                <ul class="spec-list">
+                    <li><i class="fa-solid fa-check"></i> 知性與感性國寫深度解析</li>
+                    <li><i class="fa-solid fa-check"></i> 混合題型與論述題作答技巧</li>
+                    <li><i class="fa-solid fa-check"></i> 古文十五篇與核心概念建構</li>
+                </ul>
+            </div>
+            <!-- 學習歷程/小論文 -->
+            <div class="spec-card">
+                <div class="spec-icon">
+                    <i class="fa-solid fa-file-pen"></i>
+                </div>
+                <h3>小論文與學習歷程檔案</h3>
+                <p>針對高中新課綱的自主學習提供指導。包含人文社會學科小論文的撰寫格式與邏輯，以及個人申請自傳、履歷的精緻包裝。</p>
+                <ul class="spec-list">
+                    <li><i class="fa-solid fa-check"></i> 小論文撰寫指導</li>
+                    <li><i class="fa-solid fa-check"></i> 自傳與讀書計畫邏輯引導</li>
+                    <li><i class="fa-solid fa-check"></i> 學習歷程成果包裝與修飾</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 聯絡資訊區區 -->
+    <section class="contact" id="contact">
+        <div class="section-header">
+            <h2>聯絡我們</h2>
+            <p>若有任何課程需求或諮詢，歡迎隨時透過以下管道與李賦老師聯繫</p>
+        </div>
+        <div class="contact-container" style="max-width: 600px; grid-template-columns: 1fr;">
+            <div class="contact-info" style="border-radius: 24px; width: 100%;">
+                <div class="contact-info-top">
+                    <h3>聯絡管道</h3>
+                    <p>李賦老師將在收到訊息後儘速與您聯絡，為您規劃專屬的語文學習藍圖。</p>
+                </div>
+                <ul class="contact-details" style="margin: 30px 0;">
+                    <li>
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <strong>授課地點</strong>
+                            <span>新竹、竹北地區 / 線上遠距授課</span>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-envelope"></i>
+                        <div>
+                            <strong>電子信箱</strong>
+                            <span><a href="mailto:chineseteach.li@gmail.com" style="color: #94a3b8; text-decoration: none; transition: var(--transition);">chineseteach.li@gmail.com</a></span>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fa-brands fa-line" style="color: #06c755;"></i>
+                        <div>
+                            <strong>LINE ID</strong>
+                            <span><a href="https://line.me/ti/p/~daniellee1228" target="_blank" style="color: #94a3b8; text-decoration: none; transition: var(--transition); font-family: inherit;">daniellee1228</a></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer>
+        <div class="footer-container">
+            <a href="#" class="footer-logo">
+                <i class="fa-solid fa-graduation-cap"></i> 李賦<span>國文</span>
+            </a>
+            <ul class="footer-links">
+                <li><a href="#">首頁</a></li>
+                <li><a href="#credentials">學經歷</a></li>
+                <li><a href="#specialties">課程專長</a></li>
+                <li><a href="#contact">聯絡資訊</a></li>
+            </ul>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 李賦國文. All rights reserved.</p>
+            <p>Designed for Excellence in Chinese Learning</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript 互動 -->
+    <script>
+        // 1. 導覽列滾動陰影
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // 2. 行動版選單切換
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // 點擊連結後收起行動版選單
+        const links = navLinks.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            });
+        });
+
+        // 3. 滾動主動標記當前選單項
+        const sections = document.querySelectorAll('section, header');
+        const navItems = document.querySelectorAll('.nav-links a:not(.btn-cta)');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const scrollPos = window.scrollY + 150; // offset
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id') || '';
+                }
+            });
+
+            // 特別處理頂部
+            if (window.scrollY < 100) {
+                current = '';
+            }
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                const href = item.getAttribute('href').substring(1);
+                if (href === current || (current === '' && href === '#')) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // 4. 此處已刪除預約諮詢表單相關邏輯
+    </script>
+</body>
+</html>
