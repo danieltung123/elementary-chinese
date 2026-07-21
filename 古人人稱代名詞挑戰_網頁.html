@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>古文人稱代名詞反應力挑戰網頁</title>
+    <title>古文人稱代名詞挑戰</title>
     <!-- 引入 Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,14 +37,14 @@
             font-family: 'Noto Sans TC', 'Outfit', sans-serif;
             background: radial-gradient(circle at center, #1e152a 0%, #090514 100%);
             color: var(--text-light);
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
-            padding: 40px 0;
+            padding: 10px;
         }
 
         /* 背景流星/光斑效果 */
@@ -70,18 +70,21 @@
         }
 
         .container {
-            width: 90%;
-            max-width: 780px; /* 放大寬度，更為大氣舒適 */
+            width: 95%;
+            max-width: 780px;
+            height: 96vh;
             background: rgba(20, 15, 38, 0.7);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
-            padding: 35px; /* 加大內部間距 */
+            padding: 20px 25px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.05);
             z-index: 10;
             position: relative;
             text-align: center;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
         }
 
@@ -122,11 +125,15 @@
         /* 面板切換 */
         .screen {
             display: none;
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
             animation: fadeIn 0.4s ease-out forwards;
         }
-
+ 
         .screen.active {
-            display: block;
+            display: flex;
         }
 
         @keyframes fadeIn {
@@ -136,30 +143,30 @@
 
         /* ==================== 1. 首頁/準備畫面 ==================== */
         .intro-desc {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 25px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            margin-bottom: 12px;
             color: #d1ccc0;
         }
-
+ 
         /* 對照表卡片 */
         .cheat-sheet {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 30px;
+            padding: 12px 15px;
+            margin-bottom: 15px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             text-align: left;
         }
-
+ 
         .cheat-sheet-title {
             font-weight: 700;
             color: #ffd2df;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
         }
 
         .cheat-grid {
@@ -209,15 +216,15 @@
         .mode-selection {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 12px;
+            margin-bottom: 15px;
         }
-
+ 
         .mode-card {
             background: rgba(255, 255, 255, 0.04);
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
-            padding: 16px;
+            padding: 10px;
             cursor: pointer;
             transition: all var(--transition-speed);
             display: flex;
@@ -239,32 +246,32 @@
         }
 
         .mode-icon {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
         }
-
+ 
         .mode-title {
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
-
+ 
         .mode-desc {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
         }
-
+ 
         .btn-start {
             background: linear-gradient(135deg, var(--primary) 0%, #8271f2 100%);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.3rem;
+            padding: 10px 30px;
+            font-size: 1.15rem;
             font-weight: 900;
             border-radius: 50px;
             cursor: pointer;
             transition: all var(--transition-speed);
             box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
             display: inline-block;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .btn-start:hover {
@@ -277,7 +284,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             font-size: 1.1rem;
             font-weight: bold;
         }
@@ -310,7 +317,7 @@
             height: 10px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50px;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             overflow: hidden;
             position: relative;
         }
@@ -329,14 +336,19 @@
             background: rgba(0, 0, 0, 0.4);
             border: 2px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            padding: 40px 20px;
-            margin-bottom: 30px;
+            padding: 20px;
+            margin-bottom: 15px;
             position: relative;
             transition: transform 0.1s;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-
+ 
         .word-display {
-            font-size: 6rem;
+            font-size: 4.5rem;
             font-weight: 900;
             letter-spacing: 2px;
             text-shadow: 0 0 20px rgba(255,255,255,0.2);
@@ -395,15 +407,15 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
-
+ 
         .btn-option {
             border: 2px solid;
             background: rgba(255, 255, 255, 0.03);
             color: white;
-            padding: 20px 10px;
-            font-size: 1.15rem;
+            padding: 12px 8px;
+            font-size: 1.05rem;
             font-weight: 900;
             border-radius: 16px;
             cursor: pointer;
@@ -465,21 +477,25 @@
         .results-card {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 20px;
-            padding: 30px 20px;
-            margin-bottom: 25px;
+            padding: 15px;
+            margin-bottom: 15px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-
+ 
         .result-title {
             font-size: 1.8rem;
             color: #ffd32a;
             font-weight: 900;
-            margin-bottom: 20px;
-        }
-
-        .badge-display {
-            font-size: 3.5rem;
             margin-bottom: 10px;
+        }
+ 
+        .badge-display {
+            font-size: 2.8rem;
+            margin-bottom: 5px;
             display: inline-block;
             animation: trophyPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -491,36 +507,36 @@
         }
 
         .badge-name {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #ffffff;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
-
+ 
         .stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
         }
-
+ 
         .stat-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 12px;
-            padding: 15px;
+            padding: 10px;
         }
-
+ 
         .stat-val {
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--primary-light);
             font-family: 'Outfit', sans-serif;
             margin-bottom: 4px;
         }
-
+ 
         .stat-lbl {
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
         }
 
@@ -639,9 +655,14 @@
 
     <div class="container">
         <!-- 標頭（網頁名稱） -->
-        <header>
-            <h1>古文人稱極速挑戰網頁</h1>
-            <div class="subtitle">反應力與速度對決！</div>
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+            <div style="text-align: left;">
+                <h1 style="font-size: 1.8rem; margin-bottom: 0;">古文人稱代名詞挑戰</h1>
+                <div class="subtitle" style="margin-bottom: 0; padding: 2px 10px; font-size: 0.85rem;">反應力與速度對決！</div>
+            </div>
+            <a href="李賦國文網頁.html" style="display: inline-flex; align-items: center; gap: 4px; padding: 6px 16px; background: rgba(255,255,255,0.1); color: #ffffff; text-decoration: none; border-radius: 20px; font-size: 0.85rem; font-weight: bold; border: 1px solid #d97706; transition: all 0.3s ease;">
+                🎓 李賦國文網頁
+            </a>
         </header>
 
         <!-- ==================== 1. 首頁/準備畫面 ==================== -->
@@ -676,9 +697,9 @@
             </div>
 
             <!-- 名字輸入欄位 -->
-            <div style="margin-bottom: 25px;">
-                <label for="player-name" style="display: block; font-weight: 700; margin-bottom: 8px; color: #ffd2df; font-size: 1.05rem;">✏️ 請輸入你的名字（將登入榮譽榜）：</label>
-                <input type="text" id="player-name" placeholder="請輸入名字..." maxlength="10" style="background: rgba(255, 255, 255, 0.08); border: 2px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 12px; padding: 10px 15px; font-size: 1.1rem; width: 80%; max-width: 280px; text-align: center; outline: none; transition: all 0.2s;" onfocus="this.style.borderColor='#6c5ce7'; this.style.boxShadow='0 0 10px rgba(108, 92, 231, 0.5)'" onblur="this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.boxShadow='none'">
+            <div style="margin-bottom: 12px;">
+                <label for="player-name" style="display: block; font-weight: 700; margin-bottom: 5px; color: #ffd2df; font-size: 0.95rem;">✏️ 請輸入你的名字（將登入榮譽榜）：</label>
+                <input type="text" id="player-name" placeholder="請輸入名字..." maxlength="10" style="background: rgba(255, 255, 255, 0.08); border: 2px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 12px; padding: 8px 12px; font-size: 1rem; width: 80%; max-width: 280px; text-align: center; outline: none; transition: all 0.2s;" onfocus="this.style.borderColor='#6c5ce7'; this.style.boxShadow='0 0 10px rgba(108, 92, 231, 0.5)'" onblur="this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.boxShadow='none'">
             </div>
 
             <!-- 模式選擇 -->
@@ -797,12 +818,7 @@
         </div>
     </div>
 
-    <!-- 前往「李賦國文網頁」按鍵 -->
-    <div style="text-align: center; margin: 20px auto 30px auto; padding-bottom: 20px;">
-        <a href="李賦國文網頁.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #ffffff; text-decoration: none; border-radius: 50px; font-size: 1rem; font-weight: 600; border: 1.5px solid #d97706; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.3s ease; font-family: system-ui, -apple-system, sans-serif;">
-            🎓 前往「李賦國文網頁」
-        </a>
-    </div>
+    <!-- 李賦國文網頁連結已移入 Header 中 -->
 
     <!-- 遊戲邏輯與音效 -->
     <script>
