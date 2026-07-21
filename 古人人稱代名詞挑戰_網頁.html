@@ -37,16 +37,16 @@
             font-family: 'Noto Sans TC', 'Outfit', sans-serif;
             background: radial-gradient(circle at center, #1e152a 0%, #090514 100%);
             color: var(--text-light);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            overflow: hidden;
             position: relative;
-            padding: 10px;
+            padding: 20px 10px;
+            justify-content: flex-start;
+            overflow-y: auto;
         }
-
+ 
         /* 背景流星/光斑效果 */
         .ambient-glow {
             position: absolute;
@@ -68,11 +68,12 @@
             pointer-events: none;
             z-index: 0;
         }
-
+ 
         .container {
             width: 95%;
             max-width: 780px;
-            height: 96vh;
+            height: auto;
+            min-height: fit-content;
             background: rgba(20, 15, 38, 0.7);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
@@ -85,7 +86,7 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow: visible;
         }
 
         /* 頂部裝飾條 */
@@ -599,14 +600,41 @@
             background: rgba(255, 255, 255, 0.15);
         }
 
-        /* 響應式優化 */
+        /* 桌面與大螢幕/電子白板專用（單頁滿版無捲軸） */
+        @media (min-width: 1025px) {
+            body {
+                height: 100vh;
+                padding: 10px;
+                justify-content: center;
+                overflow: hidden;
+            }
+            .container {
+                height: 96vh;
+                overflow: hidden;
+            }
+            .screen {
+                flex: 1;
+                flex-direction: column;
+                justify-content: center;
+                overflow: hidden;
+            }
+            .question-card {
+                flex: 1;
+            }
+            .results-card {
+                flex: 1;
+            }
+        }
+ 
+        /* 手機與窄螢幕優化 */
         @media (max-width: 480px) {
-            h1 { font-size: 1.8rem; }
-            .word-display { font-size: 4.5rem; }
-            .options-container { gap: 8px; }
-            .btn-option { padding: 15px 5px; font-size: 1rem; }
-            .cheat-words { font-size: 1.05rem; }
+            h1 { font-size: 1.6rem; }
+            .word-display { font-size: 3.5rem; }
+            .options-container { grid-template-columns: 1fr; gap: 8px; }
+            .btn-option { padding: 10px 5px; font-size: 0.95rem; }
+            .cheat-words { font-size: 0.95rem; }
             .btn-group { flex-direction: column; gap: 10px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
 
         /* 暫停遮罩 */

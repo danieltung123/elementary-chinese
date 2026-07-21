@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
@@ -702,6 +702,92 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 手機與平板行動端 RWD 響應式優化 */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px 10px;
+            }
+            .scroll-container {
+                padding: 15px 25px;
+            }
+            .scroll-border {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2rem;
+                letter-spacing: 4px;
+            }
+            .subtitle {
+                font-size: 0.95rem;
+            }
+            .card-stage {
+                padding: 15px;
+                min-height: auto;
+                gap: 20px;
+            }
+            .image-box {
+                height: 220px;
+            }
+            .info-title {
+                font-size: 2rem;
+            }
+            .info-header {
+                gap: 10px;
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+            }
+            .info-zhuyin {
+                font-size: 0.95rem;
+            }
+            .info-age-badge {
+                font-size: 0.95rem;
+                padding: 3px 10px;
+            }
+            .info-meaning-box {
+                font-size: 1.05rem;
+                margin-bottom: 15px;
+            }
+            .info-meaning-box strong {
+                font-size: 1.15rem;
+            }
+            .info-detail-box {
+                font-size: 0.92rem;
+                padding: 8px 12px;
+            }
+            .question-card {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            .question-main {
+                font-size: 1.35rem;
+            }
+            .option-card {
+                padding: 12px;
+                font-size: 1.1rem;
+            }
+            .result-title {
+                font-size: 1.6rem;
+            }
+            .result-content {
+                font-size: 1.05rem;
+            }
+            .result-rank {
+                font-size: 1.2rem;
+                padding: 8px 20px;
+            }
+            .timeline-container {
+                overflow-x: auto;
+                padding-bottom: 35px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .timeline-nodes {
+                min-width: 650px;
+            }
+            .timeline-line {
+                min-width: 650px;
+            }
         }
     </style>
 </head>
