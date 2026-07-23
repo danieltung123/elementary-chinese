@@ -278,6 +278,7 @@
             width: 100%;
         }
 
+        /* 擬人舞台：無人臉太陽 ➡️ 有人臉太陽 */
         .sun-illustration {
             font-size: 4.5rem;
             position: relative;
@@ -325,8 +326,116 @@
             pointer-events: none;
         }
 
-        .note-1 { top: 15px; left: 25px; }
-        .note-2 { top: 10px; right: 25px; }
+        .note-1 { top: 10px; left: 30px; }
+        .note-2 { top: 5px; right: 30px; }
+
+        /* 擬物舞台：人身上加上正確背後翅膀 */
+        .human-niwu-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .human-actor {
+            font-size: 4.5rem;
+            z-index: 2;
+            transition: transform 0.4s ease;
+            position: relative;
+        }
+
+        .wing {
+            position: absolute;
+            font-size: 3rem;
+            top: 25px;
+            z-index: 1;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .wing-left {
+            left: calc(50% - 70px);
+            transform-origin: right center;
+        }
+
+        .wing-right {
+            right: calc(50% - 70px);
+            transform-origin: left center;
+        }
+
+        .wing.show {
+            opacity: 1;
+        }
+
+        .wing-left.show { animation: flapLeft 0.8s ease-in-out infinite alternate; }
+        .wing-right.show { animation: flapRight 0.8s ease-in-out infinite alternate; }
+
+        @keyframes flapLeft {
+            from { transform: scale(1) rotate(-15deg); }
+            to { transform: scale(1.1) rotate(15deg); }
+        }
+
+        @keyframes flapRight {
+            from { transform: scale(1) rotate(15deg); }
+            to { transform: scale(1.1) rotate(-15deg); }
+        }
+
+        /* 形象化舞台：放大冰塊且內部包裹愛心 */
+        .frozen-heart-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .big-ice-cube {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, rgba(186, 230, 253, 0.85), rgba(224, 242, 254, 0.98));
+            border: 4px solid #38bdf8;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35), inset 0 0 20px #ffffff;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: scale(0.65);
+            opacity: 0.6;
+        }
+
+        .frozen-inner-heart {
+            font-size: 3.5rem;
+            z-index: 2;
+            transition: all 0.5s ease;
+            filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.8));
+        }
+
+        .ice-sparkle {
+            position: absolute;
+            font-size: 1.8rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s 0.3s;
+        }
+        .sparkle-1 { top: -10px; right: -10px; }
+        .sparkle-2 { bottom: -10px; left: -10px; }
+
+        .big-ice-cube.frozen {
+            transform: scale(1.1);
+            opacity: 1;
+            border-color: #0284c7;
+            box-shadow: 0 14px 30px rgba(2, 132, 199, 0.45), inset 0 0 30px rgba(255, 255, 255, 0.95);
+        }
+
+        .big-ice-cube.frozen .ice-sparkle {
+            opacity: 1;
+        }
 
         /* 解說與按鈕 */
         .live-explanation {
@@ -793,17 +902,35 @@
                         【擬人】直接讓無生命的物品、植物或自然現象「變身成人類」，會唱歌、跳舞、說話與偷笑！
                     </p>
 
+                    <!-- 動態舞台 (根據擬人、擬物、形象化自動切換結構) -->
                     <div class="magic-stage">
-                        <div class="transform-stage-content" id="transform-stage">
-                            <div class="singing-notes note-1">🎵</div>
-                            <div class="singing-notes note-2">🎶</div>
-                            <div class="sun-illustration" id="transform-avatar">🌞</div>
+                        <!-- 擬人舞台：無人臉太陽 ➡️ 有人臉太陽 -->
+                        <div class="transform-stage-content" id="stage-niren">
+                            <div class="singing-notes note-1" id="niren-note-1">💖</div>
+                            <div class="singing-notes note-2" id="niren-note-2">💕</div>
+                            <div class="sun-illustration" id="transform-avatar">☀️</div>
                             <div class="sun-limbs" id="transform-limbs"></div>
+                        </div>
+
+                        <!-- 擬物舞台：人身上加上正確背後翅膀 -->
+                        <div class="human-niwu-container" id="stage-niwu" style="display:none;">
+                            <div class="wing wing-left" id="wing-left">🪶</div>
+                            <div class="human-actor" id="transform-human-actor">🏃‍♂️</div>
+                            <div class="wing wing-right" id="wing-right">🪶</div>
+                        </div>
+
+                        <!-- 形象化舞台：放大冰塊內包含原本的愛心 -->
+                        <div class="frozen-heart-container" id="stage-xing" style="display:none;">
+                            <div class="big-ice-cube" id="big-ice-cube">
+                                <div class="frozen-inner-heart" id="frozen-heart">💖</div>
+                                <span class="ice-sparkle sparkle-1">✨</span>
+                                <span class="ice-sparkle sparkle-2">❄️</span>
+                            </div>
                         </div>
                     </div>
 
                     <div class="live-explanation" id="transform-explanation">
-                        💡 點擊「施展變身術」，看看太陽公公如何長出手腳、開懷歡唱！
+                        💡 點擊「施展變身術」，看看太陽公公如何長出手腳、開懷歡唱並顯示完整例句！
                     </div>
 
                     <button class="magic-btn" onclick="castTransformSpell()">
@@ -975,23 +1102,20 @@
         const transformData = {
             '擬人': {
                 title: '擬人：將萬物變身為人類',
-                desc: '【擬人】直接讓無生命的物品、植物或自然現象「變身成人類」，會唱歌、跑步、說話與思考！',
-                avatar: '🌞',
-                explain: '💡 點擊「施展變身術」，看看太陽公公如何長出手腳、開懷歡唱並顯示完整例句！',
+                desc: '【擬人】直接讓無生命的物品、植物或自然現象「變身成人類」，賦予人的笑臉、手腳與喜怒哀樂！',
+                explain: '💡 點擊「施展變身術」，看看沒有臉的太陽如何變出笑臉、伸出手腳笑咪咪！',
                 exampleSentence: '夏天的太陽公公起得很早，笑咪咪地看著大家。'
             },
             '擬物': {
                 title: '擬物：將人當作物，或將A物當作B物',
-                desc: '【擬物】讓人類或事物「變身成某種動物或物品」，擁有飛翔羽翼或實體材質！',
-                avatar: '🏃‍♂️',
-                explain: '💡 點擊「施展變身術」，看運動員如何張開雙翅、飛也似地衝向終點！',
+                desc: '【擬物】讓主角（人）直接擁有動物或物品的實體特徵（如背後生長出飛翔雙翅）！',
+                explain: '💡 點擊「施展變身術」，看運動員背後如何伸展開飛翔羽翼雙翅！',
                 exampleSentence: '他高興得張開雙翅，飛也似地奔向終點。'
             },
             '形象化': {
                 title: '形象化：將抽象感覺轉化為具體實體',
-                desc: '【形象化】把無形的情感、思想或感覺（如熱情、安靜、憂愁），變身為具體可見的冰塊、煙霧或鏡子！',
-                avatar: '💖',
-                explain: '💡 點擊「施展變身術」，看無形的「熱情」愛心如何凝結成實體「冰塊」！',
+                desc: '【形象化】把無形的情感、思想或感覺（如熱情），物理包裹凍結在實體大冰塊內部！',
+                explain: '💡 點擊「施展變身術」，看原本無形的「熱情」愛心如何被巨大冰塊凍結封存！',
                 exampleSentence: '看到討厭的人走過來，他的熱情頓時結了一層冰。'
             }
         };
@@ -1037,16 +1161,30 @@
             const data = transformData[subType];
             document.getElementById('transform-title').innerText = data.title;
             document.getElementById('transform-desc').innerText = data.desc;
-            document.getElementById('transform-avatar').innerText = data.avatar;
             document.getElementById('transform-explanation').innerText = data.explain;
             document.getElementById('transform-explanation').classList.remove('show');
 
+            // 切換舞台 DOM 顯隱
+            const stageNiren = document.getElementById('stage-niren');
+            const stageNiwu = document.getElementById('stage-niwu');
+            const stageXing = document.getElementById('stage-xing');
+
+            stageNiren.style.display = subType === '擬人' ? 'flex' : 'none';
+            stageNiwu.style.display = subType === '擬物' ? 'flex' : 'none';
+            stageXing.style.display = subType === '形象化' ? 'flex' : 'none';
+
             // 重置動畫
-            document.getElementById('transform-limbs').style.opacity = '0';
-            document.querySelectorAll('.singing-notes').forEach(note => {
-                note.style.opacity = '0';
-                note.style.transform = 'translateY(10px)';
-            });
+            if (subType === '擬人') {
+                document.getElementById('transform-avatar').innerText = '☀️'; // 初始無臉太陽
+                document.getElementById('transform-limbs').style.opacity = '0';
+                document.getElementById('niren-note-1').style.opacity = '0';
+                document.getElementById('niren-note-2').style.opacity = '0';
+            } else if (subType === '擬物') {
+                document.getElementById('wing-left').classList.remove('show');
+                document.getElementById('wing-right').classList.remove('show');
+            } else if (subType === '形象化') {
+                document.getElementById('big-ice-cube').classList.remove('frozen');
+            }
         }
 
         function castCloneSpell() {
@@ -1094,30 +1232,42 @@
 
         function castTransformSpell() {
             playSound('spell');
-            const avatar = document.getElementById('transform-avatar');
-            const limbs = document.getElementById('transform-limbs');
-            const notes = document.querySelectorAll('.singing-notes');
             const exp = document.getElementById('transform-explanation');
-
             const currentData = transformData[currentTransformSub];
 
             if (currentTransformSub === '擬人') {
-                limbs.style.opacity = '1';
-                notes.forEach(note => {
-                    note.style.opacity = '1';
-                    note.style.transform = 'translateY(-15px)';
-                });
-                avatar.innerText = '🌞';
-                exp.innerText = `✨【擬人變身大成功】完整例句：「${currentData.exampleSentence}」`;
-                exp.classList.add('show');
+                // 1. 太陽無臉變有笑臉🌞，伸出手腳，愛心符號升起
+                document.getElementById('transform-avatar').innerText = '🌞';
+                document.getElementById('transform-limbs').style.opacity = '1';
+                
+                const note1 = document.getElementById('niren-note-1');
+                const note2 = document.getElementById('niren-note-2');
+                note1.style.opacity = '1';
+                note1.style.transform = 'translateY(-20px)';
+                note2.style.opacity = '1';
+                note2.style.transform = 'translateY(-20px)';
+
+                setTimeout(() => {
+                    exp.innerText = `✨【擬人變身大成功】太陽變身為有笑臉、起跑並笑咪咪看著大家的人類公公！\n完整例句：「${currentData.exampleSentence}」`;
+                    exp.classList.add('show');
+                }, 400);
             } else if (currentTransformSub === '擬物') {
-                avatar.innerText = '🦅';
-                exp.innerText = `✨【擬物變身大成功】完整例句：「${currentData.exampleSentence}」`;
-                exp.classList.add('show');
+                // 2. 人的背後左右兩側正確位置展翅
+                document.getElementById('wing-left').classList.add('show');
+                document.getElementById('wing-right').classList.add('show');
+
+                setTimeout(() => {
+                    exp.innerText = `✨【擬物變身大成功】主角依然是人，但身上賦予了飛禽的羽翼雙翅！\n完整例句：「${currentData.exampleSentence}」`;
+                    exp.classList.add('show');
+                }, 400);
             } else if (currentTransformSub === '形象化') {
-                avatar.innerText = '🧊';
-                exp.innerText = `✨【形象化變身大成功】完整例句：「${currentData.exampleSentence}」`;
-                exp.classList.add('show');
+                // 3. 冰塊放大，並將無形熱情愛心包覆在內部
+                document.getElementById('big-ice-cube').classList.add('frozen');
+
+                setTimeout(() => {
+                    exp.innerText = `✨【形象化變身大成功】原本無形的情感「熱情」，物理凝結並凍結封存於實體大冰塊內部！\n完整例句：「${currentData.exampleSentence}」`;
+                    exp.classList.add('show');
+                }, 400);
             }
         }
 
