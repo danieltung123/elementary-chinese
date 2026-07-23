@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>修辭魔法屋：分身術（譬喻）與變身術（轉化）網頁</title>
+    <title>修辭魔法屋：譬喻與轉化網頁</title>
     <style>
         /* 載入 Google 思源黑體 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
@@ -61,7 +61,7 @@
         /* 標頭設計 */
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
             position: relative;
         }
 
@@ -71,7 +71,7 @@
             color: var(--pencil-color);
             display: inline-block;
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-shadow: 2px 2px 0px rgba(177, 151, 252, 0.3);
         }
 
@@ -82,18 +82,6 @@
             right: -45px;
             font-size: 2.2rem;
             transform: rotate(15deg);
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            color: #70533c;
-            font-weight: 900;
-            border: 4px solid var(--pencil-color);
-            padding: 10px 30px;
-            background: #fff;
-            display: inline-block;
-            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-            box-shadow: 5px 5px 0px var(--pencil-color), 0 0 15px var(--magic-glow);
         }
 
         /* 手繪風卡片 */
@@ -174,7 +162,7 @@
         }
 
         h2 {
-            font-size: 1.7rem;
+            font-size: 1.65rem;
             margin-bottom: 12px;
             color: var(--pencil-color);
             font-weight: 900;
@@ -266,9 +254,9 @@
         .magic-word-badge {
             background: var(--crayon-yellow);
             color: var(--pencil-color);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 900;
-            padding: 4px 16px;
+            padding: 4px 14px;
             border: 2px solid var(--pencil-color);
             border-radius: 10px;
             position: absolute;
@@ -276,6 +264,7 @@
             transform: scale(0);
             transition: transform 0.4s 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 2px 2px 0 var(--pencil-color);
+            white-space: nowrap;
         }
 
         /* 變身術專用舞台 */
@@ -353,7 +342,7 @@
             transition: all 0.4s;
             font-weight: 900;
             line-height: 1.5;
-            min-height: 48px;
+            min-height: 54px;
         }
 
         .live-explanation.show {
@@ -375,7 +364,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             margin: 0 auto;
         }
 
@@ -387,6 +376,13 @@
         .magic-btn:active {
             transform: translate(2px, 2px);
             box-shadow: 2px 2px 0px var(--pencil-color);
+        }
+
+        .wand-icon {
+            width: 22px;
+            height: 22px;
+            display: inline-block;
+            vertical-align: middle;
         }
 
         .transform-card .magic-btn {
@@ -732,9 +728,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>修辭魔法屋：分身術與變身術</h1>
-            <br>
-            <div class="subtitle">🧙‍♂️ 國小國文修辭互動網頁 ‧ 譬喻與轉化細部奧秘 🧙‍♀️</div>
+            <h1>修辭魔法屋：譬喻與轉化</h1>
         </header>
 
         <!-- 魔法概念館（教學展示區） -->
@@ -774,11 +768,12 @@
                     </div>
 
                     <div class="live-explanation" id="clone-explanation">
-                        💡 點擊「施展分身術」，看露珠如何召喚出亮晶晶的鑽石分身！
+                        💡 點擊「施展分身術」，看露珠如何召喚出亮晶晶的鑽石分身並展示完整例句！
                     </div>
 
                     <button class="magic-btn" onclick="castCloneSpell()">
-                        <span>🪄 施展分身術！</span>
+                        <svg class="wand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.21 1.21 0 0 0 1.72 0L21.64 5.36a1.21 1.21 0 0 0 0-1.72Z"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H3"/><path d="M21 16h-4"/><path d="M11 3H9"/></svg>
+                        <span>施展分身術！</span>
                     </button>
                 </div>
 
@@ -812,7 +807,8 @@
                     </div>
 
                     <button class="magic-btn" onclick="castTransformSpell()">
-                        <span>🌀 施展變身術！</span>
+                        <svg class="wand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                        <span>施展變身術！</span>
                     </button>
                 </div>
             </div>
@@ -944,7 +940,8 @@
                 leftAvatar: '💧', leftLabel: '本體：露珠',
                 rightAvatar: '💎', rightLabel: '喻體：鑽石',
                 word: '像',
-                explain: '💡 點擊「施展分身術」，看露珠如何用「像」字召喚出鑽石分身！'
+                explain: '💡 點擊「施展分身術」，看露珠如何用「像」字召喚出鑽石分身並展示完整例句！',
+                exampleSentence: '小小的露珠像一顆顆璀璨的鑽石。'
             },
             '隱喻': {
                 title: '隱喻：本體 ＋ 繫詞 ＋ 喻體',
@@ -952,23 +949,26 @@
                 leftAvatar: '📖', leftLabel: '本體：字典',
                 rightAvatar: '👨‍🏫', rightLabel: '喻體：老師',
                 word: '是',
-                explain: '💡 點擊「施展分身術」，看字典如何用「是」字直接變身為老師！'
+                explain: '💡 點擊「施展分身術」，看字典如何用「是」字直接變身為老師並展示完整例句！',
+                exampleSentence: '字典是沉默的老師，隨時準備回答我們所有的問題。'
             },
             '略喻': {
-                title: '略喻：本體 ＋ 喻體（省略喻詞）',
-                desc: '【略喻】省略了連結咒語（像/是）！本體與喻體緊緊靠在一起，需要用心觀察。',
+                title: '略喻：本體 ＋ 喻體（省略喻詞，或以逗號隔開）',
+                desc: '【略喻】省略了連結咒語（像/是）！可以完全省略喻詞，也可以直接使用逗號『，』代替，將本體與喻體緊靠在一起。',
                 leftAvatar: '👦', leftLabel: '本體：我',
                 rightAvatar: '🐑', rightLabel: '喻體：羔羊',
-                word: '省略喻詞',
-                explain: '💡 點擊「施展分身術」，看省略喻詞後，本體與喻體如何並列出現！'
+                word: '， 或 省略',
+                explain: '💡 點擊「施展分身術」，看省略喻詞或以逗號隔開的完整例句展示！',
+                exampleSentence: '我，迷途的羔羊，在昏黃的燈光下徬徨無措。'
             },
             '借喻': {
                 title: '借喻：直接以喻體代替本體（省本體與喻詞）',
-                desc: '【借喻】是最高階的分身術！本體與喻詞通通隱形消失，只留下分身（喻體）代表！',
-                leftAvatar: '👦', leftLabel: '本體：挫折小孩',
+                desc: '【借喻】是最高階的分身術！本體與喻詞通通隱形消失，直接以喻體（分身）代表本體！',
+                leftAvatar: '👦', leftLabel: '本體：小孩(隱形)',
                 rightAvatar: '🌸', rightLabel: '喻體：溫室花朵',
                 word: '完全替代',
-                explain: '💡 點擊「施展分身術」，看本體與喻詞如何淡出消失，只留溫室花朵！'
+                explain: '💡 點擊「施展分身術」，看本體與喻詞如何淡出消失，直接以溫室花朵呈現完整例句！',
+                exampleSentence: '我們不能做「溫室裡的花朵」，要學會獨立面對風雨。'
             }
         };
 
@@ -977,19 +977,22 @@
                 title: '擬人：將萬物變身為人類',
                 desc: '【擬人】直接讓無生命的物品、植物或自然現象「變身成人類」，會唱歌、跑步、說話與思考！',
                 avatar: '🌞',
-                explain: '💡 點擊「施展變身術」，看看太陽公公如何長出手腳、歡快歡唱！'
+                explain: '💡 點擊「施展變身術」，看看太陽公公如何長出手腳、開懷歡唱並顯示完整例句！',
+                exampleSentence: '夏天的太陽公公起得很早，笑咪咪地看著大家。'
             },
             '擬物': {
                 title: '擬物：將人當作物，或將A物當作B物',
                 desc: '【擬物】讓人類或事物「變身成某種動物或物品」，擁有飛翔羽翼或實體材質！',
                 avatar: '🏃‍♂️',
-                explain: '💡 點擊「施展變身術」，看運動員如何張開雙翅、飛也似地衝向終點！'
+                explain: '💡 點擊「施展變身術」，看運動員如何張開雙翅、飛也似地衝向終點！',
+                exampleSentence: '他高興得張開雙翅，飛也似地奔向終點。'
             },
             '形象化': {
                 title: '形象化：將抽象感覺轉化為具體實體',
                 desc: '【形象化】把無形的情感、思想或感覺（如熱情、安靜、憂愁），變身為具體可見的冰塊、煙霧或鏡子！',
                 avatar: '💖',
-                explain: '💡 點擊「施展變身術」，看無形的「熱情」愛心如何凝結成實體「冰塊」！'
+                explain: '💡 點擊「施展變身術」，看無形的「熱情」愛心如何凝結成實體「冰塊」！',
+                exampleSentence: '看到討厭的人走過來，他的熱情頓時結了一層冰。'
             }
         };
 
@@ -1054,6 +1057,8 @@
             const wordBadge = document.getElementById('clone-word-badge');
             const exp = document.getElementById('clone-explanation');
 
+            const currentData = cloneData[currentCloneSub];
+
             if (currentCloneSub === '借喻') {
                 leftSide.style.opacity = '0.2';
                 line.style.width = '55%';
@@ -1061,7 +1066,17 @@
                 setTimeout(() => {
                     rightSide.style.opacity = '1';
                     rightSide.style.transform = 'scale(1) translateX(0)';
-                    exp.innerText = '✨【借喻成功】本體（小孩）與喻詞皆隱形，句子直接呈現「溫室裡的花朵」！';
+                    exp.innerText = `✨【借喻施咒成功】完整例句：「${currentData.exampleSentence}」\n(本體與喻詞隱形，直接用喻體取代本體)`;
+                    exp.classList.add('show');
+                }, 400);
+            } else if (currentCloneSub === '略喻') {
+                leftSide.style.opacity = '1';
+                line.style.width = '55%';
+                wordBadge.style.transform = 'scale(1)';
+                setTimeout(() => {
+                    rightSide.style.opacity = '1';
+                    rightSide.style.transform = 'scale(1) translateX(0)';
+                    exp.innerText = `✨【略喻施咒成功】完整例句：「${currentData.exampleSentence}」\n(省略喻詞/繫詞，或直接用逗號「，」分隔本體與喻體)`;
                     exp.classList.add('show');
                 }, 400);
             } else {
@@ -1071,7 +1086,7 @@
                 setTimeout(() => {
                     rightSide.style.opacity = '1';
                     rightSide.style.transform = 'scale(1) translateX(0)';
-                    exp.innerText = `✨【${currentCloneSub}成功】成功通過「${cloneData[currentCloneSub].word}」召喚出分身！`;
+                    exp.innerText = `✨【${currentCloneSub}施咒成功】完整例句：「${currentData.exampleSentence}」`;
                     exp.classList.add('show');
                 }, 400);
             }
@@ -1084,6 +1099,8 @@
             const notes = document.querySelectorAll('.singing-notes');
             const exp = document.getElementById('transform-explanation');
 
+            const currentData = transformData[currentTransformSub];
+
             if (currentTransformSub === '擬人') {
                 limbs.style.opacity = '1';
                 notes.forEach(note => {
@@ -1091,15 +1108,15 @@
                     note.style.transform = 'translateY(-15px)';
                 });
                 avatar.innerText = '🌞';
-                exp.innerText = '✨【擬人變身大成功】太陽公公伸出長手臂、起跑並大聲歡唱！';
+                exp.innerText = `✨【擬人變身大成功】完整例句：「${currentData.exampleSentence}」`;
                 exp.classList.add('show');
             } else if (currentTransformSub === '擬物') {
                 avatar.innerText = '🦅';
-                exp.innerText = '✨【擬物變身大成功】人變身成了張開雙翅的高空老鷹，快速奔馳！';
+                exp.innerText = `✨【擬物變身大成功】完整例句：「${currentData.exampleSentence}」`;
                 exp.classList.add('show');
             } else if (currentTransformSub === '形象化') {
                 avatar.innerText = '🧊';
-                exp.innerText = '✨【形象化變身大成功】無形的感情「熱情」，物理凝結成了硬梆梆的「冰塊」！';
+                exp.innerText = `✨【形象化變身大成功】完整例句：「${currentData.exampleSentence}」`;
                 exp.classList.add('show');
             }
         }
@@ -1139,7 +1156,7 @@
         ];
 
         const hardQuestions = [
-            { text: "我，迷途的羔羊，在昏黃的燈光下徬徨無措。", type: "譬喻", subType: "略喻", reason: "本體「我」與喻體「迷途的羔羊」同時出現，但省略了「像」或「是」等喻詞繫詞，屬於譬喻中的「略喻」。" },
+            { text: "我，迷途的羔羊，在昏黃的燈光下徬徨無措。", type: "譬喻", subType: "略喻", reason: "本體「我」與喻體「迷途的羔羊」同時出現，中間以逗號隔開、省略了喻詞繫詞，屬於譬喻中的「略喻」。" },
             { text: "書本，開啟智慧大門的鑰匙，帶領我們探索世界。", type: "譬喻", subType: "略喻", reason: "本體「書本」與喻體「鑰匙」同時出現，省略了連接詞，屬於譬喻中的「略喻」。" },
             { text: "我們不能做「溫室裡的花朵」，要學會獨立面對風雨。", type: "譬喻", subType: "借喻", reason: "省略了本體（禁不起挫折的人）與喻詞，直接以喻體「溫室裡的花朵」來代替本體，屬於高階的「借喻」。" },
             { text: "別再當「縮頭烏龜」了，勇敢站出來面對問題吧！", type: "譬喻", subType: "借喻", reason: "省略了本體（膽小退縮的人）與喻詞，直接用喻體「縮頭烏龜」來代替本體，屬於譬喻中的「借喻」。" },
@@ -1283,7 +1300,7 @@
                 list = [
                     { name: '明喻', icon: '🧪', desc: '本體+喻詞+喻體' },
                     { name: '隱喻', icon: '🧪', desc: '本體+繫詞(是)+喻體' },
-                    { name: '略喻', icon: '🧪', desc: '省略喻詞與繫詞' },
+                    { name: '略喻', icon: '🧪', desc: '省喻詞或用逗號' },
                     { name: '借喻', icon: '🧪', desc: '完全替代省本體' }
                 ];
             } else {
