@@ -278,7 +278,7 @@
             width: 100%;
         }
 
-        /* 1. 擬人舞台：無人臉太陽 ➡️ 有人臉太陽（拿掉手臂跟人像） */
+        /* 1. 擬人舞台：無人臉太陽 ➡️ 有人臉太陽 */
         .sun-illustration {
             font-size: 5rem;
             position: relative;
@@ -300,7 +300,7 @@
         .note-1 { top: 15px; left: 35px; }
         .note-2 { top: 10px; right: 35px; }
 
-        /* 2. 擬物舞台：人身上加上完整呈現的背後雙翅 */
+        /* 2. 擬物舞台：SVG 雙翅 100% 不破圖完美展翅 */
         .human-niwu-container {
             position: relative;
             display: flex;
@@ -311,7 +311,7 @@
         }
 
         .human-actor {
-            font-size: 4.5rem;
+            font-size: 4.8rem;
             z-index: 2;
             transition: transform 0.4s ease;
             position: relative;
@@ -322,45 +322,47 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 180px;
-            height: 90px;
+            width: 220px;
+            height: 110px;
             z-index: 1;
             pointer-events: none;
         }
 
-        .wing {
-            font-size: 3.2rem;
+        .svg-wing {
+            width: 85px;
+            height: 65px;
             opacity: 0;
             transform: scale(0);
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(2px 3px 0px var(--pencil-color));
         }
 
-        .wing-left {
+        .svg-wing-left {
             transform-origin: right center;
         }
 
-        .wing-right {
+        .svg-wing-right {
             transform-origin: left center;
         }
 
-        .wing.show {
+        .svg-wing.show {
             opacity: 1;
         }
 
-        .wing-left.show { animation: flapLeft 0.8s ease-in-out infinite alternate; }
-        .wing-right.show { animation: flapRight 0.8s ease-in-out infinite alternate; }
+        .svg-wing-left.show { animation: flapLeft 0.8s ease-in-out infinite alternate; }
+        .svg-wing-right.show { animation: flapRight 0.8s ease-in-out infinite alternate; }
 
         @keyframes flapLeft {
-            from { transform: scale(1) rotate(-15deg); }
+            from { transform: scale(1) rotate(-10deg); }
             to { transform: scale(1.15) rotate(15deg); }
         }
 
         @keyframes flapRight {
-            from { transform: scale(1) rotate(15deg); }
+            from { transform: scale(1) rotate(10deg); }
             to { transform: scale(1.15) rotate(-15deg); }
         }
 
-        /* 3. 形象化舞台：先只有單純一顆心，再變成冰塊內有一顆心（愛心疊加在上面） */
+        /* 3. 形象化舞台：正宗冰塊 🧊 包裹愛心 💖 */
         .frozen-heart-container {
             display: flex;
             align-items: center;
@@ -374,49 +376,51 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 140px;
-            height: 140px;
+            width: 150px;
+            height: 150px;
         }
 
+        /* 初始單純一顆心 💖 */
         .standalone-heart {
             font-size: 4.2rem;
             z-index: 3;
             transition: transform 0.5s ease;
-            filter: drop-shadow(0 0 12px rgba(255, 107, 107, 0.8));
+            filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.8));
+            position: relative;
         }
 
-        .ice-cube-overlay {
+        /* 點擊施展變身術後出現的正宗冰塊 🧊 */
+        .ice-cube-emoji {
             position: absolute;
-            top: 0; left: 0;
-            width: 140px;
-            height: 140px;
-            background: linear-gradient(135deg, rgba(186, 230, 253, 0.82), rgba(224, 242, 254, 0.95));
-            border: 4px solid #38bdf8;
-            border-radius: 26px;
-            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.4), inset 0 0 20px #ffffff;
-            opacity: 0;
-            transform: scale(0.4);
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 7.5rem;
             z-index: 2;
+            opacity: 0;
+            transform: scale(0.3);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .ice-sparkle {
+        .ice-cube-emoji.frozen {
+            opacity: 0.92;
+            transform: scale(1.1);
+        }
+
+        .sparkle-effect {
             position: absolute;
             font-size: 1.8rem;
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.4s 0.3s;
+            z-index: 4;
         }
-        .sparkle-1 { top: -12px; right: -12px; }
-        .sparkle-2 { bottom: -12px; left: -12px; }
+        .sparkle-1 { top: 0px; right: 0px; }
+        .sparkle-2 { bottom: 0px; left: 0px; }
 
-        .ice-cube-overlay.frozen {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .ice-cube-overlay.frozen .ice-sparkle {
+        .ice-cube-emoji.frozen ~ .sparkle-effect {
             opacity: 1;
         }
 
@@ -887,30 +891,35 @@
 
                     <!-- 動態舞台 (根據擬人、擬物、形象化自動切換結構) -->
                     <div class="magic-stage">
-                        <!-- 1. 擬人舞台：無人臉太陽 ➡️ 有人臉太陽（無手臂跟人像） -->
+                        <!-- 1. 擬人舞台：無人臉太陽 ➡️ 有人臉太陽 -->
                         <div class="transform-stage-content" id="stage-niren">
                             <div class="singing-notes note-1" id="niren-note-1">💖</div>
                             <div class="singing-notes note-2" id="niren-note-2">💕</div>
                             <div class="sun-illustration" id="transform-avatar">☀️</div>
                         </div>
 
-                        <!-- 2. 擬物舞台：人背後加上完整呈現的雙翅 -->
+                        <!-- 2. 擬物舞台：使用 SVG 向量翅膀 100% 相容不破圖 -->
                         <div class="human-niwu-container" id="stage-niwu" style="display:none;">
                             <div class="wing-wrapper">
-                                <div class="wing wing-left" id="wing-left">🪶</div>
-                                <div class="wing wing-right" id="wing-right">🪶</div>
+                                <svg class="svg-wing svg-wing-left" id="wing-left" viewBox="0 0 100 70">
+                                    <path d="M90,35 C60,5 25,10 5,40 C20,45 45,50 65,40 C78,45 88,40 90,35 Z" fill="#ffffff" stroke="#3b2e24" stroke-width="4"/>
+                                    <path d="M80,35 C55,18 30,22 15,42 C28,45 48,46 65,38 Z" fill="#d0f4de" stroke="#3b2e24" stroke-width="3"/>
+                                </svg>
+                                <svg class="svg-wing svg-wing-right" id="wing-right" viewBox="0 0 100 70">
+                                    <path d="M10,35 C40,5 75,10 95,40 C80,45 55,50 35,40 C22,45 12,40 10,35 Z" fill="#ffffff" stroke="#3b2e24" stroke-width="4"/>
+                                    <path d="M20,35 C45,18 70,22 85,42 C72,45 52,46 35,38 Z" fill="#d0f4de" stroke="#3b2e24" stroke-width="3"/>
+                                </svg>
                             </div>
                             <div class="human-actor" id="transform-human-actor">🏃‍♂️</div>
                         </div>
 
-                        <!-- 3. 形象化舞台：先只有一顆心 ➡️ 變成冰塊內有一顆心 -->
+                        <!-- 3. 形象化舞台：先單純一顆心 💖 ➡️ 出現正宗冰塊 🧊 包裹愛心 -->
                         <div class="frozen-heart-container" id="stage-xing" style="display:none;">
-                            <div class="heart-ice-wrapper" id="heart-ice-wrapper">
+                            <div class="heart-ice-wrapper">
                                 <div class="standalone-heart" id="standalone-heart">💖</div>
-                                <div class="ice-cube-overlay" id="ice-cube-overlay">
-                                    <span class="ice-sparkle sparkle-1">✨</span>
-                                    <span class="ice-sparkle sparkle-2">❄️</span>
-                                </div>
+                                <div class="ice-cube-emoji" id="ice-cube-emoji">🧊</div>
+                                <span class="sparkle-effect sparkle-1">✨</span>
+                                <span class="sparkle-effect sparkle-2">❄️</span>
                             </div>
                         </div>
                     </div>
@@ -1094,14 +1103,14 @@
             },
             '擬物': {
                 title: '擬物：將人當作物，或將A物當作B物',
-                desc: '【擬物】讓主角（人）直接擁有動物或物品的實體特徵（如背後展翅）！',
-                explain: '💡 點擊「施展變身術」，看運動員背後如何展開完整的雙翅！',
+                desc: '【擬物】讓主角（人）直接擁有動物或物品的實體特徵（如背後展開羽翼雙翅）！',
+                explain: '💡 點擊「施展變身術」，看運動員背後如何展開完美的雙翅！',
                 exampleSentence: '他高興得張開雙翅，飛也似地奔向終點。'
             },
             '形象化': {
                 title: '形象化：將抽象感覺轉化為具體實體',
-                desc: '【形象化】把無形的情感愛心，變成物理凍結在大冰塊內部！',
-                explain: '💡 點擊「施展變身術」，看單純的熱情愛心如何被大冰塊包裹凍結在內部！',
+                desc: '【形象化】把無形的情感愛心，變成被實體冰塊🧊包裹凍結在內部！',
+                explain: '💡 點擊「施展變身術」，看單純的熱情愛心如何被正宗冰塊🧊包裹凍結！',
                 exampleSentence: '看到討厭的人走過來，他的熱情頓時結了一層冰。'
             }
         };
@@ -1168,7 +1177,7 @@
                 document.getElementById('wing-left').classList.remove('show');
                 document.getElementById('wing-right').classList.remove('show');
             } else if (subType === '形象化') {
-                document.getElementById('ice-cube-overlay').classList.remove('frozen');
+                document.getElementById('ice-cube-emoji').classList.remove('frozen');
             }
         }
 
@@ -1221,7 +1230,7 @@
             const currentData = transformData[currentTransformSub];
 
             if (currentTransformSub === '擬人') {
-                // 1. 太陽無臉變有笑臉🌞，愛心符號升起（無手臂無人像）
+                // 1. 太陽無臉變有笑臉🌞，愛心符號升起
                 document.getElementById('transform-avatar').innerText = '🌞';
                 
                 const note1 = document.getElementById('niren-note-1');
@@ -1236,7 +1245,7 @@
                     exp.classList.add('show');
                 }, 400);
             } else if (currentTransformSub === '擬物') {
-                // 2. 人的背後左右雙翅完整展開
+                // 2. SVG 向量翅膀完美展翅
                 document.getElementById('wing-left').classList.add('show');
                 document.getElementById('wing-right').classList.add('show');
 
@@ -1245,11 +1254,11 @@
                     exp.classList.add('show');
                 }, 400);
             } else if (currentTransformSub === '形象化') {
-                // 3. 冰塊 overlay 凝結出現，將原本單純的熱情愛心包覆在內部
-                document.getElementById('ice-cube-overlay').classList.add('frozen');
+                // 3. 正宗冰塊 🧊 凝結顯現，包裹住原有的熱情愛心 💖
+                document.getElementById('ice-cube-emoji').classList.add('frozen');
 
                 setTimeout(() => {
-                    exp.innerText = `✨【形象化變身大成功】原本無形的情感「熱情」愛心，被大冰塊凍結封存在內部！\n完整例句：「${currentData.exampleSentence}」`;
+                    exp.innerText = `✨【形象化變身大成功】原本無形的情感「熱情」愛心，被正宗冰塊 🧊 凍結封存在內部！\n完整例句：「${currentData.exampleSentence}」`;
                     exp.classList.add('show');
                 }, 400);
             }
@@ -1265,7 +1274,7 @@
             { text: "遠處的山峰像一位慈祥的巨人，守護著這片土地。", type: "譬喻", subType: "明喻", reason: "「山峰」是本體，「巨人」是喻體，中間用喻詞「像」連結，屬於譬喻中的「明喻」。" },
             { text: "媽媽的愛是一陣溫暖的春風，撫慰著我的心靈。", type: "譬喻", subType: "隱喻", reason: "將抽象的「愛」比作「春風」，以繫詞「是」連結兩者，屬於譬喻中的「隱喻」。" },
             { text: "弟弟開心地吃著香甜的西瓜，嘴巴沾滿了紅紅的汁液。", type: "沒有魔法", subType: "無", reason: "這是客觀描寫弟弟吃西瓜的情景，沒有使用譬喻或轉化，屬於普通敘述。" },
-            { text: "太陽公公微笑道早安，把大地照得亮晃晃的。", type: "轉化", subType: "擬人", reason: "將「太陽」擬人化為公公，並做出「微笑、道早安」的人類動作，屬於轉化中的「擬人」。" },
+            { text: "太陽公公微笑道早案，把大地照得亮晃晃的。", type: "轉化", subType: "擬人", reason: "將「太陽」擬人化為公公，並做出「微笑、道早安」的人類動作，屬於轉化中的「擬人」。" },
             { text: "小河像一條銀色的絲帶，繞著村莊流淌。", type: "譬喻", subType: "明喻", reason: "將「小河」比作「銀色絲帶」，並使用了喻詞「像」，屬於譬喻中的「明喻」。" },
             { text: "老師是明亮的指路燈，引導我們走向正確的方向。", type: "譬喻", subType: "隱喻", reason: "將「老師」比作「指路燈」，中間以繫詞「是」連結，屬於譬喻中的「隱喻」。" },
             { text: "頑皮的雨滴在傘面上蹦蹦跳跳，彈奏著輕快的樂曲。", type: "轉化", subType: "擬人", reason: "將無生命的「雨滴」賦予人類「蹦蹦跳跳、彈奏樂曲」的動作，屬於轉化中的「擬人」。" },
